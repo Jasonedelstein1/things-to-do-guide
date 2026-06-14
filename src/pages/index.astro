@@ -605,27 +605,14 @@ const placesByCat = categories.map((cat) => ({
       }
     });
 
-    // ---- Hide the sticky filter bar on scroll-down (mobile), show on scroll-up ----
-    let lastScrollY = window.scrollY;
-    let scrollTicking = false;
-    function onScroll() {
-      const y = window.scrollY;
-      const mobile = window.matchMedia('(max-width: 879px)').matches;
-      if (!mobile) {
-        controls.classList.remove('is-hidden');
-      } else if (y < 80) {
-        controls.classList.remove('is-hidden');
-      } else if (y > lastScrollY + 8) {
-        controls.classList.add('is-hidden');
-      } else if (y < lastScrollY - 8) {
-        controls.classList.remove('is-hidden');
-      }
-      lastScrollY = y;
-      scrollTicking = false;
-    }
-    window.addEventListener('scroll', () => {
-      if (!scrollTicking) { requestAnimationFrame(onScroll); scrollTicking = true; }
-    }, { passive: true });
+    // ---- Collapsible "Filters" panel (mobile; always open on desktop via CSS) ----
+    const filtersToggle = document.getElementById('filters-toggle');
+    const secondaryPanel = document.getElementById('secondary');
+    filtersToggle?.addEventListener('click', () => {
+      const open = secondaryPanel.classList.toggle('is-open');
+      filtersToggle.setAttribute('aria-expanded', String(open));
+      setHeaderH();
+    });
 
     // Keep --header-h in sync with the sticky controls height.
     function setHeaderH() {
@@ -755,12 +742,7 @@ const placesByCat = categories.map((cat) => ({
       -webkit-backdrop-filter: saturate(1.2) blur(10px);
       border-bottom: 1px solid var(--line);
       box-shadow: var(--shadow-xs);
-      padding: 12px 0;
-      transition: transform var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease);
-    }
-    /* On mobile the bar slides away when scrolling down, back when scrolling up. */
-    .controls.is-hidden {
-      transform: translateY(-100%);
+      padding: 10px 0;
     }
 
     .main { padding: 18px 16px 40px; display: grid; gap: 18px; }

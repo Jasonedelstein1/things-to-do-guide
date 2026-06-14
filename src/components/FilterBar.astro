@@ -15,16 +15,14 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
 ---
 
 <form class="filters" id="filters" role="search" aria-label="Filter activities">
-  <!-- The primary control: the Andrea↔Jason intensity slider -->
+  <!-- Primary control: the Andrea↔Jason slider (always visible, compact) -->
   <div class="slider-block">
     <div class="slider-toprow">
-      <label class="slider-label" for="intensity">How adventurous are you feeling?</label>
-      <div class="slider-readout" aria-live="polite">
-        <span class="readout-badge badge" data-rating={defaultLevel} id="readout-badge">
-          <span class="badge-num" aria-hidden="true" id="readout-num">{defaultLevel}</span>
-          <span id="readout-label">{defaultLabel}</span>
-        </span>
-      </div>
+      <label class="slider-label" for="intensity">How adventurous today?</label>
+      <span class="readout-badge badge" data-rating={defaultLevel} id="readout-badge">
+        <span class="badge-num" aria-hidden="true" id="readout-num">{defaultLevel}</span>
+        <span id="readout-label">{defaultLabel}</span>
+      </span>
     </div>
 
     <div class="slider-rail">
@@ -51,17 +49,32 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
       <option value="5"></option>
     </datalist>
 
-    <div class="slider-bottom">
-      <p class="slider-meaning" id="readout-meaning">{defaultMeaning}</p>
-      <label class="bypass">
-        <input type="checkbox" id="bypass-toggle" />
-        <span>Show everything</span>
-      </label>
+    <p class="slider-meaning" id="readout-meaning">{defaultMeaning}</p>
+  </div>
+
+  <!-- Compact always-visible row: filters toggle (mobile), count, view switch -->
+  <div class="bar-row">
+    <button type="button" class="filters-toggle" id="filters-toggle" aria-expanded="false" aria-controls="secondary">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
+      <span>Filters</span>
+    </button>
+
+    <p class="results-count" aria-live="polite"><span id="count-shown">—</span> of <span id="count-total">—</span></p>
+
+    <div class="view-toggle" role="group" aria-label="Switch between map and list">
+      <button type="button" class="vbtn is-active" data-view="list" aria-pressed="true">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg>
+        <span>List</span>
+      </button>
+      <button type="button" class="vbtn" data-view="map" aria-pressed="false">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14"/><path d="M15 6v14"/></svg>
+        <span>Map</span>
+      </button>
     </div>
   </div>
 
-  <!-- Secondary filters -->
-  <div class="secondary">
+  <!-- Secondary filters: collapsed on mobile (toggle above), always shown on desktop -->
+  <div class="secondary" id="secondary">
     <div class="chips" role="group" aria-label="Filter by category">
       <button type="button" class="chip is-active" data-category="all" aria-pressed="true">All</button>
       {categories.map((cat) => (
@@ -71,34 +84,27 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
       ))}
     </div>
 
-    <label class="switch">
-      <input type="checkbox" id="allaccess-toggle" />
-      <span class="switch-track" aria-hidden="true"><span class="switch-knob"></span></span>
-      <span class="switch-text">
-        <svg class="icon icon-star" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.5l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 18.2 6.1 21.3l1.2-6.6L2.5 9.5l6.6-.9L12 2.5z"/></svg>
-        All-access only
-      </span>
-    </label>
+    <div class="secondary-row">
+      <label class="switch">
+        <input type="checkbox" id="allaccess-toggle" />
+        <span class="switch-track" aria-hidden="true"><span class="switch-knob"></span></span>
+        <span class="switch-text">
+          <svg class="icon icon-star" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.5l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 18.2 6.1 21.3l1.2-6.6L2.5 9.5l6.6-.9L12 2.5z"/></svg>
+          All-access only
+        </span>
+      </label>
+
+      <label class="bypass">
+        <input type="checkbox" id="bypass-toggle" />
+        <span>Show everything</span>
+      </label>
+
+      <button type="button" class="btn-reset" id="reset-filters">Reset</button>
+    </div>
 
     <div class="search">
       <svg class="icon search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input type="search" id="search" placeholder="Search places & notes…" aria-label="Search places and notes" autocomplete="off" />
-    </div>
-  </div>
-
-  <div class="filter-footer">
-    <p class="results-count" aria-live="polite"><span id="count-shown">—</span> of <span id="count-total">—</span> spots</p>
-    <button type="button" class="btn-reset" id="reset-filters">Reset</button>
-
-    <div class="view-toggle" role="group" aria-label="Switch between map and list">
-      <button type="button" class="vbtn is-active" data-view="list" aria-pressed="true">
-        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg>
-        List
-      </button>
-      <button type="button" class="vbtn" data-view="map" aria-pressed="false">
-        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14"/><path d="M15 6v14"/></svg>
-        Map
-      </button>
+      <input type="search" id="search" placeholder="Search places &amp; notes…" aria-label="Search places and notes" autocomplete="off" />
     </div>
   </div>
 </form>
@@ -106,41 +112,41 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
 <style>
   .filters {
     display: grid;
-    gap: 14px;
+    gap: 10px;
   }
 
-  /* ---- Slider (hero) ---- */
+  /* ---- Slider (primary) ---- */
   .slider-block {
     background: var(--paper);
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    padding: 16px 18px 14px;
-    box-shadow: var(--shadow);
+    padding: 11px 14px 12px;
+    box-shadow: var(--shadow-xs);
   }
   .slider-toprow {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
   .slider-label {
     font-family: var(--font-serif);
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 600;
   }
-  .readout-badge { font-size: 0.84rem; }
+  .readout-badge { font-size: 0.82rem; }
 
   .slider-rail {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
   }
   .end {
     font-weight: 700;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     flex: none;
-    width: 3.4em;
+    width: 3.2em;
     text-align: center;
   }
   .end-andrea { color: var(--r1); }
@@ -150,7 +156,7 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
     -webkit-appearance: none;
     appearance: none;
     flex: 1;
-    height: 14px;
+    height: 12px;
     border-radius: 999px;
     background: var(--rating-gradient);
     cursor: pointer;
@@ -159,8 +165,8 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     background: #fff;
     border: 3px solid var(--pine);
@@ -171,72 +177,114 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
   input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.06); }
   input[type="range"]::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.1); }
   input[type="range"]::-moz-range-thumb {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     background: #fff;
     border: 3px solid var(--pine);
     box-shadow: 0 2px 7px rgba(31, 67, 57, 0.32), var(--shadow-xs);
     cursor: grab;
-    transition: transform var(--t-fast) var(--ease);
   }
-  input[type="range"]:hover::-moz-range-thumb { transform: scale(1.06); }
   input[type="range"]::-moz-range-track {
-    height: 14px;
+    height: 12px;
     border-radius: 999px;
     background: var(--rating-gradient);
   }
 
-  .slider-bottom {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-top: 10px;
-  }
   .slider-meaning {
-    margin: 0;
-    font-size: 0.9rem;
+    margin: 9px 0 0;
+    font-size: 0.85rem;
     color: var(--ink-soft);
-    min-height: 1.3em;
+    min-height: 1.2em;
   }
-  /* When bypassed, dim the scale to signal it's off. */
   .slider-block.is-bypassed .slider-rail,
   .slider-block.is-bypassed .readout-badge,
   .slider-block.is-bypassed .slider-meaning {
     opacity: 0.4;
   }
-  .bypass {
+
+  /* ---- Compact action row ---- */
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .filters-toggle {
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    padding: 8px 14px;
+    min-height: 40px;
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    flex: none;
+    gap: 0.45em;
+    cursor: pointer;
+    box-shadow: var(--shadow-xs);
+    transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+  }
+  .filters-toggle .icon { width: 1.05em; height: 1.05em; }
+  .filters-toggle:hover { background: var(--paper-2); border-color: var(--pine); }
+  .filters-toggle[aria-expanded="true"] {
+    background: var(--pine);
+    border-color: var(--pine);
+    color: #fff;
+  }
+  .results-count {
+    margin: 0;
     font-size: 0.84rem;
-    font-weight: 700;
-    color: var(--pine);
-    cursor: pointer;
-    white-space: nowrap;
-    user-select: none;
+    color: var(--ink-soft);
+    font-weight: 600;
   }
-  .bypass input {
-    width: 18px;
-    height: 18px;
-    accent-color: var(--pine);
-    cursor: pointer;
+  .view-toggle {
+    margin-left: auto;
+    display: inline-flex;
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    padding: 3px;
+    gap: 3px;
+    box-shadow: var(--shadow-xs);
   }
-
-  /* ---- Secondary ---- */
-  .secondary {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 14px;
+  .vbtn {
+    font: inherit;
+    font-size: 0.84rem;
+    font-weight: 600;
+    border: none;
+    background: none;
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 7px 13px;
+    min-height: 36px;
+    cursor: pointer;
+    display: inline-flex;
     align-items: center;
+    gap: 0.4em;
+    transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
   }
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
+  .vbtn .icon { width: 1em; height: 1em; }
+  .vbtn:hover { background: var(--paper-2); }
+  .vbtn.is-active { background: var(--pine); color: #fff; box-shadow: var(--shadow-xs); }
+  .vbtn.is-active:hover { background: var(--pine-deep); }
+
+  /* ---- Secondary filters (collapsible on mobile) ---- */
+  .secondary { display: none; }
+  .secondary.is-open {
+    display: grid;
+    gap: 10px;
+    padding: 12px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-xs);
+    animation: filt-in var(--t-med) var(--ease);
   }
+  @keyframes filt-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
   .chip {
     font: inherit;
     font-size: 0.86rem;
@@ -250,16 +298,17 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
     cursor: pointer;
     box-shadow: var(--shadow-xs);
     transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease),
-                border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease),
-                transform var(--t-fast) var(--ease);
+                border-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
   }
-  .chip:hover { background: var(--paper-2); border-color: var(--pine); box-shadow: var(--shadow-sm); }
+  .chip:hover { background: var(--paper-2); border-color: var(--pine); }
   .chip:active { transform: translateY(1px); }
-  .chip.is-active {
-    background: var(--pine);
-    border-color: var(--pine);
-    color: #fff;
-    box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.12);
+  .chip.is-active { background: var(--pine); border-color: var(--pine); color: #fff; }
+
+  .secondary-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
   }
 
   .switch {
@@ -275,8 +324,7 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
   .switch-text .icon-star { color: var(--gold); fill: currentColor; stroke: none; width: 1em; height: 1em; }
   .switch input { position: absolute; opacity: 0; width: 0; height: 0; }
   .switch-track {
-    width: 44px;
-    height: 26px;
+    width: 44px; height: 26px;
     border-radius: 999px;
     background: var(--line-strong);
     position: relative;
@@ -294,16 +342,36 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
   }
   .switch input:checked + .switch-track { background: var(--pine); }
   .switch input:checked + .switch-track .switch-knob { transform: translateX(18px); }
-  .switch input:focus-visible + .switch-track {
-    outline: 3px solid var(--pine);
-    outline-offset: 2px;
+  .switch input:focus-visible + .switch-track { outline: 3px solid var(--pine); outline-offset: 2px; }
+
+  .bypass {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--pine);
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+  }
+  .bypass input { width: 18px; height: 18px; accent-color: var(--pine); cursor: pointer; }
+
+  .btn-reset {
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    background: none;
+    border: none;
+    color: var(--accent, var(--pine));
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 6px 4px;
+    min-height: 36px;
+    margin-left: auto;
   }
 
-  .search {
-    position: relative;
-    flex: 1;
-    min-width: 180px;
-  }
+  .search { position: relative; }
   .search-icon {
     position: absolute;
     left: 13px; top: 50%;
@@ -326,72 +394,22 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
     transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
   }
   .search input::placeholder { color: var(--ink-soft); opacity: 0.85; }
-  .search input:hover { border-color: var(--pine); }
-  .search input:focus-visible { outline: none; border-color: var(--pine); box-shadow: var(--ring); }
+  .search input:focus-visible { outline: none; border-color: var(--pine); box-shadow: var(--ring, 0 0 0 3px rgba(47,93,80,0.25)); }
 
-  /* ---- Footer row ---- */
-  .filter-footer {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .results-count {
-    margin: 0;
-    font-size: 0.85rem;
-    color: var(--ink-soft);
-    font-weight: 600;
-  }
-  .btn-reset {
-    font: inherit;
-    font-size: 0.82rem;
-    font-weight: 600;
-    background: none;
-    border: none;
-    color: var(--pine);
-    text-decoration: underline;
-    cursor: pointer;
-    padding: 6px 4px;
-    min-height: 40px;
-  }
-
-  .view-toggle {
-    margin-left: auto;
-    display: inline-flex;
-    background: var(--paper);
-    border: 1px solid var(--line-strong);
-    border-radius: 999px;
-    padding: 3px;
-    gap: 3px;
-    box-shadow: var(--shadow-xs);
-  }
-  .vbtn {
-    font: inherit;
-    font-size: 0.85rem;
-    font-weight: 600;
-    border: none;
-    background: none;
-    color: var(--ink);
-    border-radius: 999px;
-    padding: 8px 15px;
-    min-height: 38px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4em;
-    transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
-  }
-  .vbtn .icon { width: 1em; height: 1em; }
-  .vbtn:hover { background: var(--paper-2); }
-  .vbtn.is-active {
-    background: var(--pine);
-    color: #fff;
-    box-shadow: var(--shadow-xs);
-  }
-  .vbtn.is-active:hover { background: var(--pine-deep); }
-
-  /* The map/list toggle is only meaningful on mobile (desktop shows both). */
+  /* ---- Desktop: show everything inline, no toggle ---- */
   @media (min-width: 880px) {
+    .filters-toggle { display: none; }
     .view-toggle { display: none; }
+    .secondary,
+    .secondary.is-open {
+      display: grid;
+      animation: none;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      box-shadow: var(--shadow-xs);
+    }
+    .bar-row { order: 3; }
   }
 </style>
