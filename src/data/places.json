@@ -1,0 +1,517 @@
+{
+  "meta": {
+    "title": "Andrea & Jason's Wedding — What To Do Guide",
+    "hub": { "name": "Lyons, Colorado", "lat": 40.2247, "lng": -105.2711 },
+    "ratingScale": {
+      "1": { "label": "Full Andrea", "meaning": "Sit, sip, stroll. Zero risk to the timeline." },
+      "2": { "label": "Andrea", "meaning": "Easy and pleasant. Light effort, well-marked, predictable." },
+      "3": { "label": "The Middle", "meaning": "A real activity, but you'll be fine. Bring water." },
+      "4": { "label": "Jason-curious", "meaning": "Long, strenuous, or logistically ambitious. Plan ahead." },
+      "5": { "label": "Full Jason", "meaning": "You might miss the wedding. Bring the headlamp you'll deny needing." }
+    },
+    "scaleNote": "The Andrea↔Jason scale measures sensibility / intensity, not just energy. Andrea = responsible, you make it to the wedding clean and uninjured. Jason = not entirely sensible, you might miss the wedding, it's 10 more miles than the sign said."
+  },
+  "categories": ["Attraction/Activity", "Restaurant/Food", "Itinerary Idea"],
+  "places": [
+    {
+      "id": "rocky-mountain-arsenal",
+      "name": "Rocky Mountain Arsenal National Wildlife Refuge",
+      "category": "Attraction/Activity",
+      "rating": 2,
+      "allAccess": false,
+      "town": "Commerce City, CO",
+      "lat": 39.8222,
+      "lng": -104.8688,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~50 min",
+      "reservation": null,
+      "tags": ["wildlife", "easy", "airport-route", "scenic-drive"],
+      "notes": [
+        "On your way from the airport if you want to see some bison. A fun, easy stop.",
+        "Beautiful place, not too far from the airport. We filmed a music video here for some friends many years ago."
+      ],
+      "verified": "~17,000-acre refuge on a former Army site; 330+ species incl. a bison herd (stay in your vehicle to view). Visitor Center at 7200 Quebec St, Bldg 121, Commerce City, CO 80022, open Wed–Sun 9a–4p. Free entry."
+    },
+    {
+      "id": "caribou-hill",
+      "name": "Caribou Hill (→ Bald Mountain)",
+      "category": "Attraction/Activity",
+      "rating": 3,
+      "allAccess": false,
+      "town": "near Nederland, CO",
+      "lat": 39.9783,
+      "lng": -105.5886,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~50 min",
+      "reservation": null,
+      "tags": ["hike", "alpine", "fall-colors", "skiing-winter"],
+      "notes": [
+        "Great hike near Nederland through a beautiful conifer forest. This is where Jason spends a lot of his time skiing in the winter.",
+        "Can take it all the way up to Bald Mountain to get into the alpine this time of year.",
+        "You probably won't find many mushrooms. You might find a raspberry in the boulder fields, but you'll be treated to beautiful fall colors on the way up."
+      ],
+      "verified": "Caribou Hill ~3.4-mi loop near the historic Caribou Townsite; trail is poorly marked (carry GPS). Trailhead ~10,456 ft. Bald Mountain summit ~11,335 ft — this is the one in the Caribou/Nederland district."
+    },
+    {
+      "id": "east-portal-moffat-tunnel",
+      "name": "East Portal / Moffat Tunnel hikes (James Peak Wilderness)",
+      "category": "Attraction/Activity",
+      "rating": 5,
+      "allAccess": false,
+      "town": "near Rollinsville, CO",
+      "lat": 39.9061,
+      "lng": -105.6428,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~1 hr 5 min",
+      "reservation": null,
+      "tags": ["hike", "strenuous", "alpine", "wilderness", "headlamp", "early-only"],
+      "notes": [
+        "The eastern portal of the Moffat Tunnel — where the Winter Park Express train runs through the mountain. Gateway to the James Peak Wilderness, where Jason and Andrea hunt mushrooms together and where Jason skis.",
+        "Strenuous alpine bowls and cirques. ONLY for early Thursday/Friday arrivals — you might miss the rehearsal dinner, and bring a headlamp."
+      ],
+      "verified": "From Rollinsville (4.5 mi south of Nederland on CO-119), take gravel Gilpin County Rd 16 west ~8 mi to the East Portal. Accesses Crater Lakes, Heart Lake, Forest Lakes, Rogers Pass, Rollins Pass and the Continental Divide Trail. James Peak Wilderness designated 2002."
+    },
+    {
+      "id": "trail-ridge-road",
+      "name": "Trail Ridge Road (scenic drive)",
+      "category": "Attraction/Activity",
+      "rating": 2,
+      "allAccess": false,
+      "town": "RMNP (Estes Park ↔ Grand Lake)",
+      "lat": 40.4108,
+      "lng": -105.7589,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~45 min to Beaver Meadows entrance",
+      "reservation": "RMNP timed-entry required",
+      "tags": ["scenic-drive", "alpine", "rmnp", "moose", "aspens"],
+      "notes": [
+        "Quite possibly the prettiest road in the country. Aspens, maybe a moose, and that high alpine you can't get anywhere else.",
+        "It's a long drive all the way to Granby — you might just drive to the top and back."
+      ],
+      "verified": "US-34, the highest continuous paved road in the U.S., crests at 12,183 ft; fully paved, two-way. Typically open late May through mid-October (snow-dependent). Alpine Visitor Center near the top sits at ~11,796 ft."
+    },
+    {
+      "id": "old-fall-river-road",
+      "name": "Old Fall River Road",
+      "category": "Attraction/Activity",
+      "rating": 2,
+      "ratingJason": 4,
+      "allAccess": false,
+      "town": "RMNP (Estes Park side)",
+      "lat": 40.4297,
+      "lng": -105.7119,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~50 min to the entrance",
+      "reservation": "RMNP timed-entry required",
+      "tags": ["scenic-drive", "gravel", "gravel-bike", "alpine", "rmnp"],
+      "notes": [
+        "The dirt-road alternative to Trail Ridge — similar views, less traffic. Most passenger vehicles are fine.",
+        "It's a great gravel-bike climb (~3,000–4,000 ft) if you rent a bike in Estes. Jason version: ride up and descend, possibly irresponsible, and very hungry at the end."
+      ],
+      "verified": "~9.1-mile, one-way, uphill gravel road (15 mph, no trailers/large RVs) from near Endovalley (~7,800 ft) up to Fall River Pass / Alpine Visitor Center (~11,796 ft) — ~3,900 ft gain over 16 switchbacks. Opened 1920. Open seasonally ~late June to mid-October.",
+      "ratingNote": "Andrea version (drive) = 2. Jason version (ride up & descend) = 4."
+    },
+    {
+      "id": "emerald-lake",
+      "name": "Emerald Lake area (via Bear Lake Trailhead)",
+      "category": "Attraction/Activity",
+      "rating": 3,
+      "allAccess": false,
+      "town": "RMNP (Bear Lake Rd corridor)",
+      "lat": 40.3120,
+      "lng": -105.6460,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~55 min",
+      "reservation": "RMNP timed-entry + Bear Lake Road required",
+      "tags": ["hike", "lakes", "popular", "early-start", "rmnp"],
+      "notes": [
+        "Beautiful, popular hiking. Get in by 7am — it's a long drive and it gets busy."
+      ],
+      "verified": "~3.6 mi round trip, ~700–770 ft gain, passing Nymph and Dream Lakes en route to Emerald Lake (~10,110 ft). Very popular — go early. Requires the Timed Entry + Bear Lake Road permit in season."
+    },
+    {
+      "id": "lost-lake-hessie",
+      "name": "Lost Lake (via Hessie Trailhead)",
+      "category": "Attraction/Activity",
+      "rating": 5,
+      "allAccess": false,
+      "town": "near Eldora / Nederland, CO",
+      "lat": 39.9542,
+      "lng": -105.6025,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~55 min",
+      "reservation": "None — Indian Peaks Wilderness, NOT RMNP",
+      "tags": ["hike", "wilderness", "early-start", "sentimental", "first-kiss"],
+      "notes": [
+        "A significant adventure — start early, the views are excellent. This is the site of Jason & Andrea's first kiss (over Himalayan leftovers). A huge day."
+      ],
+      "verified": "~4 mi round trip, ~1,000 ft gain, lake ~1.35 mi inside the Indian Peaks Wilderness boundary. This Lost Lake is in the Indian Peaks Wilderness, NOT inside RMNP — no RMNP timed-entry reservation required. Drive past Eldora Ski Resort; 2WD parking ends ~4.8 mi from the CO-72 turnoff, then walk the road to the Hessie footbridge."
+    },
+    {
+      "id": "st-vrain-meadow-mountain",
+      "name": "St. Vrain Mountain & Meadow Mountain (via Ski Road)",
+      "category": "Attraction/Activity",
+      "rating": 4,
+      "allAccess": false,
+      "town": "Allenspark, CO",
+      "lat": 40.1738,
+      "lng": -105.5333,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~30 min",
+      "reservation": "None needed (back-door into RMNP)",
+      "tags": ["hike", "strenuous", "alpine", "no-reservation", "rmnp-backdoor"],
+      "notes": [
+        "The no-reservation way to technically walk into RMNP. Take Ski Hill Road (confirm the name), up Meadow Mountain, which connects to St. Vrain Mountain. The summit looks down into Wild Basin with views of Longs and Meeker."
+      ],
+      "verified": "From Allenspark, take Boulder County Rd 107 ('Ski Road') south ~1.5 mi, then NFS Rd 116.1 right ~0.5 mi to the trailhead (~12 cars). Meadow Mountain ~11,632 ft; St. Vrain Mountain summit ~12,162 ft, ~9 mi round trip, 3,000+ ft gain."
+    },
+    {
+      "id": "camp-dick-buchanan-pass",
+      "name": "Middle St. Vrain Road / Camp Dick / Buchanan Pass (Peaceful Valley)",
+      "category": "Attraction/Activity",
+      "rating": 5,
+      "allAccess": false,
+      "town": "Peaceful Valley, CO",
+      "lat": 40.1300,
+      "lng": -105.5242,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~30 min",
+      "reservation": "None — but requires capable 4WD",
+      "tags": ["4wd", "rough-road", "wilderness", "mushrooms", "skiing"],
+      "notes": [
+        "A gnarly road. Jason did it in a Subaru Forester and it's never been the same. Access to Buchanan Pass in the Indian Peaks Wilderness — the closest wilderness to the Denver metro. Mushrooms and skiing."
+      ],
+      "verified": "Middle Saint Vrain Trailhead at the west end of Camp Dick Campground, off Middle St. Vrain Rd (County Rd 92 / NFS Rd 114), ~6.5 mi north of Ward on CO-72. High-clearance 4WD can continue ~4 mi to the Buchanan Pass Trailhead."
+    },
+    {
+      "id": "grand-lake-water-sports",
+      "name": "Grand Lake water sports",
+      "category": "Attraction/Activity",
+      "rating": 2,
+      "allAccess": false,
+      "town": "Grand Lake, CO",
+      "lat": 40.2450,
+      "lng": -105.8161,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~2 hr 15 min (over Trail Ridge Road)",
+      "reservation": null,
+      "tags": ["water-sports", "kayak", "sup", "lake", "hiking"],
+      "notes": [
+        "Hiking and water sports — kayaking and SUP."
+      ],
+      "verified": "Grand Lake is the largest and deepest natural lake in Colorado, at the headwaters of the Colorado River on the western edge of RMNP. Outfitters (Mountain Paddlers, Grand Lake Marina) rent kayaks, paddleboards, and powerboats in summer."
+    },
+    {
+      "id": "indian-peaks-wilderness",
+      "name": "Indian Peaks Wilderness (IPW)",
+      "category": "Attraction/Activity",
+      "rating": 4,
+      "ratingRange": [2, 5],
+      "allAccess": false,
+      "town": "south of RMNP, CO",
+      "lat": 40.0778,
+      "lng": -105.5750,
+      "gpsPrecision": "approximate",
+      "driveFromLyons": "~40–60 min depending on trailhead",
+      "reservation": "None (USFS wilderness; some trailheads need day-use/parking permits)",
+      "tags": ["wilderness", "hike", "range", "alpine", "mushrooms"],
+      "notes": [
+        "Just as impressive as RMNP — glacially carved and jagged. Jason can give exciting recommendations."
+      ],
+      "verified": "Stretches from the southern boundary of RMNP south to the James Peak Wilderness, including the Continental Divide from Ogalalla Peak to Rollins Pass. No RMNP timed-entry required, though popular trailheads like Brainard Lake have their own day-use/parking permits in season.",
+      "ratingNote": "Wide range — from Andrea-friendly approaches (2) to Full Jason objectives (5). Defaulted to 4 for filtering."
+    },
+    {
+      "id": "cheese-importers",
+      "name": "Cheese Importers",
+      "formerName": "The Cheese Emporium",
+      "category": "Restaurant/Food",
+      "rating": 1,
+      "allAccess": true,
+      "town": "Longmont, CO",
+      "lat": 40.1672,
+      "lng": -105.1019,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~25 min",
+      "reservation": null,
+      "tags": ["cheese", "cafe", "market", "stock-up"],
+      "notes": [
+        "Walk-in refrigerator room stocked with almost every imaginable kind of cheese from around the world, plus an attached cafe.",
+        "Highly recommended stop. Great for loading up on cheeses for the weekend, especially if staying in Wicassa."
+      ],
+      "verified": "Family-owned since 1976 at 103 Main St, Longmont, CO 80501. Largest walk-in refrigerated cheese & cured-meat market in Colorado (500+ varieties), with a Parisian-style cafe and a European housewares shop. Open Mon–Sat 9a–6p, Sun 11a–5p."
+    },
+    {
+      "id": "kathmandu-nederland",
+      "name": "Kathmandu Restaurant (Nederland)",
+      "category": "Restaurant/Food",
+      "rating": 2,
+      "allAccess": true,
+      "town": "Nederland, CO",
+      "lat": 39.9620,
+      "lng": -105.5108,
+      "gpsPrecision": "approximate",
+      "driveFromLyons": "~50 min",
+      "reservation": null,
+      "tags": ["himalayan", "nepali", "all-you-can-eat", "vegetarian-friendly"],
+      "notes": [
+        "The all-you-can-eat Himalayan spot. Go easy on the samosas — Jason overate here."
+      ],
+      "verified": "Authentic Nepali/Indian/Himalayan restaurant at 110 N Jefferson St, Nederland, CO 80466, open since 1999; local favorite with a sister location in Boulder."
+    },
+    {
+      "id": "crosscut-pizza",
+      "name": "Crosscut Pizzeria and Taphouse",
+      "formerName": "Crosscut Pizza",
+      "category": "Restaurant/Food",
+      "rating": 2,
+      "allAccess": true,
+      "town": "Nederland, CO",
+      "lat": 39.9614,
+      "lng": -105.5108,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~50 min",
+      "reservation": null,
+      "tags": ["pizza", "wood-fired", "taphouse", "popular"],
+      "notes": [
+        "Wood-fired pizza, and hard to get into."
+      ],
+      "verified": "4 E 1st St, Nederland, CO 80466. Neapolitan wood-fired pizza using organic Colorado-milled flour and a 3-day ferment; craft taphouse. First-come, first-served. Ranked #1 of 17 restaurants in Nederland."
+    },
+    {
+      "id": "dry-storage",
+      "name": "Dry Storage",
+      "category": "Restaurant/Food",
+      "rating": 1,
+      "allAccess": false,
+      "town": "Boulder, CO",
+      "lat": 40.0152,
+      "lng": -105.2434,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~30 min",
+      "reservation": null,
+      "tags": ["bakery", "flour-mill", "sourdough", "croissants", "coffee"],
+      "notes": [
+        "Bakery and flour mill — part of a Colorado grain chain, with the best sourdough and croissants. Jason sources flour here."
+      ],
+      "verified": "Bakery and grain mill by Id Est Hospitality at 3601 Arapahoe Ave (Unit D-181), Boulder, CO 80303. Mills its own locally grown grain and bakes bread and pastries from it."
+    },
+    {
+      "id": "himalayan-curry-kebob-estes",
+      "name": "Himalayan Curry & Kebob (Estes Park)",
+      "category": "Restaurant/Food",
+      "rating": 2,
+      "allAccess": true,
+      "town": "Estes Park, CO",
+      "lat": 40.3772,
+      "lng": -105.5217,
+      "gpsPrecision": "approximate",
+      "driveFromLyons": "~45 min",
+      "reservation": null,
+      "tags": ["himalayan", "nepali", "indian", "tibetan", "sentimental"],
+      "notes": [
+        "The first-kiss-leftovers restaurant."
+      ],
+      "verified": "Nepali / Indian / Tibetan restaurant at 101 W Elkhorn Ave, Estes Park, CO 80517, on the main downtown strip. (A second Estes Park Himalayan option is Nepal's Cafe.)"
+    },
+    {
+      "id": "tarascos",
+      "name": "Tarasco's",
+      "category": "Restaurant/Food",
+      "rating": 1,
+      "allAccess": true,
+      "town": "Denver, CO (Athmar Park / Federal Blvd)",
+      "lat": 39.7080,
+      "lng": -105.0247,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~50 min",
+      "reservation": null,
+      "tags": ["mexican", "mole", "vegetarian-friendly", "vegan", "lil-saigon"],
+      "notes": [
+        "Usually empty, but great for veg/vegan AND carnivores, with a specialty in mole. Recs: nopales, banana leaf tamale, and the mole dishes."
+      ],
+      "verified": "470 S Federal Blvd, Denver, CO 80219. Authentic Michoacán cuisine — known for a seven-chile mole made with 30+ ingredients — plus a large fresh-juice bar. Open Mon–Sat 11a–9p, Sun 11a–8p."
+    },
+    {
+      "id": "o-lien-kitchen",
+      "name": "O Lien Kitchen",
+      "formerName": "Olien Kitchen",
+      "category": "Restaurant/Food",
+      "rating": 1,
+      "allAccess": true,
+      "town": "Denver, CO (Federal Blvd)",
+      "lat": 39.7000,
+      "lng": -105.0250,
+      "gpsPrecision": "approximate",
+      "driveFromLyons": "~50 min",
+      "reservation": null,
+      "tags": ["vietnamese", "hue", "vegetarian-friendly", "lil-saigon"],
+      "notes": [
+        "Hue-style Vietnamese, with a vegetarian Bún Bò Huế."
+      ],
+      "verified": "Vietnamese restaurant at 781 S Federal Blvd, Unit B, Denver, CO 80219, on Denver's 'Little Saigon' stretch of Federal. Official spelling is O Lien Kitchen (two words)."
+    },
+    {
+      "id": "pho-duy",
+      "name": "Pho Duy",
+      "nickname": "Fuzzy's",
+      "category": "Restaurant/Food",
+      "rating": 1,
+      "allAccess": true,
+      "town": "Denver, CO (Athmar Park / Federal Blvd)",
+      "lat": 39.6985,
+      "lng": -105.0247,
+      "gpsPrecision": "approximate",
+      "driveFromLyons": "~50 min",
+      "reservation": null,
+      "tags": ["vietnamese", "pho", "banh-mi", "vegetarian-friendly", "favorite", "lil-saigon"],
+      "notes": [
+        "Their second home — they're here weekly and the staff knows them. Great vegetarian pho broth, maybe the best bánh mì in Denver, and small. The restaurant photos on the website were taken here."
+      ],
+      "verified": "Vietnamese restaurant at 925 S Federal Blvd, Denver, CO 80219, on Denver's 'Little Saigon' stretch of Federal — a longtime local favorite for pho. (Internal nickname 'Fuzzy's' → official name Pho Duy.)"
+    },
+    {
+      "id": "js-noodles-star-thai",
+      "name": "J's Noodles Star Thai 2",
+      "formerName": "Jay's Noodle Star Thai #2",
+      "category": "Restaurant/Food",
+      "rating": 1,
+      "allAccess": true,
+      "town": "Denver, CO (Federal Blvd)",
+      "lat": 39.6980,
+      "lng": -105.0250,
+      "gpsPrecision": "approximate",
+      "driveFromLyons": "~50 min",
+      "reservation": null,
+      "tags": ["thai", "tiny", "cult-favorite", "lil-saigon"],
+      "notes": [
+        "If they're too busy they'll tell you to leave. Some of the best Thai anywhere."
+      ],
+      "verified": "Tiny, cult-favorite Thai spot at 945 S Federal Blvd, Denver, CO 80219 (seats ~20). Known for pad thai, drunken noodles, and tom yum. Hours are limited/split — check before going."
+    },
+    {
+      "id": "from-the-airport",
+      "name": "Getting Here From the Airport",
+      "category": "Itinerary Idea",
+      "rating": 1,
+      "allAccess": true,
+      "town": "DEN → Lyons",
+      "lat": null,
+      "lng": null,
+      "gpsPrecision": "none",
+      "driveFromLyons": null,
+      "reservation": null,
+      "tags": ["logistics", "driving-route", "airport"],
+      "notes": [
+        "Standard route: I-470 through the plains and then into Longmont (nice), but kind of boring.",
+        "Alternate: 270 to 36 — it's okay.",
+        "Bike route: Jason's bike-from-the-airport option (which is why it's so slow and weird).",
+        "Consider the stops and detours below depending on what time you arrive."
+      ],
+      "verified": null
+    },
+    {
+      "id": "scenic-drive-peak-to-peak",
+      "name": "Scenic Drive to the Venue (Coal Creek Canyon → Peak to Peak)",
+      "category": "Itinerary Idea",
+      "rating": 2,
+      "allAccess": false,
+      "town": "Golden → Nederland → Lyons",
+      "lat": null,
+      "lng": null,
+      "gpsPrecision": "none",
+      "driveFromLyons": null,
+      "reservation": null,
+      "tags": ["scenic-drive", "logistics", "nederland"],
+      "notes": [
+        "Take I-70 to Exit 6 (Golden), then Hwy 93 up Coal Creek Canyon, then the Peak to Peak Hwy down to Lyons.",
+        "Stop in Nederland along the way — Kathmandu (AYCE), Crosscut, and Caribou Hill are all right there."
+      ],
+      "verified": null
+    },
+    {
+      "id": "rmnp-reservations",
+      "name": "Rocky Mountain National Park Reservations Explainer",
+      "category": "Itinerary Idea",
+      "rating": 2,
+      "allAccess": true,
+      "town": "RMNP",
+      "lat": null,
+      "lng": null,
+      "gpsPrecision": "none",
+      "driveFromLyons": null,
+      "reservation": "Explainer (see notes)",
+      "tags": ["logistics", "planning", "rmnp", "reservations"],
+      "notes": [
+        "RMNP requires reservations (timed entry). Verified 2026 summary below.",
+        "Required: daily May 22 – Oct 18, 2026, for entry 5:00 a.m.–6:00 p.m. Outside that window/season = no reservation needed.",
+        "Two permit types: (1) Timed Entry (park minus the Bear Lake Rd corridor); (2) Timed Entry + Bear Lake Road (whole park incl. Bear/Dream/Emerald Lake).",
+        "How it works: reserve a 2-hour entry window; once inside you can stay as long as you want.",
+        "Where & cost: all permits on Recreation.gov, $2 processing fee per reservation (on top of the park entrance fee).",
+        "Release schedule: bulk permits drop 8:00 a.m. MDT on the 1st of the prior month; a smaller next-day batch releases first-come at 7:00 p.m. MDT the evening before.",
+        "Workaround: enter before 5 a.m. or after 6 p.m. to skip the permit entirely. Or avoid RMNP reservations entirely by hiking in via the Indian Peaks Wilderness / Wild Basin from Allenspark (St. Vrain / Meadow Mountain).",
+        "Always re-check Recreation.gov / nps.gov/romo close to the date — exact 2026 dates can shift with conditions."
+      ],
+      "verified": "Verified against current 2026 RMNP timed-entry system."
+    },
+    {
+      "id": "estes-park-base",
+      "name": "Estes Park (Friday morning)",
+      "category": "Itinerary Idea",
+      "rating": 2,
+      "allAccess": false,
+      "town": "Estes Park, CO",
+      "lat": 40.3772,
+      "lng": -105.5217,
+      "gpsPrecision": "approximate",
+      "driveFromLyons": "~45 min",
+      "reservation": "RMNP timed-entry required for the park",
+      "tags": ["logistics", "base-town", "rmnp-gateway"],
+      "notes": [
+        "The gateway to RMNP and a great launch point for Trail Ridge Road, Old Fall River Road, Emerald Lake, and Himalayan Curry & Kebob (the first-kiss site).",
+        "Reservations required (see the RMNP explainer)."
+      ],
+      "verified": null
+    },
+    {
+      "id": "grand-lake-winter-park-loop",
+      "name": "Grand Lake / Winter Park Vacation Loop",
+      "category": "Itinerary Idea",
+      "rating": 3,
+      "allAccess": false,
+      "town": "Lyons → Grand Lake → Winter Park → Denver",
+      "lat": null,
+      "lng": null,
+      "gpsPrecision": "none",
+      "driveFromLyons": null,
+      "reservation": null,
+      "tags": ["road-trip", "multi-day", "logistics", "water-sports"],
+      "notes": [
+        "Up Trail Ridge Road to Grand Lake, then Hwy 34 to Winter Park, then Hwy 40 down to I-70 and into Denver (or run it clockwise the other way).",
+        "Pre-wedding version: a night in Grand Lake + a night in Winter Park, finishing in Estes (or vice versa).",
+        "Hiking plus kayaking / SUP on Grand Lake."
+      ],
+      "verified": null
+    },
+    {
+      "id": "denver-lil-saigon",
+      "name": "Stop in Denver — Lil Saigon / Athmar Park",
+      "category": "Itinerary Idea",
+      "rating": 1,
+      "allAccess": true,
+      "town": "Denver, CO",
+      "lat": 39.7000,
+      "lng": -105.0250,
+      "gpsPrecision": "approximate",
+      "driveFromLyons": "~50 min",
+      "reservation": null,
+      "tags": ["food-crawl", "logistics", "lil-saigon", "vietnamese", "mexican", "thai"],
+      "notes": [
+        "A stop on the way in or out. Lil Saigon (Athmar Park) is where Jason & Andrea live — the best food in Denver.",
+        "The district runs along Federal Blvd from Alameda to past Mississippi: Vietnamese, Mexican, and Thai.",
+        "Standouts: Tarasco's, O Lien Kitchen, Pho Duy (aka 'Fuzzy's'), and J's Noodles Star Thai 2."
+      ],
+      "verified": null
+    }
+  ]
+}

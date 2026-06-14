@@ -1,0 +1,166 @@
+---
+// The Leaflet map is initialised + lazy-loaded by the page island script.
+// This component only provides the container and marker styling.
+---
+
+<div class="map-shell">
+  <div id="map" role="application" aria-label="Map of things to do around Lyons, Colorado">
+    <div class="map-placeholder" id="map-placeholder">
+      <span class="map-spinner" aria-hidden="true"></span>
+      <p>Loading map…</p>
+    </div>
+  </div>
+  <p class="map-legend" aria-hidden="true">
+    <span class="lg-item"><i class="lg-dot" style="background:var(--r1)"></i>1</span>
+    <span class="lg-item"><i class="lg-dot" style="background:var(--r2)"></i>2</span>
+    <span class="lg-item"><i class="lg-dot" style="background:var(--r3)"></i>3</span>
+    <span class="lg-item"><i class="lg-dot" style="background:var(--r4)"></i>4</span>
+    <span class="lg-item"><i class="lg-dot" style="background:var(--r5)"></i>5</span>
+    <span class="lg-item lg-home"><i class="lg-dot lg-dot-home">♥</i>Lyons</span>
+  </p>
+</div>
+
+<style>
+  .map-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+  }
+  #map {
+    flex: 1;
+    min-height: 320px;
+    width: 100%;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: #e9eef0;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    z-index: 0;
+  }
+  .map-placeholder {
+    height: 100%;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--ink-soft);
+  }
+  .map-spinner {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 3px solid var(--line-strong);
+    border-top-color: var(--pine);
+    animation: map-spin 0.8s linear infinite;
+  }
+  @keyframes map-spin { to { transform: rotate(360deg); } }
+
+  .map-legend {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    padding: 0 2px;
+  }
+  .lg-item { display: inline-flex; align-items: center; gap: 4px; }
+  .lg-dot {
+    width: 13px; height: 13px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1.5px solid rgba(255,255,255,0.8);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+  }
+  .lg-dot-home {
+    width: auto; height: auto;
+    background: var(--pine);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 9px;
+    line-height: 1;
+    padding: 2px 3px;
+  }
+</style>
+
+<!-- Global styles: Leaflet injects markers/popups dynamically, so these
+     can't be component-scoped. -->
+<style is:global>
+  .map-pin {
+    background: transparent;
+    border: none;
+  }
+  .map-pin-inner {
+    width: 26px;
+    height: 26px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    border: 2px solid #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .map-pin-num {
+    transform: rotate(45deg);
+    color: #fff;
+    font-weight: 700;
+    font-size: 12px;
+    font-family: var(--font-sans);
+  }
+  .map-pin.is-active .map-pin-inner {
+    box-shadow: 0 0 0 4px rgba(47, 93, 80, 0.35), 0 2px 5px rgba(0,0,0,0.4);
+    width: 30px; height: 30px;
+  }
+  .map-pin-home .map-pin-inner {
+    background: var(--pine);
+    border-color: #fff;
+    width: 30px; height: 30px;
+  }
+  .map-pin-home .map-pin-num {
+    font-size: 15px;
+  }
+
+  /* Popup styling to match the warm theme */
+  .leaflet-popup-content-wrapper {
+    border-radius: 12px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+  }
+  .leaflet-popup-content {
+    margin: 12px 14px;
+    font-family: var(--font-sans);
+    line-height: 1.45;
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+  .pop-name {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 0 2px;
+    color: var(--ink);
+  }
+  .pop-aka { font-size: 0.78rem; color: var(--ink-soft); font-style: italic; margin: 0 0 6px; }
+  .pop-meta { font-size: 0.8rem; color: var(--ink-soft); margin: 0 0 8px; }
+  .pop-badge {
+    display: inline-flex; align-items: center; gap: 0.4em;
+    padding: 0.15em 0.55em; border-radius: 999px;
+    font-size: 0.74rem; font-weight: 700; color: #fff; margin-bottom: 6px;
+  }
+  .pop-res {
+    font-size: 0.8rem; background: #fbf3e7; border: 1px solid #f0dcc0;
+    border-left: 4px solid var(--gold); border-radius: 8px; padding: 6px 8px; margin: 6px 0;
+  }
+  .pop-res.is-rmnp { background: #fdeef0; border-color:#f4ccd1; border-left-color: var(--terracotta); }
+  .pop-res a { font-weight: 700; }
+  .pop-notes { margin: 6px 0 0; padding-left: 1.1em; font-size: 0.85rem; }
+  .pop-notes li { margin-bottom: 4px; }
+  .pop-notes li::marker { color: var(--terracotta); }
+  .pop-verified { font-size: 0.78rem; color: var(--ink-soft); margin: 8px 0 0; font-style: italic; }
+  .pop-dual { font-size: 0.78rem; color: var(--ink); margin: 6px 0 0; font-weight: 600; }
+  .pop-link {
+    display: inline-block; margin-top: 8px; font-size: 0.82rem; font-weight: 700;
+  }
+</style>

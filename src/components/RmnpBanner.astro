@@ -1,0 +1,85 @@
+---
+const { place } = Astro.props; // the rmnp-reservations entry
+---
+
+<aside class="rmnp" id="rmnp-banner" aria-labelledby="rmnp-title">
+  <div class="rmnp-grip" aria-hidden="true">🏔️</div>
+  <div class="rmnp-body">
+    <div class="rmnp-head">
+      <h2 id="rmnp-title">{place.name.replace(' Explainer', '')}</h2>
+      <span class="rmnp-flag">Read this first</span>
+    </div>
+    <p class="rmnp-lede">
+      Several activities below (Trail Ridge Road, Old Fall River Road, Emerald Lake,
+      basing in Estes) depend on a Rocky Mountain National Park <strong>timed-entry reservation</strong>.
+      Here's the verified 2026 rundown.
+    </p>
+    <ul class="rmnp-list">
+      {place.notes.map((note) => <li>{note}</li>)}
+    </ul>
+    {place.verified && <p class="rmnp-verified">✓ {place.verified}</p>}
+  </div>
+</aside>
+
+<style>
+  .rmnp {
+    display: flex;
+    gap: 14px;
+    background: linear-gradient(180deg, #f3f8f4 0%, #eef5f0 100%);
+    border: 1px solid #cde0d3;
+    border-left: 6px solid var(--pine);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+    scroll-margin-top: calc(var(--header-h) + 12px);
+  }
+  .rmnp-grip {
+    font-size: 1.8rem;
+    line-height: 1;
+    flex: none;
+  }
+  .rmnp-body { min-width: 0; }
+  .rmnp-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .rmnp-head h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--pine-deep);
+  }
+  .rmnp-flag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #fff;
+    background: var(--terracotta);
+    padding: 0.2em 0.6em;
+    border-radius: 999px;
+  }
+  .rmnp-lede {
+    margin: 8px 0 12px;
+    color: var(--ink);
+  }
+  .rmnp-list {
+    margin: 0;
+    padding-left: 1.15em;
+    display: grid;
+    gap: 7px;
+  }
+  .rmnp-list li { line-height: 1.5; }
+  .rmnp-list li::marker { color: var(--pine); }
+  .rmnp-verified {
+    margin: 12px 0 0;
+    font-size: 0.84rem;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  @media (min-width: 720px) {
+    .rmnp-list { grid-template-columns: 1fr 1fr; column-gap: 26px; }
+  }
+</style>

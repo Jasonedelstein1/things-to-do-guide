@@ -1,0 +1,22 @@
+{
+  "name": "andrea-jason-wedding-guide",
+  "version": "1.0.0",
+  "description": "Andrea & Jason's Wedding — interactive, mobile-first 'What To Do' guide for Lyons, Colorado and the Front Range.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "deploy": "wrangler deploy",
+    "deploy:pages": "wrangler pages deploy dist"
+  },
+  "dependencies": {
+    "astro": "^5.5.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

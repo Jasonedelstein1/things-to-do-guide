@@ -1,0 +1,236 @@
+---
+import data from '../data/places.json';
+import { effectiveRating, searchText } from '../lib/ratings.js';
+
+const scale = data.meta.ratingScale;
+const { place } = Astro.props;
+
+const r = effectiveRating(place);
+const label = scale[String(r)]?.label ?? '';
+const hasCoords = place.lat !== null && place.lng !== null;
+
+// A reservation that depends on RMNP timed-entry links to the banner.
+const reservation = place.reservation;
+const linksToRmnp =
+  !!reservation && /timed-entry/i.test(reservation) && /RMNP/i.test(reservation);
+
+// Subtle secondary name line.
+let aka = null;
+if (place.nickname) aka = `aka "${place.nickname}"`;
+else if (place.formerName) aka = `formerly listed as "${place.formerName}"`;
+
+const search = searchText(place);
+---
+
+<article
+  class="card"
+  id={`card-${place.id}`}
+  data-id={place.id}
+  data-category={place.category}
+  data-rating={r}
+  data-allaccess={String(place.allAccess)}
+  data-haslatlng={String(hasCoords)}
+  data-search={search}
+  tabindex="-1"
+>
+  <div class="card-head">
+    <div class="card-titles">
+      <h3 class="card-name">{place.name}</h3>
+      {aka && <p class="card-aka">{aka}</p>}
+    </div>
+    <span class="badge" data-rating={r}>
+      <span class="badge-num" aria-hidden="true">{r}</span>
+      <span>{label}</span>
+    </span>
+  </div>
+
+  <p class="card-meta">
+    <span class="meta-cat">{place.category}</span>
+    <span class="meta-dot" aria-hidden="true">·</span>
+    <span class="meta-town">{place.town}</span>
+    {place.driveFromLyons && (
+      <>
+        <span class="meta-dot" aria-hidden="true">·</span>
+        <span class="meta-drive">🚗 {place.driveFromLyons} from Lyons</span>
+      </>
+    )}
+  </p>
+
+  <div class="card-tags">
+    {place.allAccess && (
+      <span class="badge-all-access" title="Both Andrea & Jason approve">★ All-access</span>
+    )}
+    {place.ratingJason && (
+      <span class="dual-rating">
+        Drive it: <strong>Andrea ({place.rating})</strong> · Ride it: <strong>Jason ({place.ratingJason})</strong>
+      </span>
+    )}
+    {place.ratingRange && !place.ratingJason && (
+      <span class="range-rating">
+        Spans {place.ratingRange[0]}–{place.ratingRange[1]} · filtered at {place.rating}
+      </span>
+    )}
+  </div>
+
+  {reservation && (
+    <p class={`card-reservation${linksToRmnp ? ' is-rmnp' : ''}`}>
+      <span class="res-icon" aria-hidden="true">🎟️</span>
+      <span><strong>Reservation:</strong> {reservation}{' '}
+        {linksToRmnp && (
+          <a class="res-link" href="#rmnp-banner" data-scroll-rmnp>See RMNP details ↑</a>
+        )}
+      </span>
+    </p>
+  )}
+
+  <ul class="notes">
+    {place.notes.map((note) => <li>{note}</li>)}
+  </ul>
+
+  {place.verified && (
+    <details class="verified">
+      <summary>Verified facts <span class="muted">(re-check before you go)</span></summary>
+      <p>{place.verified}</p>
+    </details>
+  )}
+
+  {hasCoords && (
+    <div class="card-actions">
+      <button type="button" class="btn-show-map" data-show-map={place.id}>
+        📍 Show on map
+      </button>
+    </div>
+  )}
+</article>
+
+<style>
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow);
+    scroll-margin-top: calc(var(--header-h) + 16px);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+  .card.is-flash {
+    border-color: var(--pine);
+    box-shadow: 0 0 0 3px rgba(47, 93, 80, 0.25), var(--shadow-lg);
+  }
+
+  .card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .card-titles { min-width: 0; }
+  .card-name {
+    font-size: 1.18rem;
+    margin: 0;
+  }
+  .card-aka {
+    margin: 2px 0 0;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .card-head .badge { flex: none; margin-top: 2px; }
+
+  .card-meta {
+    margin: 8px 0 0;
+    font-size: 0.86rem;
+    color: var(--ink-soft);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+  .meta-cat { font-weight: 600; color: var(--pine); }
+  .meta-dot { color: var(--line-strong); }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-top: 10px;
+  }
+  .card-tags:empty { display: none; }
+
+  .dual-rating, .range-rating {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    background: var(--paper-2);
+    border: 1px dashed var(--line-strong);
+    border-radius: 999px;
+    padding: 0.2em 0.7em;
+  }
+  .dual-rating strong { color: var(--ink); }
+
+  .card-reservation {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin: 12px 0 0;
+    padding: 9px 11px;
+    font-size: 0.88rem;
+    background: #fbf3e7;
+    border: 1px solid #f0dcc0;
+    border-left: 4px solid var(--gold);
+    border-radius: var(--radius-sm);
+  }
+  .card-reservation.is-rmnp {
+    background: #fdeef0;
+    border-color: #f4ccd1;
+    border-left-color: var(--terracotta);
+  }
+  .res-link {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .notes {
+    margin: 12px 0 0;
+    padding-left: 1.1em;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .notes li {
+    line-height: 1.5;
+  }
+  .notes li::marker { color: var(--terracotta); }
+
+  .verified {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  .verified summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--pine);
+  }
+  .verified .muted { font-weight: 400; color: var(--ink-soft); }
+  .verified p { margin: 8px 0 0; }
+
+  .card-actions {
+    margin-top: 14px;
+  }
+  .btn-show-map {
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--pine-deep);
+    background: #eaf2ec;
+    border: 1px solid #cfe2d4;
+    border-radius: 999px;
+    padding: 8px 14px;
+    cursor: pointer;
+    min-height: 40px;
+    transition: background 0.15s ease;
+  }
+  .btn-show-map:hover { background: #dceadf; }
+  .btn-show-map:active { transform: translateY(1px); }
+</style>

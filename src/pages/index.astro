@@ -1,0 +1,612 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FilterBar from '../components/FilterBar.astro';
+import PlaceCard from '../components/PlaceCard.astro';
+import RmnpBanner from '../components/RmnpBanner.astro';
+import MapView from '../components/MapView.astro';
+import data from '../data/places.json';
+
+const { meta, categories, places } = data;
+const scale = meta.ratingScale;
+
+// Section labels for the grouped list.
+const catLabels = {
+  'Attraction/Activity': 'Attractions & Activities',
+  'Restaurant/Food': 'Food & Drink',
+  'Itinerary Idea': 'Itinerary Ideas',
+};
+
+// The RMNP explainer becomes a banner, not a normal card.
+const rmnp = places.find((p) => p.id === 'rmnp-reservations');
+const placesByCat = categories.map((cat) => ({
+  cat,
+  label: catLabels[cat] ?? cat,
+  items: places.filter((p) => p.category === cat && p.id !== 'rmnp-reservations'),
+}));
+---
+
+<Layout title={meta.title}>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <p class="eyebrow">Andrea &amp; Jason are getting married 💍</p>
+      <h1>The <span class="hl">What&nbsp;To&nbsp;Do</span> Guide</h1>
+      <p class="lede">
+        Things to do, see, and eat around our hub in <strong>{meta.hub.name}</strong> —
+        reaching out to Denver, Boulder, Longmont, Estes Park, Nederland, Grand Lake &amp; RMNP.
+        Use the <strong>Andrea&nbsp;↔&nbsp;Jason slider</strong> to dial in exactly how much
+        adventure you're up for.
+      </p>
+
+      <details class="scale-explainer">
+        <summary>How the Andrea&nbsp;↔&nbsp;Jason scale works</summary>
+        <p class="scale-note">{meta.scaleNote}</p>
+        <table class="scale-table">
+          <thead>
+            <tr><th>Rating</th><th>Label</th><th>What it means</th></tr>
+          </thead>
+          <tbody>
+            {Object.entries(scale).map(([num, s]) => (
+              <tr>
+                <td><span class="badge" data-rating={num}><span class="badge-num">{num}</span></span></td>
+                <td class="st-label">{s.label}</td>
+                <td>{s.meaning}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </details>
+    </div>
+  </header>
+
+  <div class="controls" id="controls">
+    <div class="wrap">
+      <FilterBar scale={scale} categories={categories} />
+    </div>
+  </div>
+
+  <main class="wrap main">
+    <RmnpBanner place={rmnp} />
+
+    <div class="layout" id="layout" data-view="list">
+      <section class="map-pane" aria-label="Map">
+        <MapView />
+      </section>
+
+      <section class="list-pane" aria-label="List of places">
+        <p class="empty-state" id="empty-state" hidden>
+          Nothing matches those filters. Try nudging the slider toward Jason, or
+          <button type="button" class="link-btn" id="empty-reset">reset the filters</button>.
+        </p>
+
+        {placesByCat.map((group) => (
+          <section class="cat-section" data-cat={group.cat}>
+            <h2 class="cat-heading">{group.label} <span class="cat-count">({group.items.length})</span></h2>
+            <div class="card-grid">
+              {group.items.map((place) => <PlaceCard place={place} />)}
+            </div>
+          </section>
+        ))}
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>
+        Made with love for our wedding weekend. The <em>notes</em> are ours; the
+        <em>verified</em> details are point-in-time — <strong>re-check hours, road &amp; trail
+        status, and reservations before you go.</strong>
+      </p>
+      <p class="footer-fine">
+        Map data © <a href="https://www.openstreetmap.org/copyright" rel="noopener" target="_blank">OpenStreetMap</a> contributors ·
+        Built with Astro + Leaflet.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Data for the client island (parsed at runtime; no extra bundle weight). -->
+  <script type="application/json" id="places-data" set:html={JSON.stringify(data)}></script>
+
+  <script>
+    import { ratingColor, searchText } from '../lib/ratings.js';
+
+    const dataEl = document.getElementById('places-data');
+    const data = JSON.parse(dataEl.textContent);
+    const { meta, places } = data;
+    const scale = meta.ratingScale;
+    const hub = meta.hub;
+    const byId = new Map(places.map((p) => [p.id, p]));
+    const blobById = new Map(places.map((p) => [p.id, searchText(p)]));
+
+    // ---- DOM refs ----
+    const slider = document.getElementById('intensity');
+    const readoutNum = document.getElementById('readout-num');
+    const readoutLabel = document.getElementById('readout-label');
+    const readoutBadge = document.getElementById('readout-badge');
+    const readoutMeaning = document.getElementById('readout-meaning');
+    const chips = Array.from(document.querySelectorAll('.chip'));
+    const allAccessToggle = document.getElementById('allaccess-toggle');
+    const search = document.getElementById('search');
+    const resetBtn = document.getElementById('reset-filters');
+    const emptyReset = document.getElementById('empty-reset');
+    const countShown = document.getElementById('count-shown');
+    const countTotal = document.getElementById('count-total');
+    const emptyState = document.getElementById('empty-state');
+    const controls = document.getElementById('controls');
+    const layout = document.getElementById('layout');
+    const vbtns = Array.from(document.querySelectorAll('.vbtn'));
+
+    const cards = Array.from(document.querySelectorAll('.card'));
+    const cardById = new Map(cards.map((c) => [c.dataset.id, c]));
+
+    // ---- Filter state ----
+    const state = { max: 5, category: 'all', allAccess: false, query: '' };
+
+    function passes(p) {
+      if (p.rating > state.max) return false;
+      if (state.category !== 'all' && p.category !== state.category) return false;
+      if (state.allAccess && !p.allAccess) return false;
+      if (state.query && !blobById.get(p.id).includes(state.query)) return false;
+      return true;
+    }
+
+    function applyFilters() {
+      let shown = 0;
+      for (const p of places) {
+        if (p.id === 'rmnp-reservations') continue;
+        const ok = passes(p);
+        const card = cardById.get(p.id);
+        if (card) {
+          card.hidden = !ok;
+          if (ok) shown++;
+        }
+        const m = markers.get(p.id);
+        if (m && map) {
+          if (ok && !mapLayer.hasLayer(m)) mapLayer.addLayer(m);
+          else if (!ok && mapLayer.hasLayer(m)) mapLayer.removeLayer(m);
+        }
+      }
+      document.querySelectorAll('.cat-section').forEach((sec) => {
+        sec.hidden = !sec.querySelector('.card:not([hidden])');
+      });
+      countShown.textContent = String(shown);
+      emptyState.hidden = shown !== 0;
+    }
+
+    // ---- Slider readout ----
+    function updateReadout() {
+      const v = state.max;
+      const s = scale[String(v)];
+      readoutNum.textContent = String(v);
+      readoutLabel.textContent = s.label;
+      readoutBadge.dataset.rating = String(v);
+      readoutMeaning.textContent = s.meaning;
+      slider.setAttribute('aria-valuetext', `${v} of 5 — ${s.label}`);
+    }
+
+    slider.addEventListener('input', () => {
+      state.max = Number(slider.value);
+      updateReadout();
+      applyFilters();
+    });
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        state.category = chip.dataset.category;
+        chips.forEach((x) => {
+          const active = x === chip;
+          x.classList.toggle('is-active', active);
+          x.setAttribute('aria-pressed', String(active));
+        });
+        applyFilters();
+      });
+    });
+
+    allAccessToggle.addEventListener('change', () => {
+      state.allAccess = allAccessToggle.checked;
+      applyFilters();
+    });
+
+    let searchTimer;
+    search.addEventListener('input', () => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => {
+        state.query = search.value.trim().toLowerCase();
+        applyFilters();
+      }, 110);
+    });
+
+    function resetFilters() {
+      state.max = 5; state.category = 'all'; state.allAccess = false; state.query = '';
+      slider.value = '5';
+      updateReadout();
+      allAccessToggle.checked = false;
+      search.value = '';
+      chips.forEach((x) => {
+        const active = x.dataset.category === 'all';
+        x.classList.toggle('is-active', active);
+        x.setAttribute('aria-pressed', String(active));
+      });
+      applyFilters();
+    }
+    resetBtn.addEventListener('click', resetFilters);
+    emptyReset?.addEventListener('click', resetFilters);
+
+    // ---- Mobile map/list view toggle ----
+    function setView(view) {
+      layout.dataset.view = view;
+      vbtns.forEach((b) => {
+        const active = b.dataset.view === view;
+        b.classList.toggle('is-active', active);
+        b.setAttribute('aria-pressed', String(active));
+      });
+      if (view === 'map') ensureMap().then(() => map && map.invalidateSize());
+    }
+    vbtns.forEach((b) => b.addEventListener('click', () => setView(b.dataset.view)));
+
+    // ---- Leaflet map (lazy) ----
+    let map = null;
+    let mapLayer = null;
+    let mapReady = false;
+    let mapLoadingPromise = null;
+    const markers = new Map();
+    let activeId = null;
+
+    function esc(s) {
+      const d = document.createElement('div');
+      d.textContent = s == null ? '' : String(s);
+      return d.innerHTML;
+    }
+
+    function makeIcon(p, active = false) {
+      const color = ratingColor(p.rating);
+      return L.divIcon({
+        className: 'map-pin' + (active ? ' is-active' : ''),
+        html: `<div class="map-pin-inner" style="background:${color}"><span class="map-pin-num">${p.rating}</span></div>`,
+        iconSize: [26, 26],
+        iconAnchor: [13, 26],
+        popupAnchor: [0, -26],
+      });
+    }
+    function homeIcon() {
+      return L.divIcon({
+        className: 'map-pin map-pin-home',
+        html: `<div class="map-pin-inner"><span class="map-pin-num">♥</span></div>`,
+        iconSize: [30, 30],
+        iconAnchor: [15, 30],
+        popupAnchor: [0, -30],
+      });
+    }
+
+    function popupHtml(p) {
+      const r = p.rating;
+      const s = scale[String(r)];
+      const color = ratingColor(r);
+      let aka = '';
+      if (p.nickname) aka = `aka "${esc(p.nickname)}"`;
+      else if (p.formerName) aka = `formerly "${esc(p.formerName)}"`;
+
+      const linksToRmnp = p.reservation && /timed-entry/i.test(p.reservation) && /RMNP/i.test(p.reservation);
+      let resHtml = '';
+      if (p.reservation) {
+        resHtml = `<div class="pop-res${linksToRmnp ? ' is-rmnp' : ''}">🎟️ <strong>Reservation:</strong> ${esc(p.reservation)}` +
+          (linksToRmnp ? ` <a href="#rmnp-banner" data-scroll-rmnp>RMNP details</a>` : '') + `</div>`;
+      }
+
+      let dualHtml = '';
+      if (p.ratingJason) {
+        dualHtml = `<p class="pop-dual">Drive it: Andrea (${p.rating}) · Ride it: Jason (${p.ratingJason})</p>`;
+      } else if (p.ratingRange) {
+        dualHtml = `<p class="pop-dual">Spans ${p.ratingRange[0]}–${p.ratingRange[1]} · filtered at ${p.rating}</p>`;
+      }
+
+      const notes = (p.notes || []).map((n) => `<li>${esc(n)}</li>`).join('');
+      const verified = p.verified ? `<p class="pop-verified">✓ ${esc(p.verified)}</p>` : '';
+      const drive = p.driveFromLyons ? ` · 🚗 ${esc(p.driveFromLyons)}` : '';
+
+      return `
+        <div class="pop">
+          <p class="pop-name">${esc(p.name)}</p>
+          ${aka ? `<p class="pop-aka">${aka}</p>` : ''}
+          <span class="pop-badge" style="background:${color}">${r} · ${esc(s.label)}</span>
+          ${p.allAccess ? ` <span class="pop-badge" style="background:#3f7a5b">★ All-access</span>` : ''}
+          <p class="pop-meta">${esc(p.town)}${drive}</p>
+          ${resHtml}
+          ${dualHtml}
+          <ul class="pop-notes">${notes}</ul>
+          ${verified}
+          <a class="pop-link" href="#card-${p.id}" data-show-list="${p.id}">See in list ↓</a>
+        </div>`;
+    }
+
+    function loadLeaflet() {
+      return new Promise((resolve, reject) => {
+        if (window.L) return resolve(window.L);
+        const css = document.createElement('link');
+        css.rel = 'stylesheet';
+        css.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+        document.head.appendChild(css);
+        const js = document.createElement('script');
+        js.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+        js.onload = () => resolve(window.L);
+        js.onerror = () => reject(new Error('Leaflet failed to load'));
+        document.head.appendChild(js);
+      });
+    }
+
+    function initMap() {
+      map = L.map('map', { scrollWheelZoom: true, zoomControl: true }).setView([hub.lat, hub.lng], 9);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      mapLayer = L.layerGroup().addTo(map);
+
+      // Distinct home marker for the Lyons hub.
+      L.marker([hub.lat, hub.lng], { icon: homeIcon(), zIndexOffset: 1000, keyboard: false })
+        .bindPopup(`<div class="pop"><p class="pop-name">${esc(hub.name)}</p><p class="pop-meta">The wedding hub 💍</p></div>`)
+        .addTo(map);
+
+      const pts = [[hub.lat, hub.lng]];
+      for (const p of places) {
+        if (p.lat == null || p.lng == null) continue;
+        const m = L.marker([p.lat, p.lng], { icon: makeIcon(p), title: p.name });
+        m.bindPopup(() => popupHtml(p), { maxWidth: 300, minWidth: 220 });
+        m.on('popupopen', () => { setActivePin(p.id); flashCard(p.id); });
+        // A genuine click on the pin scrolls the list to its card (desktop:
+        // both panes are visible; mobile keeps the popup so we don't yank away).
+        m.on('click', () => { if (isDesktop()) scrollToCard(p.id); });
+        markers.set(p.id, m);
+        pts.push([p.lat, p.lng]);
+      }
+
+      map.fitBounds(L.latLngBounds(pts).pad(0.12));
+      applyFilters();
+      setTimeout(() => map.invalidateSize(), 60);
+    }
+
+    function ensureMap() {
+      if (mapReady) return Promise.resolve();
+      if (mapLoadingPromise) return mapLoadingPromise;
+      mapLoadingPromise = loadLeaflet()
+        .then(() => { initMap(); mapReady = true; })
+        .catch((err) => {
+          console.error(err);
+          const ph = document.getElementById('map-placeholder');
+          if (ph) ph.innerHTML = '<p>Map couldn’t load. Check your connection — the list below still works.</p>';
+        });
+      return mapLoadingPromise;
+    }
+
+    function setActivePin(id) {
+      activeId = id;
+      for (const [pid, m] of markers) {
+        m.setIcon(makeIcon(byId.get(pid), pid === id));
+      }
+    }
+
+    function flashCard(id) {
+      const card = cardById.get(id);
+      if (!card) return;
+      card.classList.add('is-flash');
+      setTimeout(() => card.classList.remove('is-flash'), 1600);
+    }
+
+    function isDesktop() {
+      return window.matchMedia('(min-width: 880px)').matches;
+    }
+
+    function scrollToCard(id) {
+      const card = cardById.get(id);
+      if (!card || card.hidden) return;
+      if (!isDesktop()) setView('list');
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.focus({ preventScroll: true });
+      flashCard(id);
+    }
+
+    function focusMarker(id) {
+      const m = markers.get(id);
+      const p = byId.get(id);
+      if (!m || !map || !p) return;
+      if (!mapLayer.hasLayer(m)) mapLayer.addLayer(m);
+      map.setView([p.lat, p.lng], Math.max(map.getZoom(), 12), { animate: true });
+      m.openPopup();
+      setActivePin(id);
+      setTimeout(() => map.invalidateSize(), 60);
+    }
+
+    // Delegated clicks for cross-component actions.
+    document.addEventListener('click', async (e) => {
+      const showMap = e.target.closest('[data-show-map]');
+      if (showMap) {
+        const id = showMap.getAttribute('data-show-map');
+        if (!isDesktop()) setView('map');
+        await ensureMap();
+        focusMarker(id);
+        return;
+      }
+      const showList = e.target.closest('[data-show-list]');
+      if (showList) {
+        e.preventDefault();
+        scrollToCard(showList.getAttribute('data-show-list'));
+        return;
+      }
+      const scrollR = e.target.closest('[data-scroll-rmnp]');
+      if (scrollR) {
+        e.preventDefault();
+        if (!isDesktop()) setView('list');
+        document.getElementById('rmnp-banner').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    // Keep --header-h in sync with the sticky controls height.
+    function setHeaderH() {
+      document.documentElement.style.setProperty('--header-h', controls.offsetHeight + 'px');
+    }
+    window.addEventListener('resize', setHeaderH);
+
+    // ---- Init ----
+    countTotal.textContent = String(cards.length);
+    updateReadout();
+    applyFilters();
+    setHeaderH();
+
+    // Lazy-load the map when it scrolls into view (fires immediately on desktop).
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((en) => en.isIntersecting)) {
+        io.disconnect();
+        ensureMap();
+      }
+    }, { rootMargin: '250px' });
+    io.observe(document.getElementById('map'));
+  </script>
+
+  <style>
+    .site-header {
+      background:
+        radial-gradient(120% 120% at 10% -10%, #f7efe2 0%, transparent 55%),
+        radial-gradient(120% 120% at 100% 0%, #eef4ee 0%, transparent 50%),
+        var(--cream);
+      border-bottom: 1px solid var(--line);
+    }
+    .header-inner { padding: 26px 16px 22px; }
+    .eyebrow {
+      margin: 0 0 6px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--terracotta);
+    }
+    .site-header h1 {
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      margin: 0 0 10px;
+      letter-spacing: -0.01em;
+    }
+    .site-header h1 .hl { color: var(--pine); }
+    .lede {
+      margin: 0;
+      max-width: 65ch;
+      font-size: 1.02rem;
+      color: var(--ink);
+    }
+
+    .scale-explainer {
+      margin-top: 16px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      box-shadow: var(--shadow);
+    }
+    .scale-explainer summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--pine);
+      font-family: var(--font-serif);
+      font-size: 1.02rem;
+    }
+    .scale-note {
+      margin: 12px 0;
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+    }
+    .scale-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .scale-table th, .scale-table td {
+      text-align: left;
+      padding: 7px 8px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+    .scale-table th { color: var(--ink-soft); font-weight: 700; font-size: 0.82rem; }
+    .scale-table .st-label { font-weight: 700; white-space: nowrap; }
+    .scale-table .badge { padding: 0.15em; }
+    .scale-table .badge .badge-num { width: 1.7em; height: 1.7em; font-size: 0.9em; }
+
+    /* Sticky filter bar */
+    .controls {
+      position: sticky;
+      top: 0;
+      z-index: 500;
+      background: rgba(250, 246, 239, 0.92);
+      backdrop-filter: saturate(1.1) blur(8px);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 0;
+    }
+
+    .main { padding: 18px 16px 40px; display: grid; gap: 18px; }
+
+    .layout { display: block; }
+
+    /* Mobile: one pane at a time, driven by data-view */
+    .map-pane {
+      height: min(72vh, 560px);
+    }
+    .layout[data-view="list"] .map-pane { display: none; }
+    .layout[data-view="map"] .list-pane { display: none; }
+
+    .list-pane { display: grid; gap: 22px; }
+    .cat-section { display: grid; gap: 12px; }
+    .cat-section[hidden] { display: none; }
+    .cat-heading {
+      font-size: 1.4rem;
+      margin: 0;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--line-strong);
+    }
+    .cat-count { color: var(--ink-soft); font-size: 0.85rem; font-weight: 400; }
+    .card-grid { display: grid; gap: 14px; }
+
+    .empty-state {
+      background: var(--paper);
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius);
+      padding: 22px;
+      text-align: center;
+      color: var(--ink-soft);
+    }
+    .link-btn {
+      font: inherit; color: var(--pine); background: none; border: none;
+      text-decoration: underline; cursor: pointer; padding: 0;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--line);
+      background: var(--paper-2);
+      padding: 22px 0 40px;
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+    }
+    .site-footer p { margin: 0 auto 8px; max-width: 70ch; }
+    .footer-fine { font-size: 0.8rem; }
+
+    /* Desktop: side-by-side map + list */
+    @media (min-width: 880px) {
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+        gap: 22px;
+        align-items: start;
+      }
+      /* Both panes always visible regardless of data-view */
+      .layout[data-view="list"] .map-pane,
+      .layout[data-view="map"] .list-pane { display: block; }
+      .map-pane {
+        position: sticky;
+        top: calc(var(--header-h) + 14px);
+        height: calc(100vh - var(--header-h) - 28px);
+        min-height: 480px;
+      }
+      .card-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (min-width: 1180px) {
+      .card-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</Layout>

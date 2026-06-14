@@ -1,0 +1,325 @@
+---
+const { scale, categories } = Astro.props;
+
+const catLabels = {
+  'Attraction/Activity': 'Attractions',
+  'Restaurant/Food': 'Food',
+  'Itinerary Idea': 'Itinerary',
+};
+
+// Default slider position is 5 (Full Jason → show everything).
+const defaultLevel = 5;
+const defaultLabel = scale[String(defaultLevel)].label;
+const defaultMeaning = scale[String(defaultLevel)].meaning;
+---
+
+<form class="filters" id="filters" role="search" aria-label="Filter activities">
+  <!-- The primary control: the Andrea↔Jason intensity slider -->
+  <div class="slider-block">
+    <div class="slider-toprow">
+      <label class="slider-label" for="intensity">How adventurous are you feeling?</label>
+      <div class="slider-readout" aria-live="polite">
+        <span class="readout-badge badge" data-rating={defaultLevel} id="readout-badge">
+          <span class="badge-num" aria-hidden="true" id="readout-num">{defaultLevel}</span>
+          <span id="readout-label">{defaultLabel}</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="slider-rail">
+      <span class="end end-andrea" aria-hidden="true">Andrea</span>
+      <input
+        type="range"
+        id="intensity"
+        name="intensity"
+        min="1"
+        max="5"
+        step="1"
+        value={defaultLevel}
+        aria-label="Maximum intensity, Andrea (1) to Jason (5)"
+        aria-valuetext={`${defaultLevel} of 5 — ${defaultLabel}`}
+        list="intensity-ticks"
+      />
+      <span class="end end-jason" aria-hidden="true">Jason</span>
+    </div>
+    <datalist id="intensity-ticks">
+      <option value="1"></option>
+      <option value="2"></option>
+      <option value="3"></option>
+      <option value="4"></option>
+      <option value="5"></option>
+    </datalist>
+
+    <p class="slider-meaning" id="readout-meaning">{defaultMeaning}</p>
+  </div>
+
+  <!-- Secondary filters -->
+  <div class="secondary">
+    <div class="chips" role="group" aria-label="Filter by category">
+      <button type="button" class="chip is-active" data-category="all" aria-pressed="true">All</button>
+      {categories.map((cat) => (
+        <button type="button" class="chip" data-category={cat} aria-pressed="false">
+          {catLabels[cat] ?? cat}
+        </button>
+      ))}
+    </div>
+
+    <label class="switch">
+      <input type="checkbox" id="allaccess-toggle" />
+      <span class="switch-track" aria-hidden="true"><span class="switch-knob"></span></span>
+      <span class="switch-text">★ All-access only</span>
+    </label>
+
+    <div class="search">
+      <span class="search-icon" aria-hidden="true">🔍</span>
+      <input type="search" id="search" placeholder="Search places & notes…" aria-label="Search places and notes" autocomplete="off" />
+    </div>
+  </div>
+
+  <div class="filter-footer">
+    <p class="results-count" aria-live="polite"><span id="count-shown">—</span> of <span id="count-total">—</span> spots</p>
+    <button type="button" class="btn-reset" id="reset-filters">Reset</button>
+
+    <div class="view-toggle" role="group" aria-label="Switch between map and list">
+      <button type="button" class="vbtn is-active" data-view="list" aria-pressed="true">☰ List</button>
+      <button type="button" class="vbtn" data-view="map" aria-pressed="false">🗺️ Map</button>
+    </div>
+  </div>
+</form>
+
+<style>
+  .filters {
+    display: grid;
+    gap: 14px;
+  }
+
+  /* ---- Slider (hero) ---- */
+  .slider-block {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px 16px 12px;
+    box-shadow: var(--shadow);
+  }
+  .slider-toprow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .slider-label {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+  .readout-badge { font-size: 0.84rem; }
+
+  .slider-rail {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .end {
+    font-weight: 700;
+    font-size: 0.8rem;
+    flex: none;
+    width: 3.4em;
+    text-align: center;
+  }
+  .end-andrea { color: var(--r1); }
+  .end-jason { color: var(--r5); }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    flex: 1;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--rating-gradient);
+    cursor: pointer;
+    outline-offset: 6px;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--pine);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    cursor: grab;
+  }
+  input[type="range"]::-webkit-slider-thumb:active { cursor: grabbing; }
+  input[type="range"]::-moz-range-thumb {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--pine);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    cursor: grab;
+  }
+  input[type="range"]::-moz-range-track {
+    height: 14px;
+    border-radius: 999px;
+    background: var(--rating-gradient);
+  }
+
+  .slider-meaning {
+    margin: 10px 0 2px;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    min-height: 1.3em;
+  }
+
+  /* ---- Secondary ---- */
+  .secondary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    align-items: center;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+  .chip {
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    padding: 8px 14px;
+    min-height: 40px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .chip:hover { background: var(--paper-2); }
+  .chip.is-active {
+    background: var(--pine);
+    border-color: var(--pine);
+    color: #fff;
+  }
+
+  .switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 0.86rem;
+    font-weight: 600;
+    user-select: none;
+  }
+  .switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .switch-track {
+    width: 44px;
+    height: 26px;
+    border-radius: 999px;
+    background: var(--line-strong);
+    position: relative;
+    transition: background 0.15s ease;
+    flex: none;
+  }
+  .switch-knob {
+    position: absolute;
+    top: 3px; left: 3px;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    transition: transform 0.15s ease;
+  }
+  .switch input:checked + .switch-track { background: var(--pine); }
+  .switch input:checked + .switch-track .switch-knob { transform: translateX(18px); }
+  .switch input:focus-visible + .switch-track {
+    outline: 3px solid var(--pine);
+    outline-offset: 2px;
+  }
+
+  .search {
+    position: relative;
+    flex: 1;
+    min-width: 180px;
+  }
+  .search-icon {
+    position: absolute;
+    left: 11px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+  .search input {
+    width: 100%;
+    font: inherit;
+    font-size: 0.92rem;
+    padding: 9px 12px 9px 34px;
+    min-height: 42px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  /* ---- Footer row ---- */
+  .filter-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .results-count {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  .btn-reset {
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    background: none;
+    border: none;
+    color: var(--pine);
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 6px 4px;
+    min-height: 40px;
+  }
+
+  .view-toggle {
+    margin-left: auto;
+    display: inline-flex;
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    padding: 3px;
+    gap: 3px;
+  }
+  .vbtn {
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: none;
+    background: none;
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 8px 16px;
+    min-height: 38px;
+    cursor: pointer;
+  }
+  .vbtn.is-active {
+    background: var(--pine);
+    color: #fff;
+  }
+
+  /* The map/list toggle is only meaningful on mobile (desktop shows both). */
+  @media (min-width: 880px) {
+    .view-toggle { display: none; }
+  }
+</style>
