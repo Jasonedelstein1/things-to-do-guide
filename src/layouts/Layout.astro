@@ -15,19 +15,19 @@ const rampVars = Object.entries(RATING_COLORS)
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#2f5d50" />
+    <meta name="theme-color" content="#244a3b" />
     <title>{title}</title>
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
 
-    <!-- Wedding-elegant type pairing: Fraunces (headings) + Inter (body/UI),
-         Great Vibes reserved purely for the hero flourish. -->
+    <!-- Vintage trail-guide type pairing: Oswald (condensed display, headings,
+         labels, badges, buttons — UPPERCASE) + Bitter (warm slab-serif body). -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Great+Vibes&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Bitter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
     />
 
     <!-- Open Graph / social -->
@@ -46,48 +46,61 @@ const rampVars = Object.entries(RATING_COLORS)
 
 <style is:global>
   :root {
-    /* Warm Colorado-Front-Range palette (Soft UI Evolution: refined neutrals,
-       clearer borders, stronger contrast). Rating ramp (--r1..--r5) is set
-       separately in <head> and must not change. */
-    --cream: #f7f2e9;
-    --paper: #ffffff;
-    --paper-2: #fbf7f0;
-    --paper-3: #f3ece0;
-    --ink: #221f1a;          /* darker for stronger contrast */
-    --ink-soft: #5e564b;     /* AA on cream/paper */
-    --line: #e7ddcd;
-    --line-strong: #d6c9b3;
-    --pine: #2c5a4d;
-    --pine-deep: #1f4339;
-    --terracotta: #bd5f3c;
-    --gold: #c98700;
-    --beyond: #6f6492;
-    /* Tasteful calm-teal accent (used sparingly for links/flourishes) */
-    --accent: #0e7c8b;
-    --accent-deep: #0a5d69;
+    /* === VINTAGE TRAIL-GUIDE / WPA NATIONAL-PARK PALETTE ===
+       Warm printed-paper field-guide aesthetic. Rating ramp (--r1..--r5,
+       --beyond, --rating-gradient) is set separately in <head> from
+       ratings.js — the single source of truth — and must keep green→red. */
 
-    /* Consistent elevation / shadow scale */
-    --shadow-xs: 0 1px 2px rgba(40, 33, 22, 0.06);
-    --shadow-sm: 0 1px 2px rgba(40, 33, 22, 0.05), 0 2px 6px rgba(40, 33, 22, 0.06);
-    --shadow: 0 1px 2px rgba(40, 33, 22, 0.05), 0 4px 14px rgba(40, 33, 22, 0.08);
-    --shadow-md: 0 2px 6px rgba(40, 33, 22, 0.06), 0 10px 28px rgba(40, 33, 22, 0.12);
-    --shadow-lg: 0 8px 20px rgba(40, 33, 22, 0.10), 0 18px 48px rgba(40, 33, 22, 0.18);
-    --ring: 0 0 0 3px rgba(44, 90, 77, 0.20);
+    /* Aged kraft paper */
+    --cream: #efe3cf;        /* page background */
+    --paper: #fbf6ea;        /* primary card/surface */
+    --paper-2: #f6eedd;      /* secondary surface */
+    --paper-3: #ecdfc6;      /* sunken / wells */
 
-    --radius: 16px;
-    --radius-sm: 11px;
-    --radius-xs: 8px;
+    /* Printed ink */
+    --ink: #2a2017;          /* deep warm charcoal-brown (primary text) */
+    --ink-soft: #6b5d49;     /* softer secondary — AA on kraft */
+    --line: #d8c7a8;         /* hairline rules */
+    --line-strong: #b9a37e;  /* sturdy borders */
+
+    /* Field-guide accents */
+    --pine: #244a3b;         /* forest green (primary) */
+    --pine-deep: #1c3a2e;    /* deep forest */
+    --terracotta: #bf5a3c;   /* clay (accent 1) */
+    --terracotta-deep: #9d4429;
+    --gold: #cb9433;         /* mustard / gold (accent 2) */
+    --gold-deep: #a9761f;
+    --sky: #5c8aa6;          /* dusty sky-blue (small accents) */
+    --beyond: #6f6492;       /* "Other"/null seal */
+
+    /* Links use forest green in this earthy scheme */
+    --accent: #1c3a2e;
+    --accent-deep: #244a3b;
+
+    /* Letterpress-style elevation (warm, slightly harder edges) */
+    --shadow-xs: 0 1px 0 rgba(42, 32, 23, 0.10);
+    --shadow-sm: 0 1px 2px rgba(42, 32, 23, 0.10), 0 2px 5px rgba(42, 32, 23, 0.08);
+    --shadow: 0 2px 4px rgba(42, 32, 23, 0.10), 0 6px 16px rgba(42, 32, 23, 0.12);
+    --shadow-md: 0 3px 6px rgba(42, 32, 23, 0.12), 0 12px 30px rgba(42, 32, 23, 0.16);
+    --shadow-lg: 0 8px 20px rgba(42, 32, 23, 0.16), 0 20px 52px rgba(42, 32, 23, 0.24);
+    --ring: 0 0 0 3px rgba(36, 74, 59, 0.28);
+
+    /* Stamps/passes read flatter — modest radii */
+    --radius: 10px;
+    --radius-sm: 7px;
+    --radius-xs: 5px;
     --maxw: 1280px;
     --header-h: 0px;
 
-    /* Standard motion tokens (Soft UI: 150-300ms) */
+    /* Motion tokens (150-250ms) */
     --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
     --t-fast: 150ms;
     --t-med: 220ms;
 
-    --font-serif: "Fraunces", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
-    --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --font-script: "Great Vibes", "Snell Roundhand", "Brush Script MT", cursive;
+    /* Type stacks */
+    --font-display: "Oswald", "Oswald Fallback", "Arial Narrow", Impact, "Helvetica Neue", sans-serif;
+    --font-serif: "Bitter", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --font-sans: "Bitter", "Iowan Old Style", Georgia, "Times New Roman", serif;
   }
 
   * { box-sizing: border-box; }
@@ -96,27 +109,49 @@ const rampVars = Object.entries(RATING_COLORS)
 
   body {
     margin: 0;
-    font-family: var(--font-sans);
+    font-family: var(--font-serif);
     color: var(--ink);
-    background: var(--cream);
-    line-height: 1.6;
+    background-color: var(--cream);
+    /* Subtle printed-paper speckle so the kraft reads "pressed", not flat. */
+    background-image:
+      radial-gradient(rgba(42, 32, 23, 0.030) 1px, transparent 1.4px),
+      radial-gradient(rgba(42, 32, 23, 0.022) 1px, transparent 1.4px);
+    background-size: 22px 22px, 22px 22px;
+    background-position: 0 0, 11px 11px;
+    line-height: 1.62;
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
+  /* Headings are condensed Oswald, UPPERCASE with positive tracking —
+     the WPA "trail sign" voice. */
   h1, h2, h3 {
-    font-family: var(--font-serif);
-    font-weight: 600;
-    line-height: 1.15;
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.06;
     color: var(--ink);
     margin: 0 0 0.35em;
-    font-optical-sizing: auto;
-    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
   }
 
-  a { color: var(--accent); }
-  a:hover { color: var(--accent-deep); }
+  a { color: var(--accent); text-underline-offset: 2px; }
+  a:hover { color: var(--terracotta); }
+
+  /* Shared "eyebrow" label voice — condensed, spaced caps */
+  .eyebrow,
+  .meta-cat,
+  .end,
+  .vbtn,
+  .chip,
+  .filters-toggle,
+  .results-count,
+  .slider-label,
+  .scale-table th,
+  .lg-item {
+    font-family: var(--font-display);
+  }
 
   /* Reusable inline-SVG icon convention (Lucide/Heroicons style).
      Icons inherit color via currentColor and align to the text baseline. */
@@ -150,11 +185,11 @@ const rampVars = Object.entries(RATING_COLORS)
     white-space: nowrap; border: 0;
   }
 
-  /* Focus visibility for keyboard users (Soft UI: clear, consistent ring) */
+  /* Focus visibility for keyboard users — bold dashed "trail-blaze" ring */
   :focus-visible {
     outline: 3px solid var(--pine);
     outline-offset: 2px;
-    border-radius: 6px;
+    border-radius: 4px;
   }
   /* Pointer affordance on everything interactive */
   button, summary, [role="button"], label.bypass, label.switch,
@@ -162,50 +197,101 @@ const rampVars = Object.entries(RATING_COLORS)
     cursor: pointer;
   }
 
-  /* ---------- Rating badge (used in cards & popups) ---------- */
+  /* ---------- Rating SEAL / park-pass stamp ----------
+     A round medallion: the rating numeral inside a colored disc with a
+     thin inner ring, like a national-park entry stamp. Used consistently
+     on cards, the slider readout, the scale table, and map popups.
+     `.badge` is the seal; an optional label sibling sits beside it. */
   .badge {
+    --seal: var(--beyond);
     display: inline-flex;
     align-items: center;
-    gap: 0.4em;
-    padding: 0.2em 0.6em;
-    border-radius: 999px;
-    font-size: 0.78rem;
+    gap: 0.5em;
+    font-family: var(--font-display);
     font-weight: 700;
-    color: #fff;
-    line-height: 1.3;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    line-height: 1.1;
     white-space: nowrap;
   }
+  /* The circular seal itself (the numeral chip) */
   .badge .badge-num {
-    background: rgba(255, 255, 255, 0.28);
-    border-radius: 999px;
-    width: 1.45em;
-    height: 1.45em;
+    position: relative;
+    flex: none;
+    width: 2.1em;
+    height: 2.1em;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.86em;
+    border-radius: 50%;
+    background: var(--seal);
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05em;
+    line-height: 1;
+    /* Dark halo keeps the white numeral legible even on the lighter
+       (amber/light-green) rating-ramp seals — the ramp colors themselves
+       are not changed (kept from ratings.js). */
+    text-shadow: 0 1px 1px rgba(42, 32, 23, 0.6), 0 0 2px rgba(42, 32, 23, 0.55);
+    /* Thin printed ring + sturdy outer edge */
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255, 255, 255, 0.9),
+      inset 0 0 0 3px var(--seal),
+      0 0 0 1.5px rgba(42, 32, 23, 0.45);
   }
-  .badge[data-rating="1"] { background: var(--r1); }
-  .badge[data-rating="2"] { background: var(--r2); }
-  .badge[data-rating="3"] { background: var(--r3); }
-  .badge[data-rating="4"] { background: var(--r4); }
-  .badge[data-rating="5"] { background: var(--r5); }
-  .badge[data-rating="beyond"] { background: var(--beyond); }
+  /* Seal with no separate label (e.g. table cell, slider chip) still shows ring */
+  .badge[data-rating="1"] { --seal: var(--r1); }
+  .badge[data-rating="2"] { --seal: var(--r2); }
+  .badge[data-rating="3"] { --seal: var(--r3); }
+  .badge[data-rating="4"] { --seal: var(--r4); }
+  .badge[data-rating="5"] { --seal: var(--r5); }
+  .badge[data-rating="beyond"] { --seal: var(--beyond); }
+  /* "Other"/null seal: a small star/sparkle instead of a numeral */
+  .badge[data-rating="beyond"] .badge-num svg {
+    width: 1.1em; height: 1.1em; fill: #fff; stroke: none;
+  }
 
+  /* All-access "ranger" stamp — gold dashed ticket chip */
   .badge-all-access {
     display: inline-flex;
     align-items: center;
-    gap: 0.35em;
-    padding: 0.22em 0.6em;
-    border-radius: 999px;
+    gap: 0.4em;
+    padding: 0.28em 0.7em 0.24em;
+    border-radius: var(--radius-xs);
+    font-family: var(--font-display);
     font-size: 0.74rem;
     font-weight: 700;
-    color: var(--pine-deep);
-    background: #e2efe6;
-    border: 1px solid #bcdcc6;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gold-deep);
+    background: rgba(203, 148, 51, 0.16);
+    border: 1.5px dashed var(--gold);
     white-space: nowrap;
   }
   .badge-all-access .icon { stroke-width: 2; fill: currentColor; stroke: none; }
+
+  /* ---------- Trail-sign section heading helper ---------- */
+  /* A heavy Oswald banner with a route-marker chevron blaze + thick rule. */
+  .blaze {
+    flex: none;
+    width: 0.9em;
+    height: 0.9em;
+    color: var(--terracotta);
+    fill: currentColor;
+    stroke: none;
+  }
+
+  /* Decorative double-rule / perforation helpers (aria-hidden in markup) */
+  .perforation {
+    height: 0;
+    border: none;
+    border-top: 2px dashed var(--line-strong);
+    margin: 0;
+    opacity: 0.8;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     * {

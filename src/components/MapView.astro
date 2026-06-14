@@ -4,13 +4,20 @@
 ---
 
 <div class="map-shell">
-  <div id="map" role="application" aria-label="Map of things to do around Lyons, Colorado">
-    <div class="map-placeholder" id="map-placeholder">
-      <span class="map-spinner" aria-hidden="true"></span>
-      <p>Loading map…</p>
+  <div class="map-frame">
+    <span class="map-tick map-tick-tl" aria-hidden="true"></span>
+    <span class="map-tick map-tick-tr" aria-hidden="true"></span>
+    <span class="map-tick map-tick-bl" aria-hidden="true"></span>
+    <span class="map-tick map-tick-br" aria-hidden="true"></span>
+    <div id="map" role="application" aria-label="Map of things to do around Lyons, Colorado">
+      <div class="map-placeholder" id="map-placeholder">
+        <span class="map-spinner" aria-hidden="true"></span>
+        <p>Loading map…</p>
+      </div>
     </div>
   </div>
   <p class="map-legend" aria-hidden="true">
+    <span class="lg-key">Map key</span>
     <span class="lg-item"><i class="lg-dot" style="background:var(--r1)"></i>1</span>
     <span class="lg-item"><i class="lg-dot" style="background:var(--r2)"></i>2</span>
     <span class="lg-item"><i class="lg-dot" style="background:var(--r3)"></i>3</span>
@@ -29,23 +36,45 @@
   .map-shell {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     height: 100%;
   }
-  #map {
+  /* Vintage map frame: heavy double border + corner survey ticks */
+  .map-frame {
+    position: relative;
     flex: 1;
     min-height: 320px;
-    width: 100%;
+    border: 3px solid var(--ink);
     border-radius: var(--radius);
-    border: 1px solid var(--line-strong);
-    background: #e6ecee;
-    box-shadow: var(--shadow);
+    padding: 5px;
+    background: var(--paper);
+    box-shadow: 4px 4px 0 rgba(42, 32, 23, 0.16);
+  }
+  .map-tick {
+    position: absolute;
+    width: 14px; height: 14px;
+    border-color: var(--terracotta);
+    border-style: solid;
+    border-width: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .map-tick-tl { top: 9px; left: 9px; border-top-width: 3px; border-left-width: 3px; }
+  .map-tick-tr { top: 9px; right: 9px; border-top-width: 3px; border-right-width: 3px; }
+  .map-tick-bl { bottom: 9px; left: 9px; border-bottom-width: 3px; border-left-width: 3px; }
+  .map-tick-br { bottom: 9px; right: 9px; border-bottom-width: 3px; border-right-width: 3px; }
+  #map {
+    height: 100%;
+    width: 100%;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--line-strong);
+    background: #dfe6e3;
     overflow: hidden;
     z-index: 0;
   }
   .map-placeholder {
     height: 100%;
-    min-height: 320px;
+    min-height: 310px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -62,29 +91,43 @@
   }
   @keyframes map-spin { to { transform: rotate(360deg); } }
 
+  /* Legend = map key card */
   .map-legend {
     margin: 0;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    font-size: 0.78rem;
+    align-items: center;
+    gap: 8px 12px;
+    font-family: var(--font-display);
+    font-size: 0.74rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
     color: var(--ink-soft);
-    padding: 0 2px;
+    padding: 8px 12px;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-sm);
   }
-  .lg-item { display: inline-flex; align-items: center; gap: 4px; }
+  .lg-key {
+    color: var(--pine-deep);
+    letter-spacing: 0.1em;
+    padding-right: 4px;
+    border-right: 1.5px dashed var(--line-strong);
+  }
+  .lg-item { display: inline-flex; align-items: center; gap: 5px; }
   .lg-dot {
-    width: 13px; height: 13px;
+    width: 14px; height: 14px;
     border-radius: 50%;
     display: inline-block;
-    border: 1.5px solid rgba(255,255,255,0.8);
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+    border: 2px solid var(--ink);
   }
   .lg-dot-home {
-    width: 18px; height: 18px;
+    width: 19px; height: 19px;
     background: var(--pine);
     color: #fff;
     border-radius: 50%;
-    border: 1.5px solid #fff;
+    border: 2px solid var(--ink);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -95,24 +138,25 @@
     fill: currentColor;
     stroke: none;
   }
-  .lg-mode { margin-left: auto; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+  .lg-mode { margin-left: auto; color: var(--pine-deep); display: inline-flex; align-items: center; gap: 5px; }
   .lg-mode .icon { width: 14px; height: 14px; }
 </style>
 
 <!-- Global styles: Leaflet injects markers/popups dynamically, so these
      can't be component-scoped. -->
 <style is:global>
+  /* Map pins = round seals on a teardrop, inked like the rating seal */
   .map-pin {
     background: transparent;
     border: none;
   }
   .map-pin-inner {
-    width: 26px;
-    height: 26px;
+    width: 27px;
+    height: 27px;
     border-radius: 50% 50% 50% 0;
     transform: rotate(-45deg);
-    border: 2px solid #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    border: 2.5px solid var(--ink);
+    box-shadow: 0 2px 4px rgba(42,32,23,0.45);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -121,17 +165,19 @@
     transform: rotate(45deg);
     color: #fff;
     font-weight: 700;
-    font-size: 12px;
-    font-family: var(--font-sans);
+    font-size: 13px;
+    font-family: var(--font-display);
+    /* Dark halo for legibility on the lighter rating-ramp pins */
+    text-shadow: 0 1px 1px rgba(42,32,23,0.7), 0 0 2px rgba(42,32,23,0.6);
   }
   .map-pin.is-active .map-pin-inner {
-    box-shadow: 0 0 0 4px rgba(47, 93, 80, 0.35), 0 2px 5px rgba(0,0,0,0.4);
-    width: 30px; height: 30px;
+    box-shadow: 0 0 0 4px var(--gold), 0 2px 4px rgba(42,32,23,0.45);
+    width: 31px; height: 31px;
   }
   .map-pin-home .map-pin-inner {
     background: var(--pine);
-    border-color: #fff;
-    width: 30px; height: 30px;
+    border-color: var(--ink);
+    width: 31px; height: 31px;
   }
   .map-pin-home .map-pin-num {
     font-size: 15px;
@@ -152,83 +198,100 @@
     display: block;
   }
 
-  /* Popup styling to match the warm theme */
+  /* Popup styling — a little field-guide card */
   .leaflet-popup-content-wrapper {
-    border-radius: 12px;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--ink);
+    background: var(--paper);
+    box-shadow: 4px 4px 0 rgba(42,32,23,0.2);
   }
+  .leaflet-popup-tip { border: 2px solid var(--ink); background: var(--paper); }
   .leaflet-popup-content {
-    margin: 12px 14px;
-    font-family: var(--font-sans);
-    line-height: 1.45;
+    margin: 13px 15px;
+    font-family: var(--font-serif);
+    color: var(--ink);
+    line-height: 1.48;
     max-height: 50vh;
     overflow-y: auto;
   }
   .pop-name {
-    font-family: var(--font-serif);
-    font-size: 1.05rem;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
     font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
     margin: 0 0 2px;
-    color: var(--ink);
+    color: var(--pine-deep);
   }
   .pop-aka { font-size: 0.78rem; color: var(--ink-soft); font-style: italic; margin: 0 0 6px; }
   .pop-meta { font-size: 0.8rem; color: var(--ink-soft); margin: 0 0 8px; }
+  /* Popup rating chip uses the seal voice: inked circle + label */
   .pop-badge {
-    display: inline-flex; align-items: center; gap: 0.35em;
-    padding: 0.18em 0.6em; border-radius: 999px;
-    font-size: 0.74rem; font-weight: 700; color: #fff; margin-bottom: 6px;
+    display: inline-flex; align-items: center; gap: 0.4em;
+    padding: 0.22em 0.7em 0.18em; border-radius: var(--radius-xs);
+    font-family: var(--font-display); font-size: 0.72rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    color: #fff; margin: 0 4px 6px 0; border: 1.5px solid rgba(42,32,23,0.4);
+    text-shadow: 0 1px 1px rgba(42,32,23,0.55);
   }
-  .pop-badge .icon { width: 0.95em; height: 0.95em; fill: currentColor; stroke: none; }
+  .pop-badge .icon { width: 1em; height: 1em; fill: currentColor; stroke: none; }
   .pop-res {
-    font-size: 0.8rem; background: #fbf3e7; border: 1px solid #f0dcc0;
-    border-left: 4px solid var(--gold); border-radius: 8px; padding: 6px 8px; margin: 6px 0;
+    font-size: 0.8rem; background: rgba(203,148,51,0.14); border: 1.5px solid var(--gold);
+    border-left-width: 5px; border-radius: var(--radius-xs); padding: 7px 9px; margin: 7px 0;
   }
-  .pop-res .icon { width: 1em; height: 1em; vertical-align: -0.15em; color: var(--gold); }
+  .pop-res .icon { width: 1em; height: 1em; vertical-align: -0.15em; color: var(--gold-deep); }
   .pop-res.is-rmnp .icon { color: var(--terracotta); }
   .pop-name .icon { width: 0.9em; height: 0.9em; fill: var(--terracotta); stroke: none; vertical-align: -0.05em; }
-  .pop-res.is-rmnp { background: #fdeef0; border-color:#f4ccd1; border-left-color: var(--terracotta); }
-  .pop-res a { font-weight: 700; }
-  .pop-notes { margin: 6px 0 0; padding-left: 1.1em; font-size: 0.85rem; }
+  .pop-res.is-rmnp { background: rgba(191,90,60,0.12); border-color: var(--terracotta); }
+  .pop-res a { font-weight: 700; color: var(--terracotta); }
+  .pop-notes { margin: 7px 0 0; padding-left: 1.1em; font-size: 0.85rem; }
   .pop-notes li { margin-bottom: 4px; }
   .pop-notes li::marker { color: var(--terracotta); }
   .pop-verified { font-size: 0.78rem; color: var(--ink-soft); margin: 8px 0 0; font-style: italic; }
-  .pop-dual { font-size: 0.78rem; color: var(--ink); margin: 6px 0 0; font-weight: 600; }
+  .pop-dual {
+    font-family: var(--font-display); font-size: 0.74rem; text-transform: uppercase;
+    letter-spacing: 0.03em; color: var(--ink); margin: 6px 0 0; font-weight: 600;
+  }
   .pop-link {
-    display: inline-block; margin-top: 8px; font-size: 0.82rem; font-weight: 700;
+    display: inline-block; margin-top: 8px; font-family: var(--font-display);
+    font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--terracotta);
   }
   .pop-rmnp-flag {
-    font: inherit; font-size: 0.78rem; font-weight: 700; color: #fff;
-    background: var(--terracotta); border: none; border-radius: 999px;
+    font-family: var(--font-display); font-size: 0.72rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.04em; color: #fff;
+    background: var(--terracotta); border: 2px solid var(--terracotta-deep); border-radius: var(--radius-xs);
     padding: 4px 11px; margin-top: 4px; cursor: pointer;
     display: inline-flex; align-items: center; gap: 0.3em;
   }
-  .pop-rmnp-flag .icon { width: 0.95em; height: 0.95em; }
+  .pop-rmnp-flag .icon { width: 1em; height: 1em; }
   .pop-actions {
-    display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; margin-top: 10px;
+    display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; margin-top: 10px;
   }
   .pop-dir {
-    font-size: 0.82rem; font-weight: 700; color: #fff; background: var(--pine);
-    border-radius: 999px; padding: 5px 12px; text-decoration: none;
-    display: inline-flex; align-items: center; gap: 0.3em;
+    font-family: var(--font-display); font-size: 0.74rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.04em; color: #fff; background: var(--pine);
+    border: 2px solid var(--pine-deep); border-radius: var(--radius-xs); padding: 5px 12px; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 0.35em;
     transition: background var(--t-fast) var(--ease);
   }
-  .pop-dir .icon { width: 0.95em; height: 0.95em; }
+  .pop-dir .icon { width: 1em; height: 1em; }
   .pop-dir:hover { background: var(--pine-deep); }
 
   /* "Show my location" map control button */
   .map-locate-btn {
     width: 40px; height: 40px;
-    background: #fff;
-    border: 1px solid rgba(0,0,0,0.18);
-    border-radius: 9px;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-xs);
     color: var(--pine-deep);
     cursor: pointer;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.22);
+    box-shadow: 2px 2px 0 rgba(42,32,23,0.25);
     display: flex; align-items: center; justify-content: center;
     transition: background var(--t-fast) var(--ease);
   }
   .map-locate-btn .icon { width: 20px; height: 20px; }
-  .map-locate-btn:hover { background: #f3f0ea; }
+  .map-locate-btn:hover { background: var(--paper-2); }
 
   /* "You are here" pulsing dot */
   .you-are-here { background: transparent; border: none; }
@@ -236,8 +299,16 @@
     display: block;
     width: 18px; height: 18px;
     border-radius: 50%;
-    background: #1a73e8;
-    border: 3px solid #fff;
-    box-shadow: 0 0 0 2px rgba(26,115,232,0.5), 0 1px 4px rgba(0,0,0,0.4);
+    background: var(--sky);
+    border: 3px solid var(--paper);
+    box-shadow: 0 0 0 2px var(--ink), 0 1px 4px rgba(42,32,23,0.5);
   }
+
+  /* Leaflet zoom controls in the field-guide voice */
+  .leaflet-bar a {
+    background: var(--paper);
+    color: var(--pine-deep);
+    border-bottom-color: var(--line-strong);
+  }
+  .leaflet-bar a:hover { background: var(--paper-2); }
 </style>

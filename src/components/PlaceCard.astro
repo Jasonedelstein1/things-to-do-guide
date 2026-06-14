@@ -49,14 +49,18 @@ const search = searchText(place);
   tabindex="-1"
 >
   <div class="card-head">
+    <span class="badge card-seal" data-rating={isBeyond ? 'beyond' : r}>
+      <span class="badge-num" aria-hidden="true">
+        {isBeyond
+          ? <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l1.8 5.5L19.5 10l-5.7 1.5L12 17l-1.8-5.5L4.5 10l5.7-1.5L12 3z"/></svg>
+          : r}
+      </span>
+      <span class="seal-label">{label}</span>
+    </span>
     <div class="card-titles">
       <h3 class="card-name">{place.name}</h3>
       {aka && <p class="card-aka">{aka}</p>}
     </div>
-    <span class="badge" data-rating={isBeyond ? 'beyond' : r}>
-      {!isBeyond && <span class="badge-num" aria-hidden="true">{r}</span>}
-      <span>{label}</span>
-    </span>
   </div>
 
   <p class="card-meta">
@@ -138,55 +142,95 @@ const search = searchText(place);
 </article>
 
 <style>
+  /* ===== Card = a vintage park pass / stamped ticket ===== */
   .card {
+    position: relative;
     background: var(--paper);
-    border: 1px solid var(--line);
+    border: 2px solid var(--ink);
     border-radius: var(--radius);
-    padding: 18px;
-    box-shadow: var(--shadow-sm);
+    padding: 18px 18px 16px;
+    box-shadow: 4px 4px 0 rgba(42, 32, 23, 0.13);
     scroll-margin-top: calc(var(--header-h) + 16px);
-    transition: box-shadow var(--t-med) var(--ease), border-color var(--t-med) var(--ease),
-                transform var(--t-med) var(--ease);
+    transition: box-shadow var(--t-med) var(--ease), transform var(--t-med) var(--ease);
   }
+  /* Inner "perforation" hairline — the ticket double-rule */
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border: 1.5px dashed var(--line-strong);
+    border-radius: calc(var(--radius) - 4px);
+    pointer-events: none;
+    opacity: 0.7;
+  }
+  .card > * { position: relative; }
   .card:hover {
-    box-shadow: var(--shadow-md);
-    border-color: var(--line-strong);
-    transform: translateY(-2px);
+    box-shadow: 6px 6px 0 rgba(42, 32, 23, 0.16);
+    transform: translate(-2px, -2px);
   }
   .card.is-flash {
-    border-color: var(--pine);
-    box-shadow: 0 0 0 3px rgba(44, 90, 77, 0.28), var(--shadow-lg);
+    box-shadow: 0 0 0 3px var(--gold), 6px 6px 0 rgba(42, 32, 23, 0.2);
   }
 
   .card-head {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "title seal";
+    align-items: start;
+    gap: 10px 12px;
   }
-  .card-titles { min-width: 0; }
+  .card-titles { grid-area: title; min-width: 0; }
   .card-name {
-    font-size: 1.18rem;
+    font-size: 1.22rem;
     margin: 0;
+    color: var(--ink);
+    line-height: 1.08;
   }
   .card-aka {
-    margin: 2px 0 0;
+    margin: 3px 0 0;
     font-size: 0.82rem;
     color: var(--ink-soft);
     font-style: italic;
   }
-  .card-head .badge { flex: none; margin-top: 2px; }
+
+  /* The rating seal, anchored top-right like a stamp; numeral over label */
+  .card-seal {
+    grid-area: seal;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25em;
+    text-align: center;
+  }
+  .card-seal .badge-num {
+    width: 2.5em;
+    height: 2.5em;
+    font-size: 1.1em;
+  }
+  .card-seal .badge-num svg { width: 1.25em; height: 1.25em; fill: #fff; stroke: none; }
+  .card-seal .seal-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    max-width: 7.5em;
+    line-height: 1.1;
+  }
 
   .card-meta {
-    margin: 8px 0 0;
-    font-size: 0.86rem;
+    margin: 10px 0 0;
+    font-size: 0.84rem;
     color: var(--ink-soft);
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
     align-items: center;
   }
-  .meta-cat { font-weight: 600; color: var(--pine); }
+  .meta-cat {
+    font-weight: 600;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pine);
+  }
   .meta-dot { color: var(--line-strong); }
   .meta-drive { display: inline-flex; align-items: center; gap: 0.35em; }
   .meta-drive .icon { width: 1em; height: 1em; color: var(--ink-soft); }
@@ -206,130 +250,134 @@ const search = searchText(place);
     flex-wrap: wrap;
     gap: 8px;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 11px;
   }
   .card-tags:empty { display: none; }
 
   .dual-rating, .range-rating {
-    font-size: 0.8rem;
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
     color: var(--ink-soft);
     background: var(--paper-2);
-    border: 1px dashed var(--line-strong);
-    border-radius: 999px;
-    padding: 0.2em 0.7em;
+    border: 1.5px dashed var(--line-strong);
+    border-radius: var(--radius-xs);
+    padding: 0.3em 0.7em 0.22em;
   }
   .dual-rating strong { color: var(--ink); }
 
+  /* Reservation = a stamped notice strip */
   .card-reservation {
     display: flex;
     gap: 8px;
     align-items: flex-start;
-    margin: 12px 0 0;
-    padding: 9px 11px;
+    margin: 13px 0 0;
+    padding: 10px 12px;
     font-size: 0.88rem;
-    background: #fbf3e7;
-    border: 1px solid #f0dcc0;
-    border-left: 4px solid var(--gold);
+    background: rgba(203, 148, 51, 0.12);
+    border: 1.5px solid var(--gold);
+    border-left-width: 5px;
     border-radius: var(--radius-sm);
   }
   .card-reservation.is-rmnp {
-    background: #fdeef0;
-    border-color: #f4ccd1;
-    border-left-color: var(--terracotta);
+    background: rgba(191, 90, 60, 0.10);
+    border-color: var(--terracotta);
   }
-  .res-icon { width: 1.1em; height: 1.1em; margin-top: 0.12em; color: var(--gold); }
+  .res-icon { width: 1.1em; height: 1.1em; margin-top: 0.12em; color: var(--gold-deep); }
   .card-reservation.is-rmnp .res-icon { color: var(--terracotta); }
   .res-flag {
-    font: inherit;
-    font-size: 0.82rem;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: 0.74rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
     white-space: nowrap;
     color: #fff;
     background: var(--terracotta);
-    border: none;
-    border-radius: 999px;
+    border: 2px solid var(--terracotta-deep);
+    border-radius: var(--radius-xs);
     padding: 5px 12px;
-    margin-top: 4px;
+    margin-top: 5px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 0.35em;
-    box-shadow: var(--shadow-xs);
     transition: filter var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
   }
-  .res-flag .icon { width: 1em; height: 1em; }
+  .res-flag .icon { width: 1.05em; height: 1.05em; }
   .res-flag:hover { filter: brightness(0.95); }
   .res-flag:active { transform: translateY(1px); }
 
   .notes {
-    margin: 12px 0 0;
+    margin: 13px 0 0;
     padding-left: 1.1em;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 7px;
   }
-  .notes li {
-    line-height: 1.5;
-  }
+  .notes li { line-height: 1.55; }
   .notes li::marker { color: var(--terracotta); }
 
   .verified {
-    margin-top: 12px;
+    margin-top: 13px;
     font-size: 0.85rem;
     color: var(--ink-soft);
   }
   .verified summary {
     cursor: pointer;
+    font-family: var(--font-display);
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.82rem;
     color: var(--pine);
   }
-  .verified .muted { font-weight: 400; color: var(--ink-soft); }
+  .verified summary:hover { color: var(--terracotta); }
+  .verified .muted { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--ink-soft); font-family: var(--font-serif); font-style: italic; }
   .verified p { margin: 8px 0 0; }
 
   .card-actions {
-    margin-top: 14px;
+    margin-top: 15px;
+    padding-top: 14px;
+    border-top: 1.5px dashed var(--line-strong);
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
   }
-  .btn-directions {
-    font-size: 0.86rem;
+  /* Signage-style action buttons */
+  .btn-directions, .btn-show-map {
+    font-family: var(--font-display);
+    font-size: 0.78rem;
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-sm);
+    padding: 9px 15px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background var(--t-fast) var(--ease), transform var(--t-fast) var(--ease),
+                box-shadow var(--t-fast) var(--ease);
+  }
+  .btn-directions .icon, .btn-show-map .icon { width: 1.1em; height: 1.1em; }
+  .btn-directions {
     color: #fff;
     background: var(--pine);
-    border: 1px solid var(--pine);
-    border-radius: 999px;
-    padding: 8px 15px;
-    min-height: 40px;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4em;
-    text-decoration: none;
-    box-shadow: var(--shadow-xs);
-    transition: background var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease),
-                transform var(--t-fast) var(--ease);
+    border: 2px solid var(--pine-deep);
+    box-shadow: 2px 2px 0 rgba(42, 32, 23, 0.2);
   }
-  .btn-directions .icon, .btn-show-map .icon { width: 1.05em; height: 1.05em; }
-  .btn-directions:hover { background: var(--pine-deep); box-shadow: var(--shadow-sm); }
-  .btn-directions:active { transform: translateY(1px); }
+  .btn-directions:hover { background: var(--pine-deep); }
+  .btn-directions:active { transform: translate(2px, 2px); box-shadow: 0 0 0 rgba(42, 32, 23, 0.2); }
   .btn-show-map {
-    font: inherit;
-    font-size: 0.86rem;
-    font-weight: 600;
     color: var(--pine-deep);
-    background: #e6f0e9;
-    border: 1px solid #c5dccc;
-    border-radius: 999px;
-    padding: 8px 15px;
-    cursor: pointer;
-    min-height: 40px;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4em;
-    box-shadow: var(--shadow-xs);
-    transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease),
-                transform var(--t-fast) var(--ease);
+    background: var(--paper);
+    border: 2px solid var(--pine);
+    box-shadow: 2px 2px 0 rgba(42, 32, 23, 0.16);
   }
-  .btn-show-map:hover { background: #d8e8dc; border-color: var(--pine); }
-  .btn-show-map:active { transform: translateY(1px); }
+  .btn-show-map:hover { background: var(--paper-2); }
+  .btn-show-map:active { transform: translate(2px, 2px); box-shadow: 0 0 0 rgba(42, 32, 23, 0.16); }
 </style>
