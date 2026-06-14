@@ -31,8 +31,9 @@ const placesByCat = categories.map((cat) => ({
       <p class="eyebrow">We're getting married 💍</p>
       <h1>Our <span class="hl">What&nbsp;To&nbsp;Do</span> Guide</h1>
       <p class="lede">
-        These are our favorite things to do, see, and eat around our hub in <strong>{meta.hub.name}</strong> —
-        reaching out to Denver, Boulder, Longmont, Estes Park, Nederland, Grand Lake &amp; RMNP.
+        These are our favorite things to do, see, and eat around our wedding venue —
+        <strong>{meta.hub.name}</strong> in {meta.hub.town} — reaching out to Denver, Boulder,
+        Longmont, Estes Park, Nederland, Grand Lake &amp; RMNP.
         Slide the <strong>Andrea&nbsp;↔&nbsp;Jason scale</strong> to match how much adventure you're up for —
         or just hit <strong>Show&nbsp;everything</strong> and browse it all.
       </p>
@@ -139,6 +140,7 @@ const placesByCat = categories.map((cat) => ({
     const sliderBlock = document.querySelector('.slider-block');
     const modal = document.getElementById('rmnp-modal');
     const modalDialog = modal.querySelector('.modal');
+    const mapModeEl = document.getElementById('map-mode');
 
     const cards = Array.from(document.querySelectorAll('.card'));
     const cardById = new Map(cards.map((c) => [c.dataset.id, c]));
@@ -266,6 +268,8 @@ const placesByCat = categories.map((cat) => ({
     let mapLoadingPromise = null;
     const markers = new Map();
     let activeId = null;
+    let youAreHere = null;
+    let accuracyCircle = null;
 
     function esc(s) {
       const d = document.createElement('div');
@@ -291,6 +295,45 @@ const placesByCat = categories.map((cat) => ({
         iconAnchor: [15, 30],
         popupAnchor: [0, -30],
       });
+    }
+    function youAreHereIcon() {
+      return L.divIcon({
+        className: 'you-are-here',
+        html: '<span class="yah-dot"></span>',
+        iconSize: [22, 22],
+        iconAnchor: [11, 11],
+        popupAnchor: [0, -12],
+      });
+    }
+    function locateMe() {
+      if (!map) return;
+      if (!('geolocation' in navigator)) {
+        window.alert('Location isn’t available on this device.');
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const { latitude, longitude, accuracy } = pos.coords;
+          const ll = [latitude, longitude];
+          if (youAreHere) {
+            youAreHere.setLatLng(ll);
+            accuracyCircle.setLatLng(ll).setRadius(accuracy);
+          } else {
+            youAreHere = L.marker(ll, { icon: youAreHereIcon(), zIndexOffset: 2000 })
+              .addTo(map)
+              .bindPopup('<div class="pop"><p class="pop-name">You are here</p></div>');
+            accuracyCircle = L.circle(ll, {
+              radius: accuracy, color: '#1a73e8', weight: 1, fillColor: '#1a73e8', fillOpacity: 0.12,
+            }).addTo(map);
+          }
+          map.setView(ll, Math.max(map.getZoom(), 13), { animate: true });
+          youAreHere.openPopup();
+        },
+        () => {
+          window.alert('Couldn’t get your location. Check that location access is allowed in your browser, then try again.');
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+      );
     }
 
     function popupHtml(p) {
@@ -318,6 +361,7 @@ const placesByCat = categories.map((cat) => ({
       const notes = (p.notes || []).map((n) => `<li>${esc(n)}</li>`).join('');
       const verified = p.verified ? `<p class="pop-verified">✓ ${esc(p.verified)}</p>` : '';
       const drive = p.driveFromLyons ? ` · 🚗 ${esc(p.driveFromLyons)}` : '';
+      const dir = `https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}&travelmode=driving`;
 
       return `
         <div class="pop">
@@ -330,7 +374,10 @@ const placesByCat = categories.map((cat) => ({
           ${dualHtml}
           <ul class="pop-notes">${notes}</ul>
           ${verified}
-          <a class="pop-link" href="#card-${p.id}" data-show-list="${p.id}">See in list ↓</a>
+          <div class="pop-actions">
+            <a class="pop-dir" href="${dir}" target="_blank" rel="noopener noreferrer">🧭 Directions</a>
+            <a class="pop-link" href="#card-${p.id}" data-show-list="${p.id}">See in list ↓</a>
+          </div>
         </div>`;
     }
 
@@ -350,18 +397,51 @@ const placesByCat = categories.map((cat) => ({
     }
 
     function initMap() {
-      map = L.map('map', { scrollWheelZoom: true, zoomControl: true }).setView([hub.lat, hub.lng], 9);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      map = L.map('map', { scrollWheelZoom: true, zoomControl: true, maxZoom: 18 }).setView([hub.lat, hub.lng], 10);
+
+      const osmAttr = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+      const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: osmAttr });
+      const topoLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+        maxNativeZoom: 17,
         maxZoom: 18,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(map);
+        attribution: osmAttr + ' · SRTM | © <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)',
+      });
+      osmLayer.addTo(map);
+
+      // Auto-swap to a topographic basemap when zoomed in — great over trailheads.
+      let baseMode = 'osm';
+      function updateBase() {
+        const z = map.getZoom();
+        if (z >= 13 && baseMode !== 'topo') {
+          map.removeLayer(osmLayer); topoLayer.addTo(map); baseMode = 'topo';
+        } else if (z < 13 && baseMode !== 'osm') {
+          map.removeLayer(topoLayer); osmLayer.addTo(map); baseMode = 'osm';
+        }
+        if (mapModeEl) mapModeEl.textContent = baseMode === 'topo' ? '⛰️ Topo' : '🗺️ Street';
+      }
+      map.on('zoomend', updateBase);
 
       mapLayer = L.layerGroup().addTo(map);
 
-      // Distinct home marker for the Lyons hub.
+      // Distinct home marker for the wedding venue.
       L.marker([hub.lat, hub.lng], { icon: homeIcon(), zIndexOffset: 1000, keyboard: false })
-        .bindPopup(`<div class="pop"><p class="pop-name">${esc(hub.name)}</p><p class="pop-meta">The wedding hub 💍</p></div>`)
+        .bindPopup(`<div class="pop"><p class="pop-name">💍 ${esc(hub.name)}</p><p class="pop-meta">The wedding — ${esc(hub.town || '')}</p></div>`)
         .addTo(map);
+
+      // "Show my location" control.
+      const LocateControl = L.Control.extend({
+        options: { position: 'topleft' },
+        onAdd() {
+          const btn = L.DomUtil.create('button', 'map-locate-btn');
+          btn.type = 'button';
+          btn.title = 'Show my location';
+          btn.setAttribute('aria-label', 'Show my location');
+          btn.innerHTML = '🧭';
+          L.DomEvent.on(btn, 'click', (ev) => { L.DomEvent.stop(ev); locateMe(); });
+          return btn;
+        },
+      });
+      map.addControl(new LocateControl());
 
       const pts = [[hub.lat, hub.lng]];
       for (const p of places) {

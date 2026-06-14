@@ -16,7 +16,8 @@
     <span class="lg-item"><i class="lg-dot" style="background:var(--r3)"></i>3</span>
     <span class="lg-item"><i class="lg-dot" style="background:var(--r4)"></i>4</span>
     <span class="lg-item"><i class="lg-dot" style="background:var(--r5)"></i>5</span>
-    <span class="lg-item lg-home"><i class="lg-dot lg-dot-home">♥</i>Lyons</span>
+    <span class="lg-item lg-home"><i class="lg-dot lg-dot-home">♥</i>Venue</span>
+    <span class="lg-item lg-mode" id="map-mode">🗺️ Street</span>
   </p>
 </div>
 
@@ -83,6 +84,7 @@
     line-height: 1;
     padding: 2px 3px;
   }
+  .lg-mode { margin-left: auto; font-weight: 600; }
 </style>
 
 <!-- Global styles: Leaflet injects markers/popups dynamically, so these
@@ -167,5 +169,37 @@
     font: inherit; font-size: 0.78rem; font-weight: 700; color: #fff;
     background: var(--terracotta); border: none; border-radius: 999px;
     padding: 3px 10px; margin-top: 4px; cursor: pointer; display: inline-block;
+  }
+  .pop-actions {
+    display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; margin-top: 10px;
+  }
+  .pop-dir {
+    font-size: 0.82rem; font-weight: 700; color: #fff; background: var(--pine);
+    border-radius: 999px; padding: 5px 11px; text-decoration: none; display: inline-block;
+  }
+  .pop-dir:hover { background: var(--pine-deep); }
+
+  /* "Show my location" map control button */
+  .map-locate-btn {
+    width: 40px; height: 40px;
+    background: #fff;
+    border: 2px solid rgba(0,0,0,0.2);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .map-locate-btn:hover { background: #f4f4f4; }
+
+  /* "You are here" pulsing dot */
+  .you-are-here { background: transparent; border: none; }
+  .yah-dot {
+    display: block;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #1a73e8;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px rgba(26,115,232,0.5), 0 1px 4px rgba(0,0,0,0.4);
   }
 </style>

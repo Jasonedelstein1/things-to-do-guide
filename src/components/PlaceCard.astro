@@ -9,6 +9,11 @@ const r = effectiveRating(place);
 const label = scale[String(r)]?.label ?? '';
 const hasCoords = place.lat !== null && place.lng !== null;
 
+// Google Maps directions from the user's current location to this spot.
+const dirUrl = hasCoords
+  ? `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=driving`
+  : null;
+
 // A reservation that depends on RMNP timed-entry links to the banner.
 const reservation = place.reservation;
 const linksToRmnp =
@@ -99,6 +104,9 @@ const search = searchText(place);
       <button type="button" class="btn-show-map" data-show-map={place.id}>
         📍 Show on map
       </button>
+      <a class="btn-directions" href={dirUrl} target="_blank" rel="noopener noreferrer">
+        🧭 Get directions
+      </a>
     </div>
   )}
 </article>
@@ -228,7 +236,24 @@ const search = searchText(place);
 
   .card-actions {
     margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
   }
+  .btn-directions {
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--pine);
+    border: 1px solid var(--pine);
+    border-radius: 999px;
+    padding: 8px 14px;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  .btn-directions:hover { background: var(--pine-deep); }
   .btn-show-map {
     font: inherit;
     font-size: 0.86rem;
