@@ -12,8 +12,6 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    # Skips automatically until the two Cloudflare secrets are configured.
-    if: ${{ github.repository_owner != '' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -25,10 +23,19 @@ jobs:
       - run: npm ci
       - run: npm run build
 
+      # Create the Pages project on first run; harmless if it already exists.
+      - name: Ensure Pages project exists
+        uses: cloudflare/wrangler-action@v3
+        continue-on-error: true
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages project create andrea-jason-wedding-guide --production-branch=main
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          # Deploying with --branch=main publishes to the production *.pages.dev URL.
+          # --branch=main publishes to the production *.pages.dev URL.
           command: pages deploy dist --project-name=andrea-jason-wedding-guide --branch=main
