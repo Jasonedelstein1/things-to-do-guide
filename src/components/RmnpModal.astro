@@ -5,7 +5,10 @@ const { place } = Astro.props; // the rmnp-reservations entry
 <div class="modal-overlay" id="rmnp-modal" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="rmnp-modal-title" tabindex="-1">
     <div class="modal-head">
-      <h2 id="rmnp-modal-title"><span aria-hidden="true">🏔️</span> RMNP Permits &amp; Timed Entry</h2>
+      <h2 id="rmnp-modal-title">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 20h18L14.5 7l-3 5-2-3L3 20z"/></svg>
+        RMNP Permits &amp; Timed Entry
+      </h2>
       <button type="button" class="modal-close" data-close-modal aria-label="Close permit info">&times;</button>
     </div>
     <p class="modal-lede">
@@ -15,7 +18,12 @@ const { place } = Astro.props; // the rmnp-reservations entry
     <ul class="modal-list">
       {place.notes.map((note) => <li>{note}</li>)}
     </ul>
-    {place.verified && <p class="modal-verified">✓ {place.verified}</p>}
+    {place.verified && (
+      <p class="modal-verified">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>
+        {place.verified}
+      </p>
+    )}
     <div class="modal-actions">
       <a class="modal-btn" href="https://www.recreation.gov/timed-entry/10086910" target="_blank" rel="noopener noreferrer">Reserve on Recreation.gov ↗</a>
       <button type="button" class="modal-btn-ghost" data-close-modal>Got it</button>
@@ -71,9 +79,13 @@ const { place } = Astro.props; // the rmnp-reservations entry
   }
   .modal-head h2 {
     margin: 0;
-    font-size: 1.3rem;
+    font-size: 1.35rem;
     color: var(--pine-deep);
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
   }
+  .modal-head h2 .icon { width: 1.1em; height: 1.1em; color: var(--terracotta); }
   .modal-close {
     flex: none;
     font-size: 1.8rem;
@@ -85,8 +97,11 @@ const { place } = Astro.props; // the rmnp-reservations entry
     background: var(--paper-2);
     color: var(--ink-soft);
     cursor: pointer;
+    transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease),
+                transform var(--t-fast) var(--ease);
   }
   .modal-close:hover { background: var(--line); color: var(--ink); }
+  .modal-close:active { transform: scale(0.94); }
 
   .modal-lede { margin: 0 0 14px; color: var(--ink); }
 
@@ -104,7 +119,11 @@ const { place } = Astro.props; // the rmnp-reservations entry
     font-size: 0.84rem;
     color: var(--ink-soft);
     font-style: italic;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.45em;
   }
+  .modal-verified .icon { width: 1.05em; height: 1.05em; margin-top: 0.18em; color: var(--pine); flex: none; }
 
   .modal-actions {
     display: flex;
@@ -127,8 +146,12 @@ const { place } = Astro.props; // the rmnp-reservations entry
     padding: 12px 18px;
     border-radius: 999px;
     min-height: 44px;
+    box-shadow: var(--shadow-xs);
+    transition: background var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease),
+                transform var(--t-fast) var(--ease);
   }
-  .modal-btn:hover { background: var(--pine-deep); }
+  .modal-btn:hover { background: var(--pine-deep); box-shadow: var(--shadow-sm); }
+  .modal-btn:active { transform: translateY(1px); }
   .modal-btn-ghost {
     font: inherit;
     font-weight: 600;
@@ -139,7 +162,9 @@ const { place } = Astro.props; // the rmnp-reservations entry
     padding: 12px 18px;
     min-height: 44px;
     cursor: pointer;
+    transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
   }
+  .modal-btn-ghost:hover { background: var(--line); border-color: var(--pine); }
 
   @keyframes modal-fade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes modal-rise { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }

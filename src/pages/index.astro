@@ -30,7 +30,11 @@ const placesByCat = categories.map((cat) => ({
 <Layout title={meta.title}>
   <header class="site-header">
     <div class="wrap header-inner">
-      <p class="eyebrow">We're getting married 💍</p>
+      <p class="eyebrow">
+        <svg class="icon eyebrow-ring" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21.2l-7.4-7.4a4.7 4.7 0 0 1 6.6-6.7l.8.8.8-.8a4.7 4.7 0 0 1 6.6 6.7L12 21.2z"/></svg>
+        We're getting married
+      </p>
+      <p class="hero-script" aria-hidden="true">Andrea &amp; Jason</p>
       <h1>Our <span class="hl">What&nbsp;To&nbsp;Do</span> Guide</h1>
       <p class="lede">
         These are our favorite things to do, see, and eat around our wedding venue —
@@ -280,9 +284,26 @@ const placesByCat = categories.map((cat) => ({
       return d.innerHTML;
     }
 
+    // Inline-SVG icon strings (Lucide/Heroicons style) used inside Leaflet
+    // markup, which is built as HTML strings rather than DOM nodes.
+    const SVG = {
+      sparkle: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l1.8 5.5L19.5 10l-5.7 1.5L12 17l-1.8-5.5L4.5 10l5.7-1.5L12 3z"/></svg>',
+      heart: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20.5l-7.2-7.2a4.6 4.6 0 0 1 6.5-6.5l.7.7.7-.7a4.6 4.6 0 0 1 6.5 6.5L12 20.5z"/></svg>',
+      ring: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21.2l-7.4-7.4a4.7 4.7 0 0 1 6.6-6.7l.8.8.8-.8a4.7 4.7 0 0 1 6.6 6.7L12 21.2z"/></svg>',
+      ticket: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 2 2 0 0 0 0-4z"/><path d="M10 6v2"/><path d="M10 11v2"/><path d="M10 16v2"/></svg>',
+      mountain: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18L14.5 7l-3 5-2-3L3 20z"/><path d="M11.5 12l1-2"/></svg>',
+      mountainSolid: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 20h18L14.5 7l-3 5-2-3L3 20z"/></svg>',
+      nav: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l9.5 19-9.5-4-9.5 4 9.5-19z"/></svg>',
+      navSolid: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.5l9.5 19-9.5-4-9.5 4 9.5-19z"/></svg>',
+      car: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l1.6-4.2A2 2 0 0 1 8.5 7.5h7a2 2 0 0 1 1.9 1.3L19 13"/><path d="M3 17h18v-3.2a1.8 1.8 0 0 0-1-1.6l-1-.5H5l-1 .5a1.8 1.8 0 0 0-1 1.6V17z"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg>',
+      star: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.5l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 18.2 6.1 21.3l1.2-6.6L2.5 9.5l6.6-.9L12 2.5z"/></svg>',
+      check: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
+      mapStreet: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14"/><path d="M15 6v14"/></svg>',
+    };
+
     function makeIcon(p, active = false) {
       const color = ratingColor(p.rating);
-      const sym = p.rating == null ? '✦' : p.rating;
+      const sym = p.rating == null ? SVG.sparkle : p.rating;
       return L.divIcon({
         className: 'map-pin' + (active ? ' is-active' : ''),
         html: `<div class="map-pin-inner" style="background:${color}"><span class="map-pin-num">${sym}</span></div>`,
@@ -294,7 +315,7 @@ const placesByCat = categories.map((cat) => ({
     function homeIcon() {
       return L.divIcon({
         className: 'map-pin map-pin-home',
-        html: `<div class="map-pin-inner"><span class="map-pin-num">♥</span></div>`,
+        html: `<div class="map-pin-inner"><span class="map-pin-num">${SVG.heart}</span></div>`,
         iconSize: [30, 30],
         iconAnchor: [15, 30],
         popupAnchor: [0, -30],
@@ -344,7 +365,7 @@ const placesByCat = categories.map((cat) => ({
       const beyond = p.rating == null;
       const color = ratingColor(p.rating);
       const ratingLabel = beyond
-        ? '✦ Other'
+        ? `${SVG.sparkle} Other`
         : `${p.rating} · ${esc(scale[String(p.rating)].label)}`;
       let aka = '';
       if (p.nickname) aka = `aka "${esc(p.nickname)}"`;
@@ -353,8 +374,8 @@ const placesByCat = categories.map((cat) => ({
       const linksToRmnp = p.reservation && /timed-entry/i.test(p.reservation) && /RMNP/i.test(p.reservation);
       let resHtml = '';
       if (p.reservation) {
-        resHtml = `<div class="pop-res${linksToRmnp ? ' is-rmnp' : ''}">🎟️ <strong>Reservation:</strong> ${esc(p.reservation)}` +
-          (linksToRmnp ? ` <button type="button" class="pop-rmnp-flag" data-open-rmnp>🏔️ RMNP permit info</button>` : '') + `</div>`;
+        resHtml = `<div class="pop-res${linksToRmnp ? ' is-rmnp' : ''}">${SVG.ticket} <strong>Reservation:</strong> ${esc(p.reservation)}` +
+          (linksToRmnp ? ` <button type="button" class="pop-rmnp-flag" data-open-rmnp>${SVG.mountainSolid} RMNP permit info</button>` : '') + `</div>`;
       }
 
       let dualHtml = '';
@@ -365,8 +386,8 @@ const placesByCat = categories.map((cat) => ({
       }
 
       const notes = (p.notes || []).map((n) => `<li>${esc(n)}</li>`).join('');
-      const verified = p.verified ? `<p class="pop-verified">✓ ${esc(p.verified)}</p>` : '';
-      const drive = p.driveFromLyons ? ` · 🚗 ${esc(p.driveFromLyons)}` : '';
+      const verified = p.verified ? `<p class="pop-verified">${SVG.check} ${esc(p.verified)}</p>` : '';
+      const drive = p.driveFromLyons ? ` · ${SVG.car} ${esc(p.driveFromLyons)}` : '';
       const dir = `https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}&travelmode=driving`;
 
       return `
@@ -374,14 +395,14 @@ const placesByCat = categories.map((cat) => ({
           <p class="pop-name">${esc(p.name)}</p>
           ${aka ? `<p class="pop-aka">${aka}</p>` : ''}
           <span class="pop-badge" style="background:${color}">${ratingLabel}</span>
-          ${p.allAccess ? ` <span class="pop-badge" style="background:#3f7a5b">★ All-access</span>` : ''}
+          ${p.allAccess ? ` <span class="pop-badge" style="background:#3f7a5b">${SVG.star} All-access</span>` : ''}
           <p class="pop-meta">${esc(p.town)}${drive}</p>
           ${resHtml}
           ${dualHtml}
           <ul class="pop-notes">${notes}</ul>
           ${verified}
           <div class="pop-actions">
-            <a class="pop-dir" href="${dir}" target="_blank" rel="noopener noreferrer">🧭 Directions</a>
+            <a class="pop-dir" href="${dir}" target="_blank" rel="noopener noreferrer">${SVG.navSolid} Directions</a>
             <a class="pop-link" href="#card-${p.id}" data-show-list="${p.id}">See in list ↓</a>
           </div>
         </div>`;
@@ -423,7 +444,7 @@ const placesByCat = categories.map((cat) => ({
         } else if (z < 13 && baseMode !== 'osm') {
           map.removeLayer(topoLayer); osmLayer.addTo(map); baseMode = 'osm';
         }
-        if (mapModeEl) mapModeEl.textContent = baseMode === 'topo' ? '⛰️ Topo' : '🗺️ Street';
+        if (mapModeEl) mapModeEl.innerHTML = baseMode === 'topo' ? `${SVG.mountainSolid} Topo` : `${SVG.mapStreet} Street`;
       }
       map.on('zoomend', updateBase);
 
@@ -431,7 +452,7 @@ const placesByCat = categories.map((cat) => ({
 
       // Distinct home marker for the wedding venue.
       L.marker([hub.lat, hub.lng], { icon: homeIcon(), zIndexOffset: 1000, keyboard: false })
-        .bindPopup(`<div class="pop"><p class="pop-name">💍 ${esc(hub.name)}</p><p class="pop-meta">The wedding — ${esc(hub.town || '')}</p></div>`)
+        .bindPopup(`<div class="pop"><p class="pop-name">${SVG.ring} ${esc(hub.name)}</p><p class="pop-meta">The wedding — ${esc(hub.town || '')}</p></div>`)
         .addTo(map);
 
       // "Show my location" control.
@@ -442,7 +463,7 @@ const placesByCat = categories.map((cat) => ({
           btn.type = 'button';
           btn.title = 'Show my location';
           btn.setAttribute('aria-label', 'Show my location');
-          btn.innerHTML = '🧭';
+          btn.innerHTML = SVG.navSolid;
           L.DomEvent.on(btn, 'click', (ev) => { L.DomEvent.stop(ev); locateMe(); });
           return btn;
         },
@@ -630,48 +651,79 @@ const placesByCat = categories.map((cat) => ({
 
   <style>
     .site-header {
+      position: relative;
       background:
-        radial-gradient(120% 120% at 10% -10%, #f7efe2 0%, transparent 55%),
-        radial-gradient(120% 120% at 100% 0%, #eef4ee 0%, transparent 50%),
+        radial-gradient(130% 120% at 8% -12%, #f8eedd 0%, transparent 55%),
+        radial-gradient(130% 120% at 100% 0%, #e7f1ea 0%, transparent 52%),
         var(--cream);
       border-bottom: 1px solid var(--line);
     }
-    .header-inner { padding: 26px 16px 22px; }
+    /* Subtle decorative hairline at the base of the hero */
+    .site-header::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: -1px;
+      height: 3px;
+      background: var(--rating-gradient);
+      opacity: 0.55;
+    }
+    .header-inner { padding: 30px 16px 26px; }
     .eyebrow {
-      margin: 0 0 6px;
-      font-size: 0.86rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4em;
+      margin: 0 0 4px;
+      font-size: 0.82rem;
       font-weight: 700;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       color: var(--terracotta);
     }
-    .site-header h1 {
-      font-size: clamp(2rem, 6vw, 3.2rem);
-      margin: 0 0 10px;
-      letter-spacing: -0.01em;
+    .eyebrow-ring { width: 1em; height: 1em; fill: currentColor; stroke: none; }
+    /* Script flourish — used ONLY here for the couple's names, never for body/UI */
+    .hero-script {
+      font-family: var(--font-script);
+      font-weight: 400;
+      color: var(--pine);
+      font-size: clamp(2.4rem, 9vw, 4.2rem);
+      line-height: 1.05;
+      margin: 0 0 -0.1em;
     }
-    .site-header h1 .hl { color: var(--pine); }
+    .site-header h1 {
+      font-size: clamp(1.7rem, 5vw, 2.6rem);
+      margin: 0 0 12px;
+      letter-spacing: -0.01em;
+      color: var(--ink-soft);
+      font-weight: 500;
+    }
+    .site-header h1 .hl { color: var(--pine); font-weight: 600; }
     .lede {
       margin: 0;
-      max-width: 65ch;
-      font-size: 1.02rem;
+      max-width: 62ch;
+      font-size: 1.04rem;
       color: var(--ink);
     }
+    .lede strong { color: var(--pine-deep); }
 
     .scale-explainer {
-      margin-top: 16px;
+      margin-top: 18px;
       background: var(--paper);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 12px 16px;
-      box-shadow: var(--shadow);
+      padding: 14px 18px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--t-med) var(--ease);
     }
+    .scale-explainer[open] { box-shadow: var(--shadow); }
     .scale-explainer summary {
       cursor: pointer;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--pine);
       font-family: var(--font-serif);
-      font-size: 1.02rem;
+      font-size: 1.05rem;
+      list-style-position: inside;
     }
+    .scale-explainer summary:hover { color: var(--pine-deep); }
     .scale-note {
       margin: 12px 0;
       color: var(--ink-soft);
@@ -698,11 +750,13 @@ const placesByCat = categories.map((cat) => ({
       position: sticky;
       top: 0;
       z-index: 500;
-      background: rgba(250, 246, 239, 0.92);
-      backdrop-filter: saturate(1.1) blur(8px);
+      background: rgba(247, 242, 233, 0.86);
+      backdrop-filter: saturate(1.2) blur(10px);
+      -webkit-backdrop-filter: saturate(1.2) blur(10px);
       border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow-xs);
       padding: 12px 0;
-      transition: transform 0.25s ease;
+      transition: transform var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease);
     }
     /* On mobile the bar slides away when scrolling down, back when scrolling up. */
     .controls.is-hidden {
@@ -724,12 +778,26 @@ const placesByCat = categories.map((cat) => ({
     .cat-section { display: grid; gap: 12px; }
     .cat-section[hidden] { display: none; }
     .cat-heading {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       margin: 0;
-      padding-bottom: 6px;
+      padding-bottom: 8px;
+      display: flex;
+      align-items: baseline;
+      gap: 0.45em;
       border-bottom: 2px solid var(--line-strong);
     }
-    .cat-count { color: var(--ink-soft); font-size: 0.85rem; font-weight: 400; }
+    /* A short terracotta accent under each section heading */
+    .cat-heading {
+      position: relative;
+    }
+    .cat-heading::after {
+      content: "";
+      position: absolute;
+      left: 0; bottom: -2px;
+      width: 48px; height: 2px;
+      background: var(--terracotta);
+    }
+    .cat-count { color: var(--ink-soft); font-size: 0.85rem; font-weight: 500; }
     .cat-note {
       margin: -2px 0 4px;
       font-size: 0.9rem;
@@ -743,14 +811,16 @@ const placesByCat = categories.map((cat) => ({
       background: var(--paper);
       border: 1px dashed var(--line-strong);
       border-radius: var(--radius);
-      padding: 22px;
+      padding: 28px 22px;
       text-align: center;
       color: var(--ink-soft);
+      box-shadow: var(--shadow-xs);
     }
     .link-btn {
-      font: inherit; color: var(--pine); background: none; border: none;
+      font: inherit; color: var(--accent); background: none; border: none;
       text-decoration: underline; cursor: pointer; padding: 0;
     }
+    .link-btn:hover { color: var(--accent-deep); }
 
     .site-footer {
       border-top: 1px solid var(--line);

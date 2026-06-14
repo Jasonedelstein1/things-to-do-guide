@@ -74,11 +74,14 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
     <label class="switch">
       <input type="checkbox" id="allaccess-toggle" />
       <span class="switch-track" aria-hidden="true"><span class="switch-knob"></span></span>
-      <span class="switch-text">★ All-access only</span>
+      <span class="switch-text">
+        <svg class="icon icon-star" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.5l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 18.2 6.1 21.3l1.2-6.6L2.5 9.5l6.6-.9L12 2.5z"/></svg>
+        All-access only
+      </span>
     </label>
 
     <div class="search">
-      <span class="search-icon" aria-hidden="true">🔍</span>
+      <svg class="icon search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
       <input type="search" id="search" placeholder="Search places & notes…" aria-label="Search places and notes" autocomplete="off" />
     </div>
   </div>
@@ -88,8 +91,14 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
     <button type="button" class="btn-reset" id="reset-filters">Reset</button>
 
     <div class="view-toggle" role="group" aria-label="Switch between map and list">
-      <button type="button" class="vbtn is-active" data-view="list" aria-pressed="true">☰ List</button>
-      <button type="button" class="vbtn" data-view="map" aria-pressed="false">🗺️ Map</button>
+      <button type="button" class="vbtn is-active" data-view="list" aria-pressed="true">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg>
+        List
+      </button>
+      <button type="button" class="vbtn" data-view="map" aria-pressed="false">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14"/><path d="M15 6v14"/></svg>
+        Map
+      </button>
     </div>
   </div>
 </form>
@@ -105,7 +114,7 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
     background: var(--paper);
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    padding: 14px 16px 12px;
+    padding: 16px 18px 14px;
     box-shadow: var(--shadow);
   }
   .slider-toprow {
@@ -155,19 +164,23 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
     border-radius: 50%;
     background: #fff;
     border: 3px solid var(--pine);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 2px 7px rgba(31, 67, 57, 0.32), var(--shadow-xs);
     cursor: grab;
+    transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
   }
-  input[type="range"]::-webkit-slider-thumb:active { cursor: grabbing; }
+  input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.06); }
+  input[type="range"]::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.1); }
   input[type="range"]::-moz-range-thumb {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     background: #fff;
     border: 3px solid var(--pine);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 2px 7px rgba(31, 67, 57, 0.32), var(--shadow-xs);
     cursor: grab;
+    transition: transform var(--t-fast) var(--ease);
   }
+  input[type="range"]:hover::-moz-range-thumb { transform: scale(1.06); }
   input[type="range"]::-moz-range-track {
     height: 14px;
     border-radius: 999px;
@@ -235,13 +248,18 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
     padding: 8px 14px;
     min-height: 40px;
     cursor: pointer;
-    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    box-shadow: var(--shadow-xs);
+    transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease),
+                border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease),
+                transform var(--t-fast) var(--ease);
   }
-  .chip:hover { background: var(--paper-2); }
+  .chip:hover { background: var(--paper-2); border-color: var(--pine); box-shadow: var(--shadow-sm); }
+  .chip:active { transform: translateY(1px); }
   .chip.is-active {
     background: var(--pine);
     border-color: var(--pine);
     color: #fff;
+    box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.12);
   }
 
   .switch {
@@ -253,6 +271,8 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
     font-weight: 600;
     user-select: none;
   }
+  .switch-text { display: inline-flex; align-items: center; gap: 0.35em; }
+  .switch-text .icon-star { color: var(--gold); fill: currentColor; stroke: none; width: 1em; height: 1em; }
   .switch input { position: absolute; opacity: 0; width: 0; height: 0; }
   .switch-track {
     width: 44px;
@@ -260,7 +280,7 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
     border-radius: 999px;
     background: var(--line-strong);
     position: relative;
-    transition: background 0.15s ease;
+    transition: background var(--t-med) var(--ease);
     flex: none;
   }
   .switch-knob {
@@ -269,8 +289,8 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
     width: 20px; height: 20px;
     border-radius: 50%;
     background: #fff;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-    transition: transform 0.15s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.28);
+    transition: transform var(--t-med) var(--ease);
   }
   .switch input:checked + .switch-track { background: var(--pine); }
   .switch input:checked + .switch-track .switch-knob { transform: translateX(18px); }
@@ -286,23 +306,28 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
   }
   .search-icon {
     position: absolute;
-    left: 11px; top: 50%;
+    left: 13px; top: 50%;
     transform: translateY(-50%);
-    font-size: 0.9rem;
+    width: 17px; height: 17px;
+    color: var(--ink-soft);
     pointer-events: none;
-    opacity: 0.7;
   }
   .search input {
     width: 100%;
     font: inherit;
     font-size: 0.92rem;
-    padding: 9px 12px 9px 34px;
+    padding: 9px 14px 9px 38px;
     min-height: 42px;
     border: 1px solid var(--line-strong);
     border-radius: 999px;
     background: var(--paper);
     color: var(--ink);
+    box-shadow: var(--shadow-xs);
+    transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
   }
+  .search input::placeholder { color: var(--ink-soft); opacity: 0.85; }
+  .search input:hover { border-color: var(--pine); }
+  .search input:focus-visible { outline: none; border-color: var(--pine); box-shadow: var(--ring); }
 
   /* ---- Footer row ---- */
   .filter-footer {
@@ -338,6 +363,7 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
     border-radius: 999px;
     padding: 3px;
     gap: 3px;
+    box-shadow: var(--shadow-xs);
   }
   .vbtn {
     font: inherit;
@@ -347,14 +373,22 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
     background: none;
     color: var(--ink);
     border-radius: 999px;
-    padding: 8px 16px;
+    padding: 8px 15px;
     min-height: 38px;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
   }
+  .vbtn .icon { width: 1em; height: 1em; }
+  .vbtn:hover { background: var(--paper-2); }
   .vbtn.is-active {
     background: var(--pine);
     color: #fff;
+    box-shadow: var(--shadow-xs);
   }
+  .vbtn.is-active:hover { background: var(--pine-deep); }
 
   /* The map/list toggle is only meaningful on mobile (desktop shows both). */
   @media (min-width: 880px) {

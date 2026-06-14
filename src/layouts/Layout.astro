@@ -21,6 +21,15 @@ const rampVars = Object.entries(RATING_COLORS)
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
 
+    <!-- Wedding-elegant type pairing: Fraunces (headings) + Inter (body/UI),
+         Great Vibes reserved purely for the hero flourish. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Great+Vibes&display=swap"
+    />
+
     <!-- Open Graph / social -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
@@ -37,28 +46,48 @@ const rampVars = Object.entries(RATING_COLORS)
 
 <style is:global>
   :root {
-    /* Warm Colorado-Front-Range palette */
-    --cream: #faf6ef;
+    /* Warm Colorado-Front-Range palette (Soft UI Evolution: refined neutrals,
+       clearer borders, stronger contrast). Rating ramp (--r1..--r5) is set
+       separately in <head> and must not change. */
+    --cream: #f7f2e9;
     --paper: #ffffff;
-    --paper-2: #fdfbf7;
-    --ink: #2c2a26;
-    --ink-soft: #6b6258;
-    --line: #e8dfd2;
-    --line-strong: #d9cdb9;
-    --pine: #2f5d50;
-    --pine-deep: #234a40;
-    --terracotta: #c2643f;
-    --gold: #d99100;
-    --beyond: #7a6f9b;
-    --shadow: 0 1px 2px rgba(44, 42, 38, 0.06), 0 6px 18px rgba(44, 42, 38, 0.08);
-    --shadow-lg: 0 10px 40px rgba(44, 42, 38, 0.16);
-    --radius: 14px;
-    --radius-sm: 10px;
+    --paper-2: #fbf7f0;
+    --paper-3: #f3ece0;
+    --ink: #221f1a;          /* darker for stronger contrast */
+    --ink-soft: #5e564b;     /* AA on cream/paper */
+    --line: #e7ddcd;
+    --line-strong: #d6c9b3;
+    --pine: #2c5a4d;
+    --pine-deep: #1f4339;
+    --terracotta: #bd5f3c;
+    --gold: #c98700;
+    --beyond: #6f6492;
+    /* Tasteful calm-teal accent (used sparingly for links/flourishes) */
+    --accent: #0e7c8b;
+    --accent-deep: #0a5d69;
+
+    /* Consistent elevation / shadow scale */
+    --shadow-xs: 0 1px 2px rgba(40, 33, 22, 0.06);
+    --shadow-sm: 0 1px 2px rgba(40, 33, 22, 0.05), 0 2px 6px rgba(40, 33, 22, 0.06);
+    --shadow: 0 1px 2px rgba(40, 33, 22, 0.05), 0 4px 14px rgba(40, 33, 22, 0.08);
+    --shadow-md: 0 2px 6px rgba(40, 33, 22, 0.06), 0 10px 28px rgba(40, 33, 22, 0.12);
+    --shadow-lg: 0 8px 20px rgba(40, 33, 22, 0.10), 0 18px 48px rgba(40, 33, 22, 0.18);
+    --ring: 0 0 0 3px rgba(44, 90, 77, 0.20);
+
+    --radius: 16px;
+    --radius-sm: 11px;
+    --radius-xs: 8px;
     --maxw: 1280px;
     --header-h: 0px;
 
-    --font-serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, "Times New Roman", serif;
-    --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    /* Standard motion tokens (Soft UI: 150-300ms) */
+    --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --t-fast: 150ms;
+    --t-med: 220ms;
+
+    --font-serif: "Fraunces", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-script: "Great Vibes", "Snell Roundhand", "Brush Script MT", cursive;
   }
 
   * { box-sizing: border-box; }
@@ -70,7 +99,7 @@ const rampVars = Object.entries(RATING_COLORS)
     font-family: var(--font-sans);
     color: var(--ink);
     background: var(--cream);
-    line-height: 1.55;
+    line-height: 1.6;
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -82,9 +111,28 @@ const rampVars = Object.entries(RATING_COLORS)
     line-height: 1.15;
     color: var(--ink);
     margin: 0 0 0.35em;
+    font-optical-sizing: auto;
+    letter-spacing: -0.005em;
   }
 
-  a { color: var(--pine); }
+  a { color: var(--accent); }
+  a:hover { color: var(--accent-deep); }
+
+  /* Reusable inline-SVG icon convention (Lucide/Heroicons style).
+     Icons inherit color via currentColor and align to the text baseline. */
+  .icon {
+    width: 1.05em;
+    height: 1.05em;
+    flex: none;
+    display: inline-block;
+    vertical-align: -0.16em;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    overflow: visible;
+  }
 
   .wrap {
     width: 100%;
@@ -102,11 +150,16 @@ const rampVars = Object.entries(RATING_COLORS)
     white-space: nowrap; border: 0;
   }
 
-  /* Focus visibility for keyboard users */
+  /* Focus visibility for keyboard users (Soft UI: clear, consistent ring) */
   :focus-visible {
     outline: 3px solid var(--pine);
     outline-offset: 2px;
     border-radius: 6px;
+  }
+  /* Pointer affordance on everything interactive */
+  button, summary, [role="button"], label.bypass, label.switch,
+  a[href], input[type="range"], input[type="checkbox"] {
+    cursor: pointer;
   }
 
   /* ---------- Rating badge (used in cards & popups) ---------- */
@@ -143,15 +196,16 @@ const rampVars = Object.entries(RATING_COLORS)
     display: inline-flex;
     align-items: center;
     gap: 0.35em;
-    padding: 0.2em 0.6em;
+    padding: 0.22em 0.6em;
     border-radius: 999px;
     font-size: 0.74rem;
     font-weight: 700;
     color: var(--pine-deep);
-    background: #e4efe7;
-    border: 1px solid #c7e0cf;
+    background: #e2efe6;
+    border: 1px solid #bcdcc6;
     white-space: nowrap;
   }
+  .badge-all-access .icon { stroke-width: 2; fill: currentColor; stroke: none; }
 
   @media (prefers-reduced-motion: reduce) {
     * {

@@ -16,8 +16,12 @@
     <span class="lg-item"><i class="lg-dot" style="background:var(--r3)"></i>3</span>
     <span class="lg-item"><i class="lg-dot" style="background:var(--r4)"></i>4</span>
     <span class="lg-item"><i class="lg-dot" style="background:var(--r5)"></i>5</span>
-    <span class="lg-item lg-home"><i class="lg-dot lg-dot-home">♥</i>Venue</span>
-    <span class="lg-item lg-mode" id="map-mode">🗺️ Street</span>
+    <span class="lg-item lg-home">
+      <i class="lg-dot lg-dot-home"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20.5l-7.2-7.2a4.6 4.6 0 0 1 6.5-6.5l.7.7.7-.7a4.6 4.6 0 0 1 6.5 6.5L12 20.5z"/></svg></i>Venue
+    </span>
+    <span class="lg-item lg-mode" id="map-mode">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14"/><path d="M15 6v14"/></svg> Street
+    </span>
   </p>
 </div>
 
@@ -33,8 +37,8 @@
     min-height: 320px;
     width: 100%;
     border-radius: var(--radius);
-    border: 1px solid var(--line);
-    background: #e9eef0;
+    border: 1px solid var(--line-strong);
+    background: #e6ecee;
     box-shadow: var(--shadow);
     overflow: hidden;
     z-index: 0;
@@ -76,15 +80,23 @@
     box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
   }
   .lg-dot-home {
-    width: auto; height: auto;
+    width: 18px; height: 18px;
     background: var(--pine);
     color: #fff;
     border-radius: 50%;
-    font-size: 9px;
-    line-height: 1;
-    padding: 2px 3px;
+    border: 1.5px solid #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
   }
-  .lg-mode { margin-left: auto; font-weight: 600; }
+  .lg-dot-home svg {
+    width: 11px; height: 11px;
+    fill: currentColor;
+    stroke: none;
+  }
+  .lg-mode { margin-left: auto; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+  .lg-mode .icon { width: 14px; height: 14px; }
 </style>
 
 <!-- Global styles: Leaflet injects markers/popups dynamically, so these
@@ -123,6 +135,21 @@
   }
   .map-pin-home .map-pin-num {
     font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .map-pin-home .map-pin-num svg {
+    width: 14px; height: 14px;
+    fill: #fff;
+    stroke: none;
+  }
+  /* The "Other" / null-rated pin shows a small sparkle SVG instead of a numeral */
+  .map-pin-num svg {
+    width: 13px; height: 13px;
+    fill: #fff;
+    stroke: none;
+    display: block;
   }
 
   /* Popup styling to match the warm theme */
@@ -147,14 +174,18 @@
   .pop-aka { font-size: 0.78rem; color: var(--ink-soft); font-style: italic; margin: 0 0 6px; }
   .pop-meta { font-size: 0.8rem; color: var(--ink-soft); margin: 0 0 8px; }
   .pop-badge {
-    display: inline-flex; align-items: center; gap: 0.4em;
-    padding: 0.15em 0.55em; border-radius: 999px;
+    display: inline-flex; align-items: center; gap: 0.35em;
+    padding: 0.18em 0.6em; border-radius: 999px;
     font-size: 0.74rem; font-weight: 700; color: #fff; margin-bottom: 6px;
   }
+  .pop-badge .icon { width: 0.95em; height: 0.95em; fill: currentColor; stroke: none; }
   .pop-res {
     font-size: 0.8rem; background: #fbf3e7; border: 1px solid #f0dcc0;
     border-left: 4px solid var(--gold); border-radius: 8px; padding: 6px 8px; margin: 6px 0;
   }
+  .pop-res .icon { width: 1em; height: 1em; vertical-align: -0.15em; color: var(--gold); }
+  .pop-res.is-rmnp .icon { color: var(--terracotta); }
+  .pop-name .icon { width: 0.9em; height: 0.9em; fill: var(--terracotta); stroke: none; vertical-align: -0.05em; }
   .pop-res.is-rmnp { background: #fdeef0; border-color:#f4ccd1; border-left-color: var(--terracotta); }
   .pop-res a { font-weight: 700; }
   .pop-notes { margin: 6px 0 0; padding-left: 1.1em; font-size: 0.85rem; }
@@ -168,29 +199,36 @@
   .pop-rmnp-flag {
     font: inherit; font-size: 0.78rem; font-weight: 700; color: #fff;
     background: var(--terracotta); border: none; border-radius: 999px;
-    padding: 3px 10px; margin-top: 4px; cursor: pointer; display: inline-block;
+    padding: 4px 11px; margin-top: 4px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 0.3em;
   }
+  .pop-rmnp-flag .icon { width: 0.95em; height: 0.95em; }
   .pop-actions {
     display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; margin-top: 10px;
   }
   .pop-dir {
     font-size: 0.82rem; font-weight: 700; color: #fff; background: var(--pine);
-    border-radius: 999px; padding: 5px 11px; text-decoration: none; display: inline-block;
+    border-radius: 999px; padding: 5px 12px; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 0.3em;
+    transition: background var(--t-fast) var(--ease);
   }
+  .pop-dir .icon { width: 0.95em; height: 0.95em; }
   .pop-dir:hover { background: var(--pine-deep); }
 
   /* "Show my location" map control button */
   .map-locate-btn {
     width: 40px; height: 40px;
     background: #fff;
-    border: 2px solid rgba(0,0,0,0.2);
-    border-radius: 8px;
-    font-size: 1.1rem;
+    border: 1px solid rgba(0,0,0,0.18);
+    border-radius: 9px;
+    color: var(--pine-deep);
     cursor: pointer;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.22);
     display: flex; align-items: center; justify-content: center;
+    transition: background var(--t-fast) var(--ease);
   }
-  .map-locate-btn:hover { background: #f4f4f4; }
+  .map-locate-btn .icon { width: 20px; height: 20px; }
+  .map-locate-btn:hover { background: #f3f0ea; }
 
   /* "You are here" pulsing dot */
   .you-are-here { background: transparent; border: none; }

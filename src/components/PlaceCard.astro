@@ -66,16 +66,27 @@ const search = searchText(place);
     {place.driveFromLyons && (
       <>
         <span class="meta-dot" aria-hidden="true">·</span>
-        <span class="meta-drive">🚗 {place.driveFromLyons} from Lyons</span>
+        <span class="meta-drive">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 13l1.6-4.2A2 2 0 0 1 8.5 7.5h7a2 2 0 0 1 1.9 1.3L19 13"/><path d="M3 17h18v-3.2a1.8 1.8 0 0 0-1-1.6l-1-.5H5l-1 .5a1.8 1.8 0 0 0-1 1.6V17z"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg>
+          {place.driveFromLyons} from Lyons
+        </span>
       </>
     )}
   </p>
 
-  {place.address && <p class="card-address">📍 {place.address}</p>}
+  {place.address && (
+    <p class="card-address">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6.5-5.6-6.5-10.5A6.5 6.5 0 0 1 18.5 10.5C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.4"/></svg>
+      {place.address}
+    </p>
+  )}
 
   <div class="card-tags">
     {place.allAccess && (
-      <span class="badge-all-access" title="Both Andrea & Jason approve">★ All-access</span>
+      <span class="badge-all-access" title="Both Andrea & Jason approve">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.5l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 18.2 6.1 21.3l1.2-6.6L2.5 9.5l6.6-.9L12 2.5z"/></svg>
+        All-access
+      </span>
     )}
     {dualLabel && (
       <span class="dual-rating">{dualLabel}</span>
@@ -89,10 +100,13 @@ const search = searchText(place);
 
   {reservation && (
     <p class={`card-reservation${linksToRmnp ? ' is-rmnp' : ''}`}>
-      <span class="res-icon" aria-hidden="true">🎟️</span>
+      <svg class="icon res-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 2 2 0 0 0 0-4z"/><path d="M10 6v2"/><path d="M10 11v2"/><path d="M10 16v2"/></svg>
       <span><strong>Reservation:</strong> {reservation}{' '}
         {linksToRmnp && (
-          <button type="button" class="res-flag" data-open-rmnp>🏔️ RMNP permit info</button>
+          <button type="button" class="res-flag" data-open-rmnp>
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 20h18L14.5 7l-3 5-2-3L3 20z"/><path d="M11.5 12l1-2"/></svg>
+            RMNP permit info
+          </button>
         )}
       </span>
     </p>
@@ -112,10 +126,12 @@ const search = searchText(place);
   {hasCoords && (
     <div class="card-actions">
       <button type="button" class="btn-show-map" data-show-map={place.id}>
-        📍 Show on map
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6.5-5.6-6.5-10.5A6.5 6.5 0 0 1 18.5 10.5C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.4"/></svg>
+        Show on map
       </button>
       <a class="btn-directions" href={dirUrl} target="_blank" rel="noopener noreferrer">
-        🧭 Get directions
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.5l9.5 19-9.5-4-9.5 4 9.5-19z"/></svg>
+        Get directions
       </a>
     </div>
   )}
@@ -126,14 +142,20 @@ const search = searchText(place);
     background: var(--paper);
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    padding: 16px;
-    box-shadow: var(--shadow);
+    padding: 18px;
+    box-shadow: var(--shadow-sm);
     scroll-margin-top: calc(var(--header-h) + 16px);
-    transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    transition: box-shadow var(--t-med) var(--ease), border-color var(--t-med) var(--ease),
+                transform var(--t-med) var(--ease);
+  }
+  .card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--line-strong);
+    transform: translateY(-2px);
   }
   .card.is-flash {
     border-color: var(--pine);
-    box-shadow: 0 0 0 3px rgba(47, 93, 80, 0.25), var(--shadow-lg);
+    box-shadow: 0 0 0 3px rgba(44, 90, 77, 0.28), var(--shadow-lg);
   }
 
   .card-head {
@@ -166,12 +188,18 @@ const search = searchText(place);
   }
   .meta-cat { font-weight: 600; color: var(--pine); }
   .meta-dot { color: var(--line-strong); }
+  .meta-drive { display: inline-flex; align-items: center; gap: 0.35em; }
+  .meta-drive .icon { width: 1em; height: 1em; color: var(--ink-soft); }
 
   .card-address {
     margin: 8px 0 0;
     font-size: 0.8rem;
     color: var(--ink-soft);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4em;
   }
+  .card-address .icon { width: 1em; height: 1em; margin-top: 0.18em; color: var(--terracotta); }
 
   .card-tags {
     display: flex;
@@ -209,6 +237,8 @@ const search = searchText(place);
     border-color: #f4ccd1;
     border-left-color: var(--terracotta);
   }
+  .res-icon { width: 1.1em; height: 1.1em; margin-top: 0.12em; color: var(--gold); }
+  .card-reservation.is-rmnp .res-icon { color: var(--terracotta); }
   .res-flag {
     font: inherit;
     font-size: 0.82rem;
@@ -218,12 +248,18 @@ const search = searchText(place);
     background: var(--terracotta);
     border: none;
     border-radius: 999px;
-    padding: 4px 11px;
+    padding: 5px 12px;
     margin-top: 4px;
     cursor: pointer;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    box-shadow: var(--shadow-xs);
+    transition: filter var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
   }
-  .res-flag:hover { filter: brightness(0.94); }
+  .res-flag .icon { width: 1em; height: 1em; }
+  .res-flag:hover { filter: brightness(0.95); }
+  .res-flag:active { transform: translateY(1px); }
 
   .notes {
     margin: 12px 0 0;
@@ -263,26 +299,37 @@ const search = searchText(place);
     background: var(--pine);
     border: 1px solid var(--pine);
     border-radius: 999px;
-    padding: 8px 14px;
+    padding: 8px 15px;
     min-height: 40px;
     display: inline-flex;
     align-items: center;
+    gap: 0.4em;
     text-decoration: none;
+    box-shadow: var(--shadow-xs);
+    transition: background var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease),
+                transform var(--t-fast) var(--ease);
   }
-  .btn-directions:hover { background: var(--pine-deep); }
+  .btn-directions .icon, .btn-show-map .icon { width: 1.05em; height: 1.05em; }
+  .btn-directions:hover { background: var(--pine-deep); box-shadow: var(--shadow-sm); }
+  .btn-directions:active { transform: translateY(1px); }
   .btn-show-map {
     font: inherit;
     font-size: 0.86rem;
     font-weight: 600;
     color: var(--pine-deep);
-    background: #eaf2ec;
-    border: 1px solid #cfe2d4;
+    background: #e6f0e9;
+    border: 1px solid #c5dccc;
     border-radius: 999px;
-    padding: 8px 14px;
+    padding: 8px 15px;
     cursor: pointer;
     min-height: 40px;
-    transition: background 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    box-shadow: var(--shadow-xs);
+    transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease),
+                transform var(--t-fast) var(--ease);
   }
-  .btn-show-map:hover { background: #dceadf; }
+  .btn-show-map:hover { background: #d8e8dc; border-color: var(--pine); }
   .btn-show-map:active { transform: translateY(1px); }
 </style>
