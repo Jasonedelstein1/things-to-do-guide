@@ -14,13 +14,15 @@ const catLabels = {
   'Attraction/Activity': 'Attractions & Activities',
   'Restaurant/Food': 'Food & Drink',
   'Itinerary Idea': 'Itinerary Ideas',
+  'Beyond the Scale': 'Beyond the Scale',
 };
 
-// The RMNP explainer becomes a banner, not a normal card.
+// The RMNP explainer becomes a lightbox, not a normal card.
 const rmnp = places.find((p) => p.id === 'rmnp-reservations');
 const placesByCat = categories.map((cat) => ({
   cat,
   label: catLabels[cat] ?? cat,
+  note: data.categoryNotes?.[cat] ?? null,
   items: places.filter((p) => p.category === cat && p.id !== 'rmnp-reservations'),
 }));
 ---
@@ -55,6 +57,7 @@ const placesByCat = categories.map((cat) => ({
             ))}
           </tbody>
         </table>
+        {meta.beyondScaleNote && <p class="scale-note">{meta.beyondScaleNote}</p>}
       </details>
     </div>
   </header>
@@ -80,6 +83,7 @@ const placesByCat = categories.map((cat) => ({
         {placesByCat.map((group) => (
           <section class="cat-section" data-cat={group.cat}>
             <h2 class="cat-heading">{group.label} <span class="cat-count">({group.items.length})</span></h2>
+            {group.note && <p class="cat-note">{group.note}</p>}
             <div class="card-grid">
               {group.items.map((place) => <PlaceCard place={place} />)}
             </div>
@@ -279,9 +283,10 @@ const placesByCat = categories.map((cat) => ({
 
     function makeIcon(p, active = false) {
       const color = ratingColor(p.rating);
+      const sym = p.rating == null ? '✦' : p.rating;
       return L.divIcon({
         className: 'map-pin' + (active ? ' is-active' : ''),
-        html: `<div class="map-pin-inner" style="background:${color}"><span class="map-pin-num">${p.rating}</span></div>`,
+        html: `<div class="map-pin-inner" style="background:${color}"><span class="map-pin-num">${sym}</span></div>`,
         iconSize: [26, 26],
         iconAnchor: [13, 26],
         popupAnchor: [0, -26],
@@ -337,9 +342,11 @@ const placesByCat = categories.map((cat) => ({
     }
 
     function popupHtml(p) {
-      const r = p.rating;
-      const s = scale[String(r)];
-      const color = ratingColor(r);
+      const beyond = p.rating == null;
+      const color = ratingColor(p.rating);
+      const ratingLabel = beyond
+        ? '✦ Beyond the Scale'
+        : `${p.rating} · ${esc(scale[String(p.rating)].label)}`;
       let aka = '';
       if (p.nickname) aka = `aka "${esc(p.nickname)}"`;
       else if (p.formerName) aka = `formerly "${esc(p.formerName)}"`;
@@ -367,7 +374,7 @@ const placesByCat = categories.map((cat) => ({
         <div class="pop">
           <p class="pop-name">${esc(p.name)}</p>
           ${aka ? `<p class="pop-aka">${aka}</p>` : ''}
-          <span class="pop-badge" style="background:${color}">${r} · ${esc(s.label)}</span>
+          <span class="pop-badge" style="background:${color}">${ratingLabel}</span>
           ${p.allAccess ? ` <span class="pop-badge" style="background:#3f7a5b">★ All-access</span>` : ''}
           <p class="pop-meta">${esc(p.town)}${drive}</p>
           ${resHtml}
@@ -724,6 +731,13 @@ const placesByCat = categories.map((cat) => ({
       border-bottom: 2px solid var(--line-strong);
     }
     .cat-count { color: var(--ink-soft); font-size: 0.85rem; font-weight: 400; }
+    .cat-note {
+      margin: -2px 0 4px;
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      font-style: italic;
+      max-width: 70ch;
+    }
     .card-grid { display: grid; gap: 14px; }
 
     .empty-state {

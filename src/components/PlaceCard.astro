@@ -5,9 +5,18 @@ import { effectiveRating, searchText } from '../lib/ratings.js';
 const scale = data.meta.ratingScale;
 const { place } = Astro.props;
 
+const isBeyond = place.rating == null;
 const r = effectiveRating(place);
-const label = scale[String(r)]?.label ?? '';
+const label = isBeyond ? 'Beyond the Scale' : (scale[String(r)]?.label ?? '');
 const hasCoords = place.lat !== null && place.lng !== null;
+
+// Dual rating: keep Old Fall River's drive/ride phrasing; generic for the rest.
+let dualLabel = null;
+if (place.ratingJason != null) {
+  dualLabel = place.id === 'old-fall-river-road'
+    ? `Drive it: Andrea (${place.rating}) · Ride it: Jason (${place.ratingJason})`
+    : `Andrea (${place.rating}) → Jason (${place.ratingJason})`;
+}
 
 // Google Maps directions from the user's current location to this spot.
 const dirUrl = hasCoords
@@ -32,7 +41,8 @@ const search = searchText(place);
   id={`card-${place.id}`}
   data-id={place.id}
   data-category={place.category}
-  data-rating={r}
+  data-rating={isBeyond ? '' : r}
+  data-beyond={String(isBeyond)}
   data-allaccess={String(place.allAccess)}
   data-haslatlng={String(hasCoords)}
   data-search={search}
@@ -43,8 +53,8 @@ const search = searchText(place);
       <h3 class="card-name">{place.name}</h3>
       {aka && <p class="card-aka">{aka}</p>}
     </div>
-    <span class="badge" data-rating={r}>
-      <span class="badge-num" aria-hidden="true">{r}</span>
+    <span class="badge" data-rating={isBeyond ? 'beyond' : r}>
+      {!isBeyond && <span class="badge-num" aria-hidden="true">{r}</span>}
       <span>{label}</span>
     </span>
   </div>
@@ -61,14 +71,14 @@ const search = searchText(place);
     )}
   </p>
 
+  {place.address && <p class="card-address">📍 {place.address}</p>}
+
   <div class="card-tags">
     {place.allAccess && (
       <span class="badge-all-access" title="Both Andrea & Jason approve">★ All-access</span>
     )}
-    {place.ratingJason && (
-      <span class="dual-rating">
-        Drive it: <strong>Andrea ({place.rating})</strong> · Ride it: <strong>Jason ({place.ratingJason})</strong>
-      </span>
+    {dualLabel && (
+      <span class="dual-rating">{dualLabel}</span>
     )}
     {place.ratingRange && !place.ratingJason && (
       <span class="range-rating">
@@ -156,6 +166,12 @@ const search = searchText(place);
   }
   .meta-cat { font-weight: 600; color: var(--pine); }
   .meta-dot { color: var(--line-strong); }
+
+  .card-address {
+    margin: 8px 0 0;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
 
   .card-tags {
     display: flex;

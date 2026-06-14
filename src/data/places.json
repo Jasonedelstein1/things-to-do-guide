@@ -9,9 +9,13 @@
       "4": { "label": "Jason-curious", "meaning": "Long, strenuous, or logistically ambitious. Plan ahead." },
       "5": { "label": "Full Jason", "meaning": "You might miss the wedding. Bring the headlamp you'll deny needing." }
     },
-    "scaleNote": "The Andrea↔Jason scale measures sensibility / intensity, not just energy. Andrea = responsible, you make it to the wedding clean and uninjured. Jason = not entirely sensible, you might miss the wedding, it's 10 more miles than the sign said."
+    "scaleNote": "The Andrea↔Jason scale measures sensibility / intensity, not just energy. Andrea = responsible, you make it to the wedding clean and uninjured. Jason = not entirely sensible, you might miss the wedding, it's 10 more miles than the sign said.",
+    "beyondScaleNote": "Some activities (fishing, rock climbing) exist outside the Andrea↔Jason axis entirely — they're their own thing, rated beyond the scale."
   },
-  "categories": ["Attraction/Activity", "Restaurant/Food", "Itinerary Idea"],
+  "categories": ["Attraction/Activity", "Restaurant/Food", "Itinerary Idea", "Beyond the Scale"],
+  "categoryNotes": {
+    "Beyond the Scale": "Activities that live outside the Andrea↔Jason constraints entirely. They aren't more Andrea or more Jason — they're their own thing. Fishing and rock climbing live here."
+  },
   "places": [
     {
       "id": "rocky-mountain-arsenal",
@@ -20,6 +24,7 @@
       "rating": 2,
       "allAccess": false,
       "town": "Commerce City, CO",
+      "address": "Visitor Center, 6550 Gateway Rd, Commerce City, CO 80022",
       "lat": 39.8222,
       "lng": -104.8688,
       "gpsPrecision": "exact",
@@ -30,7 +35,7 @@
         "An easy stop on your way in from the airport if you want to see some bison. We love it.",
         "It's a beautiful place and not far from the airport — we actually filmed a music video here for some friends years ago."
       ],
-      "verified": "~17,000-acre refuge on a former Army site; 330+ species incl. a bison herd (stay in your vehicle to view). Visitor Center at 7200 Quebec St, Bldg 121, Commerce City, CO 80022, open Wed–Sun 9a–4p. Free entry."
+      "verified": "~17,000-acre refuge on a former Army site; 330+ species incl. a bison herd (stay in your vehicle to view). Visitor Center open Wed–Sun 9a–4p. Free entry."
     },
     {
       "id": "caribou-hill",
@@ -39,6 +44,7 @@
       "rating": 3,
       "allAccess": false,
       "town": "near Nederland, CO",
+      "address": "Caribou townsite area, County Rd 128 (Caribou Rd), Nederland, CO 80466",
       "lat": 39.9783,
       "lng": -105.5886,
       "gpsPrecision": "exact",
@@ -50,7 +56,7 @@
         "You can take it all the way up to Bald Mountain and get into the alpine this time of year.",
         "You probably won't find many mushrooms, and maybe a stray raspberry in the boulder fields, but the fall colors on the way up are worth it."
       ],
-      "verified": "Caribou Hill ~3.4-mi loop near the historic Caribou Townsite; trail is poorly marked (carry GPS). Trailhead ~10,456 ft. Bald Mountain summit ~11,335 ft — this is the one in the Caribou/Nederland district."
+      "verified": "Caribou Hill ~3.4-mi loop near the historic Caribou Townsite; trail is poorly marked (carry GPS). Trailhead ~10,456 ft. Bald Mountain summit ~11,335 ft."
     },
     {
       "id": "east-portal-moffat-tunnel",
@@ -59,6 +65,7 @@
       "rating": 5,
       "allAccess": false,
       "town": "near Rollinsville, CO",
+      "address": "East Portal Trailhead, end of E Portal Rd (Gilpin County Rd 16), Rollinsville, CO 80474",
       "lat": 39.9061,
       "lng": -105.6428,
       "gpsPrecision": "exact",
@@ -69,7 +76,7 @@
         "The eastern portal of the Moffat Tunnel, where the Winter Park Express train disappears into the mountain. It's our gateway into the James Peak Wilderness — where we hunt mushrooms together and Jason skis.",
         "Strenuous alpine bowls and cirques. Honestly, only attempt this if you're arriving early Thursday or Friday — go now and you might miss the rehearsal dinner. And bring the headlamp."
       ],
-      "verified": "From Rollinsville (4.5 mi south of Nederland on CO-119), take gravel Gilpin County Rd 16 west ~8 mi to the East Portal. Accesses Crater Lakes, Heart Lake, Forest Lakes, Rogers Pass, Rollins Pass and the Continental Divide Trail. James Peak Wilderness designated 2002."
+      "verified": "From Rollinsville (4.5 mi south of Nederland on CO-119), take gravel Gilpin County Rd 16 west ~8 mi to the East Portal. Accesses Crater Lakes, Heart Lake, Forest Lakes, Rogers Pass, Rollins Pass and the CDT."
     },
     {
       "id": "trail-ridge-road",
@@ -78,8 +85,9 @@
       "rating": 2,
       "allAccess": false,
       "town": "RMNP (Estes Park ↔ Grand Lake)",
-      "lat": 40.4108,
-      "lng": -105.7589,
+      "address": "US-34 through RMNP; enter via Beaver Meadows, 1000 US-36, Estes Park, CO 80517",
+      "lat": 40.4414,
+      "lng": -105.7538,
       "gpsPrecision": "exact",
       "driveFromLyons": "~45 min to Beaver Meadows entrance",
       "reservation": "RMNP timed-entry required",
@@ -88,7 +96,7 @@
         "Quite possibly the prettiest road in the country, and one of our favorites — aspens, maybe a moose, and high alpine you can't get to any other way.",
         "It's a long drive all the way to Granby, so you might just go to the top and back."
       ],
-      "verified": "US-34, the highest continuous paved road in the U.S., crests at 12,183 ft; fully paved, two-way. Typically open late May through mid-October (snow-dependent). Alpine Visitor Center near the top sits at ~11,796 ft."
+      "verified": "US-34, the highest continuous paved road in the U.S., crests at 12,183 ft. Coordinates given for the Alpine Visitor Center near the high point. Typically open late May through mid-October."
     },
     {
       "id": "old-fall-river-road",
@@ -98,17 +106,18 @@
       "ratingJason": 4,
       "allAccess": false,
       "town": "RMNP (Estes Park side)",
-      "lat": 40.4297,
-      "lng": -105.7119,
+      "address": "Lower end near Endovalley Picnic Area, Endovalley Rd, RMNP, Estes Park, CO 80517",
+      "lat": 40.403,
+      "lng": -105.6232,
       "gpsPrecision": "exact",
       "driveFromLyons": "~50 min to the entrance",
       "reservation": "RMNP timed-entry required",
-      "tags": ["scenic-drive", "gravel", "gravel-bike", "alpine", "rmnp"],
+      "tags": ["scenic-drive", "gravel", "gravel-bike", "alpine", "rmnp", "biking"],
       "notes": [
         "The dirt-road alternative to Trail Ridge — similar views, way less traffic, and most passenger cars are fine.",
-        "If you rent a bike in Estes it's a gorgeous gravel climb (~3,000–4,000 ft). The Jason version: ride up, bomb back down, slightly irresponsible, and extremely hungry at the end."
+        "If you rent a bike in Estes it's a gorgeous gravel climb (~3,000–4,000 ft). The Jason version: ride UP and descend — and descend the right way, back down toward Estes, NOT down Trail Ridge Road toward Grand Lake. Slightly irresponsible, and you'll be extremely hungry at the end."
       ],
-      "verified": "~9.1-mile, one-way, uphill gravel road (15 mph, no trailers/large RVs) from near Endovalley (~7,800 ft) up to Fall River Pass / Alpine Visitor Center (~11,796 ft) — ~3,900 ft gain over 16 switchbacks. Opened 1920. Open seasonally ~late June to mid-October.",
+      "verified": "~9.1-mile, one-way, uphill gravel road (15 mph, no trailers/large RVs) from near Endovalley (~7,800 ft) up to Fall River Pass / Alpine Visitor Center (~11,796 ft) — ~3,900 ft gain over 16 switchbacks. Coordinates given for the lower (start) end near Endovalley.",
       "ratingNote": "Andrea version (drive) = 2. Jason version (ride up & descend) = 4."
     },
     {
@@ -118,8 +127,9 @@
       "rating": 3,
       "allAccess": false,
       "town": "RMNP (Bear Lake Rd corridor)",
-      "lat": 40.3120,
-      "lng": -105.6460,
+      "address": "Bear Lake Trailhead, end of Bear Lake Rd, RMNP, Estes Park, CO 80517",
+      "lat": 40.312,
+      "lng": -105.646,
       "gpsPrecision": "exact",
       "driveFromLyons": "~55 min",
       "reservation": "RMNP timed-entry + Bear Lake Road required",
@@ -127,7 +137,7 @@
       "notes": [
         "Beautiful, popular hiking — we'd get in by 7am, since it's a long drive and it fills up fast."
       ],
-      "verified": "~3.6 mi round trip, ~700–770 ft gain, passing Nymph and Dream Lakes en route to Emerald Lake (~10,110 ft). Very popular — go early. Requires the Timed Entry + Bear Lake Road permit in season."
+      "verified": "~3.6 mi round trip, ~700–770 ft gain, passing Nymph and Dream Lakes en route to Emerald Lake (~10,110 ft). Coordinates given for the Bear Lake Trailhead parking. Requires the Timed Entry + Bear Lake Road permit in season."
     },
     {
       "id": "lost-lake-hessie",
@@ -136,6 +146,7 @@
       "rating": 5,
       "allAccess": false,
       "town": "near Eldora / Nederland, CO",
+      "address": "Hessie Trailhead, end of Hessie Rd / County Rd 130, Eldora, CO 80466",
       "lat": 39.9542,
       "lng": -105.6025,
       "gpsPrecision": "exact",
@@ -145,7 +156,7 @@
       "notes": [
         "A real adventure — start early, the views are worth it. This is where we had our first kiss (over Himalayan leftovers), so it's a special one for us. Plan on a big day."
       ],
-      "verified": "~4 mi round trip, ~1,000 ft gain, lake ~1.35 mi inside the Indian Peaks Wilderness boundary. This Lost Lake is in the Indian Peaks Wilderness, NOT inside RMNP — no RMNP timed-entry reservation required. Drive past Eldora Ski Resort; 2WD parking ends ~4.8 mi from the CO-72 turnoff, then walk the road to the Hessie footbridge."
+      "verified": "~4 mi round trip, ~1,000 ft gain, lake ~1.35 mi inside the Indian Peaks Wilderness boundary. NOT inside RMNP — no RMNP timed-entry reservation required. Coordinates given for the Hessie Trailhead. 2WD parking ends ~4.8 mi from the CO-72 turnoff."
     },
     {
       "id": "st-vrain-meadow-mountain",
@@ -154,8 +165,9 @@
       "rating": 4,
       "allAccess": false,
       "town": "Allenspark, CO",
-      "lat": 40.1738,
-      "lng": -105.5333,
+      "address": "St. Vrain Mountain Trailhead, NFS Rd 116.1 off County Rd 107 (Ski Rd), Allenspark, CO 80510",
+      "lat": 40.1936,
+      "lng": -105.5306,
       "gpsPrecision": "exact",
       "driveFromLyons": "~30 min",
       "reservation": "None needed (back-door into RMNP)",
@@ -163,7 +175,7 @@
       "notes": [
         "Our no-reservation way to technically walk into RMNP. Take Ski Road up Meadow Mountain, which connects over to St. Vrain Mountain — the summit looks straight down into Wild Basin with views of Longs and Meeker."
       ],
-      "verified": "From Allenspark, take Boulder County Rd 107 ('Ski Road') south ~1.5 mi, then NFS Rd 116.1 right ~0.5 mi to the trailhead (~12 cars). Meadow Mountain ~11,632 ft; St. Vrain Mountain summit ~12,162 ft, ~9 mi round trip, 3,000+ ft gain."
+      "verified": "From Allenspark, take Boulder County Rd 107 ('Ski Road') south ~1.5 mi, then NFS Rd 116.1 right ~0.5 mi to the trailhead (~12 cars). Meadow Mountain ~11,632 ft; St. Vrain Mountain summit ~12,162 ft, ~9 mi round trip. Coordinates given for the trailhead."
     },
     {
       "id": "camp-dick-buchanan-pass",
@@ -172,8 +184,9 @@
       "rating": 5,
       "allAccess": false,
       "town": "Peaceful Valley, CO",
-      "lat": 40.1300,
-      "lng": -105.5242,
+      "address": "Camp Dick Campground / Middle St. Vrain Trailhead, County Rd 92, Ward, CO 80481",
+      "lat": 40.1293,
+      "lng": -105.5195,
       "gpsPrecision": "exact",
       "driveFromLyons": "~30 min",
       "reservation": "None — but requires capable 4WD",
@@ -181,7 +194,7 @@
       "notes": [
         "A gnarly road — Jason took our Subaru Forester up it once and it's never quite been the same. It's our way into Buchanan Pass in the Indian Peaks Wilderness, the closest wilderness to the Denver metro. We come here for mushrooms and skiing."
       ],
-      "verified": "Middle Saint Vrain Trailhead at the west end of Camp Dick Campground, off Middle St. Vrain Rd (County Rd 92 / NFS Rd 114), ~6.5 mi north of Ward on CO-72. High-clearance 4WD can continue ~4 mi to the Buchanan Pass Trailhead."
+      "verified": "Middle Saint Vrain Trailhead at the west end of Camp Dick Campground, off Middle St. Vrain Rd (County Rd 92 / NFS Rd 114), ~6.5 mi north of Ward on CO-72. High-clearance 4WD can continue ~4 mi to the Buchanan Pass Trailhead. Coordinates given for Camp Dick."
     },
     {
       "id": "grand-lake-water-sports",
@@ -190,8 +203,9 @@
       "rating": 2,
       "allAccess": false,
       "town": "Grand Lake, CO",
-      "lat": 40.2450,
-      "lng": -105.8161,
+      "address": "Grand Lake public beach / boardwalk, 1101 Lake Ave, Grand Lake, CO 80447",
+      "lat": 40.2503,
+      "lng": -105.8228,
       "gpsPrecision": "exact",
       "driveFromLyons": "~2 hr 15 min (over Trail Ridge Road)",
       "reservation": null,
@@ -199,7 +213,7 @@
       "notes": [
         "One of our favorite spots for hiking plus water sports — kayaking and SUP out on the lake."
       ],
-      "verified": "Grand Lake is the largest and deepest natural lake in Colorado, at the headwaters of the Colorado River on the western edge of RMNP. Outfitters (Mountain Paddlers, Grand Lake Marina) rent kayaks, paddleboards, and powerboats in summer."
+      "verified": "Grand Lake is the largest and deepest natural lake in Colorado, on the western edge of RMNP. Outfitters (Mountain Paddlers, Grand Lake Marina) rent kayaks, paddleboards, and powerboats in summer. Coordinates given for the town/lakefront."
     },
     {
       "id": "indian-peaks-wilderness",
@@ -209,8 +223,9 @@
       "ratingRange": [2, 5],
       "allAccess": false,
       "town": "south of RMNP, CO",
-      "lat": 40.0778,
-      "lng": -105.5750,
+      "address": "Brainard Lake Recreation Area (main gateway), County Rd 102, Ward, CO 80481",
+      "lat": 40.0792,
+      "lng": -105.58,
       "gpsPrecision": "approximate",
       "driveFromLyons": "~40–60 min depending on trailhead",
       "reservation": "None (USFS wilderness; some trailheads need day-use/parking permits)",
@@ -218,8 +233,167 @@
       "notes": [
         "Just as impressive as RMNP, in our opinion — glacially carved and jagged. Ask Jason and he'll give you some exciting (read: ambitious) recommendations."
       ],
-      "verified": "Stretches from the southern boundary of RMNP south to the James Peak Wilderness, including the Continental Divide from Ogalalla Peak to Rollins Pass. No RMNP timed-entry required, though popular trailheads like Brainard Lake have their own day-use/parking permits in season.",
+      "verified": "Stretches from the southern boundary of RMNP south to the James Peak Wilderness. No RMNP timed-entry required, though popular trailheads like Brainard Lake have their own day-use/parking permits. Coordinates given for the Brainard Lake gateway as a representative access point.",
       "ratingNote": "Wide range — from Andrea-friendly approaches (2) to Full Jason objectives (5). Defaulted to 4 for filtering."
+    },
+    {
+      "id": "hall-ranch",
+      "name": "Hall Ranch Open Space",
+      "category": "Attraction/Activity",
+      "rating": 3,
+      "allAccess": false,
+      "town": "Lyons, CO",
+      "address": "Hall Ranch Trailhead, 4201 Apple Valley Rd / CO-7, Lyons, CO 80540",
+      "lat": 40.2203,
+      "lng": -105.3056,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~5 min",
+      "reservation": null,
+      "tags": ["hike", "mountain-bike", "wildlife", "close-to-venue", "andrea-note", "biking"],
+      "notes": [
+        "(Andrea's pick) Easy hiking and riding just west of Lyons — close enough that we can sneak in a loop before the weekend really gets going."
+      ],
+      "verified": "~4,000-acre Boulder County open space just west of Lyons. Main Hall Ranch Trailhead is on CO-7 (St. Vrain Dr.) ~1.5 mi south of town (50+ parking spots, restrooms, picnic shelter). Trails: Bitterbrush, Nighthawk, Nelson Loop, Button Rock. Hiking, mountain biking, horseback."
+    },
+    {
+      "id": "indian-lookout-mountain",
+      "name": "Indian Lookout Mountain (via Bitterbrush Trail, Hall Ranch)",
+      "category": "Attraction/Activity",
+      "rating": 4,
+      "allAccess": false,
+      "town": "Lyons, CO",
+      "address": "Antelope Trailhead, end of Antelope Dr, Apple Valley, Lyons, CO 80540",
+      "lat": 40.2376,
+      "lng": -105.305,
+      "gpsPrecision": "approximate",
+      "driveFromLyons": "~10 min to Antelope Trailhead",
+      "reservation": "Summit is in a year-round raptor closure — see note",
+      "tags": ["hike", "hard", "views", "andrea-note", "closure"],
+      "notes": [
+        "(Andrea's pick) A bigger hike near Lyons. Heads up: the summit sits in a year-round raptor closure, so we stick to the Bitterbrush Trail and soak up the views from there."
+      ],
+      "verified": "~6,539 ft summit within Hall Ranch Open Space. The Indian Lookout / Bitterbrush route is ~6.7 mi, ~1,171 ft gain, rated hard; best accessed from the Antelope Trailhead at the end of Antelope Dr. IMPORTANT: the summit sits in a YEAR-ROUND RAPTOR CLOSURE — hike the Bitterbrush Trail and enjoy the views, but do not go off-trail to the closed summit."
+    },
+    {
+      "id": "heil-valley-ranch",
+      "name": "Heil Valley Ranch — Picture Rock Trailhead",
+      "category": "Attraction/Activity",
+      "rating": 3,
+      "allAccess": false,
+      "town": "near Lyons, CO (Boulder County)",
+      "address": "Picture Rock Trailhead, Red Gulch Rd, Lyons, CO 80540",
+      "lat": 40.2113,
+      "lng": -105.2729,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~5 min",
+      "reservation": null,
+      "tags": ["hike", "mountain-bike", "history", "close-to-venue", "andrea-note", "biking"],
+      "notes": [
+        "(Andrea's pick) Hike or bike the Picture Rock Trail — one of our go-to spins minutes from town, with the old quarry ruins along the way."
+      ],
+      "verified": "Boulder County open space. Picture Rock Trailhead is 0.5 mi off Hwy 7 in Lyons (Hwy 7 → St. Vrain Canyon Rd → Red Gulch Rd; lot fits 27 cars). Picture Rock Trail runs south into Heil Ranch; passes the historic Whitestone/Vickery quarry complex (1890s–1960s)."
+    },
+    {
+      "id": "bohn-park-picnic",
+      "name": "Bohn Park (snacks & picnic)",
+      "category": "Attraction/Activity",
+      "rating": 1,
+      "allAccess": true,
+      "town": "Lyons, CO",
+      "address": "Bohn Park, 199 2nd Ave, Lyons, CO 80540",
+      "lat": 40.2185,
+      "lng": -105.267,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~3 min (in town)",
+      "reservation": null,
+      "tags": ["picnic", "park", "easy", "river", "close-to-venue", "andrea-note", "family"],
+      "notes": [
+        "(Andrea's pick) Grab some snacks and picnic with us at Bohn Park, right on the creek — easy, shady, and a two-minute hop from the venue."
+      ],
+      "verified": "40-acre town park along St. Vrain Creek, just south of the confluence of the North and South St. Vrain. Picnic areas + shelter, playground, ball fields, off-leash dog park, community garden, easy 0.8-mi loop. Next to the Rocky Mountain Botanic Gardens. Paid parking kiosk ($2–3/hr seasonally)."
+    },
+    {
+      "id": "rocky-mountain-botanic-gardens",
+      "name": "Rocky Mountain Botanic Gardens",
+      "category": "Attraction/Activity",
+      "rating": 1,
+      "allAccess": true,
+      "town": "Lyons, CO",
+      "address": "100 4th Ave (at Prospect St), Lyons, CO 80540",
+      "lat": 40.218,
+      "lng": -105.2685,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~3 min (in town)",
+      "reservation": null,
+      "tags": ["garden", "easy", "free", "stroll", "close-to-venue", "andrea-note"],
+      "notes": [
+        "(Andrea's pick) The little native-plant botanic garden right here in Lyons — a free, pretty stroll on the path down to Bohn Park."
+      ],
+      "verified": "Free native-plant botanic garden in Lyons, along the St. Vrain River near Prospect St. and 4th Ave (on the walking path to Bohn Park). Opened May 2021 — the first botanic garden in Boulder County. Colorado natives across five ecological zones; open dawn to dusk, free."
+    },
+    {
+      "id": "rock-climbing-st-vrain",
+      "name": "Rock Climbing — St. Vrain Canyons",
+      "category": "Beyond the Scale",
+      "rating": null,
+      "allAccess": false,
+      "town": "Lyons, CO",
+      "address": "South St. Vrain Canyon crags, CO-7 west of Lyons, CO 80540",
+      "lat": 40.2103,
+      "lng": -105.33,
+      "gpsPrecision": "approximate",
+      "driveFromLyons": "~10–20 min to the crags",
+      "reservation": null,
+      "tags": ["climbing", "bouldering", "trad", "beyond-the-scale", "andrea-note"],
+      "notes": [
+        "(Andrea's pick) Rock climbing in the St. Vrain canyons, right out our back door.",
+        "This one lives outside the Andrea↔Jason scale — it's its own thing."
+      ],
+      "verified": "The St. Vrain Canyons west of Lyons (South, Middle, North Forks) are a quiet granite climbing area with 750+ routes and 200+ boulder problems, most within ~30 min of the car. South/Middle Forks off CO-7, North Fork off US-36. Coordinates approximate to the South Fork crags. Guidebook: 'Rock Climbing St. Vrain Canyons' (Sharp End)."
+    },
+    {
+      "id": "fly-fishing-st-vrain",
+      "name": "Fly Fishing — St. Vrain Creek",
+      "category": "Beyond the Scale",
+      "rating": null,
+      "allAccess": false,
+      "town": "Lyons, CO",
+      "address": "St. Vrain Creek through Lyons (e.g. Black Bear Hole / Meadow Park, Lyons, CO 80540)",
+      "lat": 40.2247,
+      "lng": -105.2711,
+      "gpsPrecision": "approximate",
+      "driveFromLyons": "in town & up the canyons",
+      "reservation": null,
+      "tags": ["fishing", "fly-fishing", "river", "beyond-the-scale", "andrea-note", "seasonal"],
+      "notes": [
+        "(Andrea's pick) Fly fishing on the St. Vrain — the creek runs right through town.",
+        "This one's outside the Andrea↔Jason scale — its own thing.",
+        "Late September is peak season, so the timing is perfect.",
+        "Andrea's tip: WeeCasa rents fly-fishing gear — worth confirming with them close to the date."
+      ],
+      "verified": "St. Vrain Creek runs right through Lyons (rainbows, browns, cutthroats); the town stretch fishes year-round, with more water up the North and South Forks. Tackle: 4–6 wt line, 9–12 ft leaders, 5–6X tippet for dries. Coordinates approximate to the in-town creek. Could not independently confirm fly-gear rental at WeeCasa — check directly."
+    },
+    {
+      "id": "gold-hill-cookie",
+      "name": "Gold Hill General Store & Pub (The Cookie)",
+      "category": "Beyond the Scale",
+      "rating": null,
+      "allAccess": true,
+      "town": "Gold Hill, CO (above Boulder)",
+      "address": "531 Main St, Gold Hill, Boulder, CO 80302",
+      "lat": 40.0606,
+      "lng": -105.4072,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~40 min by car; the whole point is to arrive by bike",
+      "reservation": null,
+      "tags": ["cookie", "cyclist-stop", "historic", "cafe", "beyond-the-scale", "biking", "reward", "gravel"],
+      "notes": [
+        "Have a cookie at the top of Gold Hill — trust us.",
+        "The reward at the top of the climb: 'The Cookie,' a giant chocolate-chip cookie at the historic Gold Hill General Store. The owner keeps steady hours specifically so cyclists always have a drink and a cookie waiting when they make it up.",
+        "This is the classic gravel ride around here. You can bike to it from Lyons, or drive back to Boulder to start. Rent a bike in Lyons at Redstone Cyclery (454 Main St) first — note the old Boulder shop 'Full Cycle' is now Mike's Bikes, with rentals paused.",
+        "It sits a bit outside the Andrea↔Jason scale — it's a reward more than an activity. Andrea drives up for the cookie; Jason earns it by bike."
+      ],
+      "verified": "Gold Hill General Store & Pub at 531 Main St, Gold Hill (a historic 1859 mining town ~10 mi west of Boulder at ~8,500 ft). Building dates to 1873; serves homemade meals, groceries, and its famous 'The Cookie.' A well-known cyclist pit stop. Next door, the Gold Hill Inn is a fine-dining restaurant and lodging."
     },
     {
       "id": "cheese-importers",
@@ -229,7 +403,8 @@
       "rating": 1,
       "allAccess": true,
       "town": "Longmont, CO",
-      "lat": 40.1672,
+      "address": "103 Main St, Longmont, CO 80501",
+      "lat": 40.17,
       "lng": -105.1019,
       "gpsPrecision": "exact",
       "driveFromLyons": "~25 min",
@@ -239,7 +414,7 @@
         "A walk-in refrigerator room stocked with almost every cheese imaginable from around the world, plus an attached cafe.",
         "One of our highly recommended stops — great for loading up on cheese for the weekend, especially if you're staying in Wicassa."
       ],
-      "verified": "Family-owned since 1976 at 103 Main St, Longmont, CO 80501. Largest walk-in refrigerated cheese & cured-meat market in Colorado (500+ varieties), with a Parisian-style cafe and a European housewares shop. Open Mon–Sat 9a–6p, Sun 11a–5p."
+      "verified": "Family-owned since 1976 at 103 Main St, Longmont. Largest walk-in refrigerated cheese & cured-meat market in Colorado (500+ varieties), with a Parisian-style cafe and a European housewares shop. Open Mon–Sat 9a–6p, Sun 11a–5p."
     },
     {
       "id": "kathmandu-nederland",
@@ -248,16 +423,17 @@
       "rating": 2,
       "allAccess": true,
       "town": "Nederland, CO",
-      "lat": 39.9620,
-      "lng": -105.5108,
-      "gpsPrecision": "approximate",
+      "address": "110 N Jefferson St, Nederland, CO 80466",
+      "lat": 39.9617,
+      "lng": -105.5106,
+      "gpsPrecision": "exact",
       "driveFromLyons": "~50 min",
       "reservation": null,
       "tags": ["himalayan", "nepali", "all-you-can-eat", "vegetarian-friendly"],
       "notes": [
         "The all-you-can-eat Himalayan spot. Go easy on the samosas — Jason learned that lesson the hard way here."
       ],
-      "verified": "Authentic Nepali/Indian/Himalayan restaurant at 110 N Jefferson St, Nederland, CO 80466, open since 1999; local favorite with a sister location in Boulder."
+      "verified": "Authentic Nepali/Indian/Himalayan restaurant at 110 N Jefferson St, Nederland, open since 1999; local favorite with a sister location in Boulder."
     },
     {
       "id": "crosscut-pizza",
@@ -267,8 +443,9 @@
       "rating": 2,
       "allAccess": true,
       "town": "Nederland, CO",
-      "lat": 39.9614,
-      "lng": -105.5108,
+      "address": "4 E 1st St, Nederland, CO 80466",
+      "lat": 39.9609,
+      "lng": -105.5114,
       "gpsPrecision": "exact",
       "driveFromLyons": "~50 min",
       "reservation": null,
@@ -276,7 +453,7 @@
       "notes": [
         "Wood-fired pizza we love — just hard to get into."
       ],
-      "verified": "4 E 1st St, Nederland, CO 80466. Neapolitan wood-fired pizza using organic Colorado-milled flour and a 3-day ferment; craft taphouse. First-come, first-served. Ranked #1 of 17 restaurants in Nederland."
+      "verified": "Neapolitan wood-fired pizza using organic Colorado-milled flour and a 3-day ferment; craft taphouse. First-come, first-served. Ranked #1 of 17 restaurants in Nederland. (Address per current listing; sometimes shown as 1st St.)"
     },
     {
       "id": "dry-storage",
@@ -285,8 +462,9 @@
       "rating": 1,
       "allAccess": false,
       "town": "Boulder, CO",
-      "lat": 40.0152,
-      "lng": -105.2434,
+      "address": "3601 Arapahoe Ave, Unit D-181, Boulder, CO 80303",
+      "lat": 40.015,
+      "lng": -105.2475,
       "gpsPrecision": "exact",
       "driveFromLyons": "~30 min",
       "reservation": null,
@@ -294,7 +472,7 @@
       "notes": [
         "A bakery and flour mill — part of a Colorado grain chain — with the best sourdough and croissants around. Jason sources our flour here."
       ],
-      "verified": "Bakery and grain mill by Id Est Hospitality at 3601 Arapahoe Ave (Unit D-181), Boulder, CO 80303. Mills its own locally grown grain and bakes bread and pastries from it."
+      "verified": "Bakery and grain mill by Id Est Hospitality at 3601 Arapahoe Ave (Unit D-181), Boulder. Mills its own locally grown grain and bakes bread and pastries from it."
     },
     {
       "id": "himalayan-curry-kebob-estes",
@@ -303,8 +481,9 @@
       "rating": 2,
       "allAccess": true,
       "town": "Estes Park, CO",
-      "lat": 40.376426,
-      "lng": -105.523893,
+      "address": "101 W Elkhorn Ave, Estes Park, CO 80517",
+      "lat": 40.3766,
+      "lng": -105.523,
       "gpsPrecision": "exact",
       "driveFromLyons": "~45 min",
       "reservation": null,
@@ -312,7 +491,7 @@
       "notes": [
         "This is the restaurant behind those first-kiss leftovers — so it means a lot to us."
       ],
-      "verified": "Nepali / Indian / Tibetan restaurant at 101 W Elkhorn Ave, Estes Park, CO 80517, on the main downtown strip. (A second Estes Park Himalayan option is Nepal's Cafe.)"
+      "verified": "Nepali / Indian / Tibetan restaurant at 101 W Elkhorn Ave, Estes Park, on the main downtown strip. (A second Estes Park Himalayan option is Nepal's Cafe.)"
     },
     {
       "id": "tarascos",
@@ -321,8 +500,9 @@
       "rating": 1,
       "allAccess": true,
       "town": "Denver, CO (Athmar Park / Federal Blvd)",
-      "lat": 39.708042,
-      "lng": -105.024663,
+      "address": "470 S Federal Blvd, Denver, CO 80219",
+      "lat": 39.7085,
+      "lng": -105.0249,
       "gpsPrecision": "exact",
       "driveFromLyons": "~50 min",
       "reservation": null,
@@ -330,7 +510,7 @@
       "notes": [
         "Usually quiet, but it's great for vegetarians, vegans, and carnivores alike, with a specialty in mole. Our picks: the nopales, the banana-leaf tamale, and anything with mole."
       ],
-      "verified": "470 S Federal Blvd, Denver, CO 80219. Authentic Michoacán cuisine — known for a seven-chile mole made with 30+ ingredients — plus a large fresh-juice bar. Open Mon–Sat 11a–9p, Sun 11a–8p."
+      "verified": "470 S Federal Blvd, Denver. Authentic Michoacan cuisine — known for a seven-chile mole made with 30+ ingredients — plus a large fresh-juice bar. Open Mon–Sat 11a–9p, Sun 11a–8p."
     },
     {
       "id": "o-lien-kitchen",
@@ -340,8 +520,9 @@
       "rating": 1,
       "allAccess": true,
       "town": "Denver, CO (Federal Blvd)",
-      "lat": 39.702636,
-      "lng": -105.025494,
+      "address": "781 S Federal Blvd, Unit B, Denver, CO 80219",
+      "lat": 39.7026,
+      "lng": -105.0255,
       "gpsPrecision": "exact",
       "driveFromLyons": "~50 min",
       "reservation": null,
@@ -349,26 +530,26 @@
       "notes": [
         "Hue-style Vietnamese — we love that they do a vegetarian Bún Bò Huế."
       ],
-      "verified": "Vietnamese restaurant at 781 S Federal Blvd, Unit B, Denver, CO 80219, on Denver's 'Little Saigon' stretch of Federal. Official spelling is O Lien Kitchen (two words)."
+      "verified": "Vietnamese restaurant at 781 S Federal Blvd, Unit B, Denver, on Denver's 'Little Saigon' stretch of Federal. Official spelling is O Lien Kitchen (two words)."
     },
     {
       "id": "pho-duy",
       "name": "Pho Duy",
-      "nickname": "Fuzzy's",
       "category": "Restaurant/Food",
       "rating": 1,
       "allAccess": true,
       "town": "Denver, CO (Athmar Park / Federal Blvd)",
-      "lat": 39.7001,
-      "lng": -105.0255,
-      "gpsPrecision": "approximate",
+      "address": "925 S Federal Blvd, Denver, CO 80219",
+      "lat": 39.6998,
+      "lng": -105.0252,
+      "gpsPrecision": "exact",
       "driveFromLyons": "~50 min",
       "reservation": null,
       "tags": ["vietnamese", "pho", "banh-mi", "vegetarian-friendly", "favorite", "lil-saigon"],
       "notes": [
         "Basically our second home — we're here every week and the staff knows us. Great vegetarian pho broth, maybe the best bánh mì in Denver, and tiny. (The restaurant photos on this site were taken here.)"
       ],
-      "verified": "Vietnamese restaurant at 925 S Federal Blvd, Denver, CO 80219, on Denver's 'Little Saigon' stretch of Federal — a longtime local favorite for pho. (Internal nickname 'Fuzzy's' → official name Pho Duy.)"
+      "verified": "Vietnamese restaurant at 925 S Federal Blvd, Denver, on Denver's 'Little Saigon' stretch of Federal — a longtime local favorite for pho."
     },
     {
       "id": "js-noodles-star-thai",
@@ -378,16 +559,95 @@
       "rating": 1,
       "allAccess": true,
       "town": "Denver, CO (Federal Blvd)",
-      "lat": 39.6998,
-      "lng": -105.0255,
-      "gpsPrecision": "approximate",
+      "address": "945 S Federal Blvd, Denver, CO 80219",
+      "lat": 39.6995,
+      "lng": -105.0252,
+      "gpsPrecision": "exact",
       "driveFromLyons": "~50 min",
       "reservation": null,
       "tags": ["thai", "tiny", "cult-favorite", "lil-saigon"],
       "notes": [
         "If they're too busy they'll tell you to leave — and it's still some of the best Thai we've had anywhere."
       ],
-      "verified": "Tiny, cult-favorite Thai spot at 945 S Federal Blvd, Denver, CO 80219 (seats ~20). Known for pad thai, drunken noodles, and tom yum. Hours are limited/split — check before going."
+      "verified": "Tiny, cult-favorite Thai spot at 945 S Federal Blvd, Denver (seats ~20). Known for pad thai, drunken noodles, and tom yum. Hours are limited/split — check before going."
+    },
+    {
+      "id": "rosalees-pizzeria",
+      "name": "Rosalee's Pizzeria",
+      "formerName": "Rosalie's Pizzeria",
+      "category": "Restaurant/Food",
+      "rating": 1,
+      "allAccess": true,
+      "town": "Longmont, CO",
+      "address": "461 Main St, Longmont, CO 80501",
+      "lat": 40.1681,
+      "lng": -105.1019,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~25 min",
+      "reservation": null,
+      "tags": ["pizza", "best-in-colorado", "downtown-longmont"],
+      "notes": [
+        "Probably the best pizza in Colorado — and if you're coming from the East Coast, we promise it holds up.",
+        "An everyone spot — Andrea or Jason, doesn't matter."
+      ],
+      "verified": "Spelled Rosalee's Pizzeria (not 'Rosalie's'). At 461 Main St, Longmont, in downtown Longmont. Highly rated local pizzeria."
+    },
+    {
+      "id": "marigold-lyons",
+      "name": "Marigold",
+      "category": "Restaurant/Food",
+      "rating": 1,
+      "allAccess": true,
+      "town": "Lyons, CO",
+      "address": "405 Main St, Unit B, Lyons, CO 80540",
+      "lat": 40.2244,
+      "lng": -105.271,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~2 min (in town)",
+      "reservation": "Reservations recommended",
+      "tags": ["fine-dining", "french", "italian", "natural-wine", "famous", "andrea-note", "in-town"],
+      "notes": [
+        "(Andrea's pick) The special dinner in Lyons — book ahead, it's tiny and very, very good."
+      ],
+      "verified": "Family-owned market-driven bistro at 405 Main St, Unit B, Lyons, blending Northern Italian and Southern French cuisine with natural wine. Chef-owner Theo Adley is a James Beard nominee; ~38 seats, so reserve. Closed Mon–Tue; dinner Wed–Sun."
+    },
+    {
+      "id": "moxie-bread-lyons",
+      "name": "Moxie Bread Co.",
+      "category": "Restaurant/Food",
+      "rating": 1,
+      "allAccess": true,
+      "town": "Lyons, CO",
+      "address": "442 High St, Lyons, CO 80540",
+      "lat": 40.2247,
+      "lng": -105.2706,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~2 min (in town)",
+      "reservation": null,
+      "tags": ["bakery", "bread", "coffee", "sandwiches", "famous", "andrea-note", "in-town"],
+      "notes": [
+        "(Andrea's pick) Our favorite Lyons bakery — coffee, heirloom-grain bread, and sandwiches, right in town."
+      ],
+      "verified": "Bakery, coffee/tea, and sandwich shop at 442 High St, Lyons, using 100% heirloom grains from local farmers; also a Longmont location. Open daily 7a–4p, live music some evenings. (Distinct from Jason's Boulder pick, Dry Storage.)"
+    },
+    {
+      "id": "oskar-blues-lyons",
+      "name": "Oskar Blues Grill & Brew (original Lyons brewpub)",
+      "category": "Restaurant/Food",
+      "rating": 1,
+      "allAccess": true,
+      "town": "Lyons, CO",
+      "address": "303 Main St, Lyons, CO 80540",
+      "lat": 40.2247,
+      "lng": -105.2716,
+      "gpsPrecision": "exact",
+      "driveFromLyons": "~2 min (in town)",
+      "reservation": null,
+      "tags": ["brewery", "beer", "pub", "famous", "andrea-note", "in-town", "history"],
+      "notes": [
+        "(Andrea's pick) The original Oskar Blues brewpub — it started right here in Lyons, and it's a fun, easy stop in town."
+      ],
+      "verified": "The ORIGINAL Oskar Blues brewpub, founded by Dale Katechis in Lyons in 1997, on Main St downtown. Credited with the first canned craft beer in the U.S. (Dale's Pale Ale, 2002). The larger 'Tasty Weasel' taproom is in Longmont, but the original brewpub is in Lyons."
     },
     {
       "id": "from-the-airport",
@@ -396,12 +656,13 @@
       "rating": 1,
       "allAccess": true,
       "town": "DEN → Lyons",
+      "address": null,
       "lat": null,
       "lng": null,
       "gpsPrecision": "none",
       "driveFromLyons": null,
       "reservation": null,
-      "tags": ["logistics", "driving-route", "airport"],
+      "tags": ["logistics", "driving-route", "airport", "biking"],
       "notes": [
         "Standard route: I-470 across the plains and into Longmont (nice) — but a little boring.",
         "Alternate: 270 to 36 — it's fine.",
@@ -417,6 +678,7 @@
       "rating": 2,
       "allAccess": false,
       "town": "Golden → Nederland → Lyons",
+      "address": null,
       "lat": null,
       "lng": null,
       "gpsPrecision": "none",
@@ -430,12 +692,42 @@
       "verified": null
     },
     {
+      "id": "bike-the-wedding",
+      "name": "Bike the Wedding (cycling routes & rentals)",
+      "category": "Itinerary Idea",
+      "rating": 3,
+      "ratingJason": 5,
+      "allAccess": false,
+      "town": "Lyons / Front Range",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "gpsPrecision": "none",
+      "driveFromLyons": null,
+      "reservation": null,
+      "tags": ["biking", "cycling", "gravel", "road-bike", "mountain-bike", "rentals", "logistics", "gold-hill", "redstone-cyclery", "longmont-bicycle-co"],
+      "notes": [
+        "Jason's whole biking sub-plot, gathered in one place.",
+        "Bike rentals: our best bet is Redstone Cyclery right in Lyons — 454 Main St, walking distance from the venue, reasonable prices, and owner Dave is a local legend (closed Sun–Mon; call ahead at 303-823-5810). Longmont backup: Longmont Bicycle Company, 314 Main St (303-834-9994; book ~48 hrs ahead, and confirm road/gravel availability since they skew toward town bikes). For RMNP / Old Fall River rides, rent in Estes Park. Heads up: 'Full Cycle' in Boulder is now Mike's Bikes and its rentals are paused — don't count on it.",
+        "Boulder → Lyons is a classic Front Range ride. Heads up: it runs along a highway (US-36) — relatively safe, but ride the risk you're comfortable with.",
+        "Gravel: the whole area is full of it. Easy and flat-ish — the Hygiene & Nelson Road loop near Longmont (~23 mi) or the Open Sky Loop by Lagerman Reservoir (mellow, farmland, animals). Bigger day — the Boulder–Lyons–Apple Valley loop (~55 mi, ~2,100 ft). Fourmile Canyon → Switzerland Trail is a great longer climb. (Jason will finalize the best ones.)",
+        "The classic gravel ride here is Gold Hill from Boulder — bike there from Lyons, or drive back to Boulder to start. Ride up and get the cookie at the top.",
+        "Old Fall River Road: ride up and descend the right way, back toward Estes — NOT down Trail Ridge toward Grand Lake.",
+        "Mountain biking minutes from the venue: Hall Ranch and Heil Valley Ranch (Picture Rock) are both excellent.",
+        "And yes, Jason's infamous bike-from-the-airport route lives here too (that's why it's so slow and weird).",
+        "Rating note: a mellow gravel or bike-path spin is Andrea-ish (≈2–3); the Gold Hill climb, Old Fall River, and the airport ride are Full Jason (5). The cookie is all-access."
+      ],
+      "verified": "Bike rentals verified: Redstone Cyclery, 454 Main St, Lyons (303-823-5810; closed Sun–Mon) — primary, in-town. Longmont Bicycle Company, 314 Main St, Longmont (303-834-9994) — backup, confirm road/gravel stock. Estes Park has multiple shops for RMNP rides. 'Full Cycle' Boulder rebranded to Mike's Bikes with rentals paused/under review as of 2026. Researched gravel routes: Hygiene & Nelson Rd loop (~23 mi, easy), Open Sky Loop near Lagerman Reservoir (mellow), Boulder–Lyons–Apple Valley loop (~55 mi / ~2,100 ft), Fourmile→Switzerland Trail. Gold Hill from Boulder is the classic gravel climb.",
+      "ratingNote": "Mellow spin = Andrea (≈2–3). Gold Hill / Old Fall River / airport ride = Full Jason (5)."
+    },
+    {
       "id": "rmnp-reservations",
       "name": "Rocky Mountain National Park Reservations Explainer",
       "category": "Itinerary Idea",
       "rating": 2,
       "allAccess": true,
       "town": "RMNP",
+      "address": null,
       "lat": null,
       "lng": null,
       "gpsPrecision": "none",
@@ -449,7 +741,7 @@
         "How it works: reserve a 2-hour entry window; once inside you can stay as long as you want.",
         "Where & cost: all permits on Recreation.gov, $2 processing fee per reservation (on top of the park entrance fee).",
         "Release schedule: bulk permits drop 8:00 a.m. MDT on the 1st of the prior month; a smaller next-day batch releases first-come at 7:00 p.m. MDT the evening before.",
-        "Workaround: enter before 5 a.m. or after 6 p.m. to skip the permit entirely. Or avoid RMNP reservations altogether by hiking in via the Indian Peaks Wilderness / Wild Basin from Allenspark (St. Vrain / Meadow Mountain).",
+        "Workaround: enter before 5 a.m. or after 6 p.m. to skip the permit entirely. Or avoid RMNP reservations entirely by hiking in via the Indian Peaks Wilderness / Wild Basin from Allenspark.",
         "Always re-check Recreation.gov / nps.gov/romo close to the date — exact 2026 dates can shift with conditions."
       ],
       "verified": "Verified against current 2026 RMNP timed-entry system."
@@ -461,15 +753,17 @@
       "rating": 2,
       "allAccess": false,
       "town": "Estes Park, CO",
+      "address": "Downtown Estes Park, Elkhorn Ave, Estes Park, CO 80517",
       "lat": 40.3772,
       "lng": -105.5217,
-      "gpsPrecision": "approximate",
+      "gpsPrecision": "exact",
       "driveFromLyons": "~45 min",
       "reservation": "RMNP timed-entry required for the park",
-      "tags": ["logistics", "base-town", "rmnp-gateway"],
+      "tags": ["logistics", "base-town", "rmnp-gateway", "biking"],
       "notes": [
         "The gateway to RMNP and a great launch point for Trail Ridge Road, Old Fall River Road, Emerald Lake, and Himalayan Curry & Kebob (our first-kiss spot).",
-        "You'll need a park reservation — tap the permit flag for the details."
+        "It's also where we'd rent a bike for the Old Fall River / RMNP gravel rides.",
+        "You'll need a park reservation — tap the permit flag for details."
       ],
       "verified": null
     },
@@ -480,6 +774,7 @@
       "rating": 3,
       "allAccess": false,
       "town": "Lyons → Grand Lake → Winter Park → Denver",
+      "address": null,
       "lat": null,
       "lng": null,
       "gpsPrecision": "none",
@@ -500,8 +795,9 @@
       "rating": 1,
       "allAccess": true,
       "town": "Denver, CO",
-      "lat": 39.7045,
-      "lng": -105.0256,
+      "address": "Federal Blvd from Alameda Ave to Mississippi Ave, Denver, CO 80219",
+      "lat": 39.7,
+      "lng": -105.0249,
       "gpsPrecision": "approximate",
       "driveFromLyons": "~50 min",
       "reservation": null,
@@ -509,7 +805,7 @@
       "notes": [
         "A perfect stop on the way in or out. Lil Saigon (Athmar Park) is our neighborhood — and, we'd argue, the best food in Denver.",
         "The district runs along Federal Blvd from Alameda to past Mississippi: Vietnamese, Mexican, and Thai.",
-        "Our standouts: Tarasco's, O Lien Kitchen, Pho Duy (aka 'Fuzzy's'), and J's Noodles Star Thai 2."
+        "Our standouts: Tarasco's, O Lien Kitchen, Pho Duy, and J's Noodles Star Thai 2."
       ],
       "verified": null
     }

@@ -17,10 +17,14 @@ export const RATING_COLORS = {
 // All ramp colors are chosen dark enough to carry white text accessibly.
 export const RATING_TEXT_ON = '#ffffff';
 
+// "Beyond the Scale" items (rating null) sit off the green→red ramp entirely.
+export const BEYOND_COLOR = '#7a6f9b';
+
 /** A left→right green-to-red gradient for the slider track. */
 export const RATING_GRADIENT = `linear-gradient(90deg, ${RATING_COLORS[1]} 0%, ${RATING_COLORS[2]} 25%, ${RATING_COLORS[3]} 50%, ${RATING_COLORS[4]} 75%, ${RATING_COLORS[5]} 100%)`;
 
 export function ratingColor(rating) {
+  if (rating == null) return BEYOND_COLOR;
   return RATING_COLORS[rating] || RATING_COLORS[3];
 }
 
