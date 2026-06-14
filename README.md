@@ -97,48 +97,33 @@ Notes:
 - A `reservation` that mentions an **RMNP timed-entry** automatically links to the RMNP banner.
 - Rating colors (slider, badges, markers) all come from `src/lib/ratings.js` — change them once there.
 
-## Deploy to Cloudflare Pages
+## Deploy to Cloudflare
 
-This is a static site, so it deploys to **Cloudflare Pages**. You'll use **your own** Cloudflare
-account. No app secrets are needed at runtime (Leaflet + OSM are keyless) — the only credential is a
-Cloudflare API token used at deploy time. Pick whichever option suits you:
+This is a static site served from `./dist` as a **static-assets Worker** (no server code). You'll
+use **your own** Cloudflare account. No app secrets are needed at runtime (Leaflet + OSM are keyless).
 
-### Option A — Connect the repo in the Cloudflare dashboard (no token to manage)
+### Option A — Connect the repo in the Cloudflare dashboard (recommended)
 
-In the Cloudflare dashboard: **Workers & Pages → Create → Pages → Connect to Git**, pick this repo,
-and set:
+In the Cloudflare dashboard: **Workers & Pages → Create → Connect to Git**, pick this repo and the
+deploy branch, and use:
 - **Build command:** `npm run build`
-- **Output directory:** `dist`
+- **Deploy command:** `npx wrangler deploy`
 
-Every push then deploys automatically and you get a `*.pages.dev` URL.
+Every push then redeploys automatically and you get a `*.workers.dev` URL.
 
 ### Option B — Deploy from the CLI
 
 ```bash
 npm install
-npm run build                                  # produces ./dist
-npx wrangler login                             # one-time, opens your browser
-npx wrangler pages deploy                      # uses pages_build_output_dir from wrangler.toml
+npm run build            # produces ./dist
+npx wrangler login       # one-time, opens your browser
+npx wrangler deploy      # uploads ./dist (see [assets] in wrangler.toml)
 ```
-
-Or non-interactively with an API token (no browser needed):
-
-```bash
-CLOUDFLARE_API_TOKEN=xxxx CLOUDFLARE_ACCOUNT_ID=yyyy \
-  npx wrangler pages deploy --project-name=andrea-jason-wedding-guide --branch=main
-```
-
-### Option C — GitHub Actions (auto-deploy on push)
-
-`.github/workflows/deploy.yml` builds and deploys to Pages on every push. Add two repository
-secrets under **Settings → Secrets and variables → Actions**:
-- `CLOUDFLARE_API_TOKEN` — a token with the **Account → Cloudflare Pages → Edit** permission
-- `CLOUDFLARE_ACCOUNT_ID` — your Cloudflare account ID
 
 ### Notes
 
-- `name` in `wrangler.toml` becomes the `*.pages.dev` subdomain — change it if you'd like a
-  different URL.
+- `name` in `wrangler.toml` becomes the `*.workers.dev` subdomain — change it for a different URL,
+  or attach a custom domain in the dashboard.
 - OpenStreetMap's public tiles are fine for this volume. If usage ever becomes a concern, you can
   swap the tile URL in `src/pages/index.astro` for another free provider.
 

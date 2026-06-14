@@ -1,14 +1,17 @@
-# Cloudflare Pages config — serves Astro's static `dist/` output.
+# Cloudflare config — serves Astro's static ./dist output as a
+# static-assets Worker. The connected Cloudflare Git build runs
+# `npx wrangler deploy`, which uploads ./dist directly (no server code).
 #
-# Quick start (local, with a Cloudflare API token):
+# Local deploy:
 #   npm install
-#   npm run build                       # produces ./dist
-#   CLOUDFLARE_API_TOKEN=...  CLOUDFLARE_ACCOUNT_ID=...  npx wrangler pages deploy
-#
-# Or connect this repo in the Cloudflare Pages dashboard with:
-#   Build command:    npm run build
-#   Output directory: dist
+#   npm run build            # produces ./dist
+#   npx wrangler login       # one-time
+#   npx wrangler deploy      # publishes to <name>.<your-subdomain>.workers.dev
 
-name = "andrea-jason-wedding-guide"   # TODO: this becomes the *.pages.dev subdomain
-pages_build_output_dir = "dist"
+name = "andrea-jason-wedding-guide"
 compatibility_date = "2025-03-01"
+
+[assets]
+directory = "./dist"
+# Serve the built 404 page for unknown paths.
+not_found_handling = "404-page"
