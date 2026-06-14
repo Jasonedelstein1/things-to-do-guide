@@ -14,7 +14,7 @@ const catLabels = {
   'Attraction/Activity': 'Attractions & Activities',
   'Restaurant/Food': 'Food & Drink',
   'Itinerary Idea': 'Itinerary Ideas',
-  'Beyond the Scale': 'Beyond the Scale',
+  'Other Activities': 'Other Activities',
 };
 
 // The RMNP explainer becomes a lightbox, not a normal card.
@@ -57,7 +57,6 @@ const placesByCat = categories.map((cat) => ({
             ))}
           </tbody>
         </table>
-        {meta.beyondScaleNote && <p class="scale-note">{meta.beyondScaleNote}</p>}
       </details>
     </div>
   </header>
@@ -345,7 +344,7 @@ const placesByCat = categories.map((cat) => ({
       const beyond = p.rating == null;
       const color = ratingColor(p.rating);
       const ratingLabel = beyond
-        ? '✦ Beyond the Scale'
+        ? '✦ Other'
         : `${p.rating} · ${esc(scale[String(p.rating)].label)}`;
       let aka = '';
       if (p.nickname) aka = `aka "${esc(p.nickname)}"`;

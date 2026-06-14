@@ -7,7 +7,7 @@ const { place } = Astro.props;
 
 const isBeyond = place.rating == null;
 const r = effectiveRating(place);
-const label = isBeyond ? 'Beyond the Scale' : (scale[String(r)]?.label ?? '');
+const label = isBeyond ? 'Other' : (scale[String(r)]?.label ?? '');
 const hasCoords = place.lat !== null && place.lng !== null;
 
 // Dual rating: keep Old Fall River's drive/ride phrasing; generic for the rest.
