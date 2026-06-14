@@ -1,29 +1,14 @@
-# Cloudflare Worker config — serves Astro's static `dist/` output via the
-# Workers static-assets binding, with a tiny Worker entry as the fallback handler.
+# Cloudflare Pages config — serves Astro's static `dist/` output.
 #
-# Quick start:
+# Quick start (local, with a Cloudflare API token):
 #   npm install
-#   npm run build           # produces ./dist
-#   npx wrangler login      # one-time, uses YOUR Cloudflare account
-#   npx wrangler deploy     # publishes the Worker + static assets
+#   npm run build                       # produces ./dist
+#   CLOUDFLARE_API_TOKEN=...  CLOUDFLARE_ACCOUNT_ID=...  npx wrangler pages deploy
 #
-# Prefer Cloudflare Pages instead? See the README — you can skip this file and run:
-#   npx wrangler pages deploy dist
+# Or connect this repo in the Cloudflare Pages dashboard with:
+#   Build command:    npm run build
+#   Output directory: dist
 
-name = "andrea-jason-wedding-guide"   # TODO: fill in (your Worker name)
-# account_id = "REPLACE_WITH_YOUR_ACCOUNT_ID"   # TODO: fill in (or set CLOUDFLARE_ACCOUNT_ID env var)
+name = "andrea-jason-wedding-guide"   # TODO: this becomes the *.pages.dev subdomain
+pages_build_output_dir = "dist"
 compatibility_date = "2025-03-01"
-main = "worker/index.js"
-
-# Serve the built static site from ./dist. The Worker only runs for requests
-# that don't match a static asset (see worker/index.js).
-[assets]
-directory = "./dist"
-binding = "ASSETS"
-# 404s fall back to the site's own 404 page (static multi-page site).
-not_found_handling = "404-page"
-
-# TODO: to serve on a custom domain, uncomment and fill in:
-# routes = [
-#   { pattern = "wedding-guide.example.com", custom_domain = true }
-# ]

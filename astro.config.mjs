@@ -5,7 +5,7 @@ import { defineConfig } from 'astro/config';
 // Cloudflare Workers (static assets) or Cloudflare Pages. No SSR adapter needed.
 export default defineConfig({
   // TODO: set to your real deployed URL (used for canonical / OG tags).
-  site: 'https://wedding-guide.example.com',
+  site: 'https://andrea-jason-wedding-guide.pages.dev',
   output: 'static',
   build: {
     // Emit /about/index.html style pages; fine for static hosting.

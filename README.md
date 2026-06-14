@@ -97,41 +97,48 @@ Notes:
 - A `reservation` that mentions an **RMNP timed-entry** automatically links to the RMNP banner.
 - Rating colors (slider, badges, markers) all come from `src/lib/ratings.js` — change them once there.
 
-## Deploy to Cloudflare
+## Deploy to Cloudflare Pages
 
-No API keys or secrets are needed (Leaflet + OSM are keyless). You'll use **your own** Cloudflare
-account. Two options — pick whichever you prefer:
+This is a static site, so it deploys to **Cloudflare Pages**. You'll use **your own** Cloudflare
+account. No app secrets are needed at runtime (Leaflet + OSM are keyless) — the only credential is a
+Cloudflare API token used at deploy time. Pick whichever option suits you:
 
-### Option A — Worker + static assets (this repo's default)
+### Option A — Connect the repo in the Cloudflare dashboard (no token to manage)
 
-The included `wrangler.toml` serves `./dist` via the Workers static-assets binding, with
-`worker/index.js` as the fallback handler.
-
-```bash
-npm install
-npm run build                 # produces ./dist
-npx wrangler login            # one-time, opens your browser
-# Fill in the TODOs in wrangler.toml (name, account_id, optional custom domain)
-npx wrangler deploy           # publishes the Worker + assets
-```
-
-### Option B — Cloudflare Pages (simplest for a pure static site)
-
-```bash
-npm install
-npm run build
-npx wrangler login
-npx wrangler pages deploy dist
-```
-
-You can also connect the GitHub repo in the Cloudflare Pages dashboard with:
+In the Cloudflare dashboard: **Workers & Pages → Create → Pages → Connect to Git**, pick this repo,
+and set:
 - **Build command:** `npm run build`
 - **Output directory:** `dist`
 
+Every push then deploys automatically and you get a `*.pages.dev` URL.
+
+### Option B — Deploy from the CLI
+
+```bash
+npm install
+npm run build                                  # produces ./dist
+npx wrangler login                             # one-time, opens your browser
+npx wrangler pages deploy                      # uses pages_build_output_dir from wrangler.toml
+```
+
+Or non-interactively with an API token (no browser needed):
+
+```bash
+CLOUDFLARE_API_TOKEN=xxxx CLOUDFLARE_ACCOUNT_ID=yyyy \
+  npx wrangler pages deploy --project-name=andrea-jason-wedding-guide --branch=main
+```
+
+### Option C — GitHub Actions (auto-deploy on push)
+
+`.github/workflows/deploy.yml` builds and deploys to Pages on every push. Add two repository
+secrets under **Settings → Secrets and variables → Actions**:
+- `CLOUDFLARE_API_TOKEN` — a token with the **Account → Cloudflare Pages → Edit** permission
+- `CLOUDFLARE_ACCOUNT_ID` — your Cloudflare account ID
+
 ### Notes
 
-- `wrangler.toml` has clearly-marked `# TODO` placeholders for `name`, `account_id`, and the
-  optional custom domain/route.
+- `name` in `wrangler.toml` becomes the `*.pages.dev` subdomain — change it if you'd like a
+  different URL.
 - OpenStreetMap's public tiles are fine for this volume. If usage ever becomes a concern, you can
   swap the tile URL in `src/pages/index.astro` for another free provider.
 
