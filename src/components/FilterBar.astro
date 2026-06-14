@@ -50,7 +50,13 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
       <option value="5"></option>
     </datalist>
 
-    <p class="slider-meaning" id="readout-meaning">{defaultMeaning}</p>
+    <div class="slider-bottom">
+      <p class="slider-meaning" id="readout-meaning">{defaultMeaning}</p>
+      <label class="bypass">
+        <input type="checkbox" id="bypass-toggle" />
+        <span>Show everything</span>
+      </label>
+    </div>
   </div>
 
   <!-- Secondary filters -->
@@ -167,11 +173,42 @@ const defaultMeaning = scale[String(defaultLevel)].meaning;
     background: var(--rating-gradient);
   }
 
+  .slider-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 10px;
+  }
   .slider-meaning {
-    margin: 10px 0 2px;
+    margin: 0;
     font-size: 0.9rem;
     color: var(--ink-soft);
     min-height: 1.3em;
+  }
+  /* When bypassed, dim the scale to signal it's off. */
+  .slider-block.is-bypassed .slider-rail,
+  .slider-block.is-bypassed .readout-badge,
+  .slider-block.is-bypassed .slider-meaning {
+    opacity: 0.4;
+  }
+  .bypass {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    flex: none;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--pine);
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+  }
+  .bypass input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--pine);
+    cursor: pointer;
   }
 
   /* ---- Secondary ---- */

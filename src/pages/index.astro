@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import FilterBar from '../components/FilterBar.astro';
 import PlaceCard from '../components/PlaceCard.astro';
-import RmnpBanner from '../components/RmnpBanner.astro';
+import RmnpModal from '../components/RmnpModal.astro';
 import MapView from '../components/MapView.astro';
 import data from '../data/places.json';
 
@@ -28,13 +28,13 @@ const placesByCat = categories.map((cat) => ({
 <Layout title={meta.title}>
   <header class="site-header">
     <div class="wrap header-inner">
-      <p class="eyebrow">Andrea &amp; Jason are getting married 💍</p>
-      <h1>The <span class="hl">What&nbsp;To&nbsp;Do</span> Guide</h1>
+      <p class="eyebrow">We're getting married 💍</p>
+      <h1>Our <span class="hl">What&nbsp;To&nbsp;Do</span> Guide</h1>
       <p class="lede">
-        Things to do, see, and eat around our hub in <strong>{meta.hub.name}</strong> —
+        These are our favorite things to do, see, and eat around our hub in <strong>{meta.hub.name}</strong> —
         reaching out to Denver, Boulder, Longmont, Estes Park, Nederland, Grand Lake &amp; RMNP.
-        Use the <strong>Andrea&nbsp;↔&nbsp;Jason slider</strong> to dial in exactly how much
-        adventure you're up for.
+        Slide the <strong>Andrea&nbsp;↔&nbsp;Jason scale</strong> to match how much adventure you're up for —
+        or just hit <strong>Show&nbsp;everything</strong> and browse it all.
       </p>
 
       <details class="scale-explainer">
@@ -65,8 +65,6 @@ const placesByCat = categories.map((cat) => ({
   </div>
 
   <main class="wrap main">
-    <RmnpBanner place={rmnp} />
-
     <div class="layout" id="layout" data-view="list">
       <section class="map-pane" aria-label="Map">
         <MapView />
@@ -93,8 +91,8 @@ const placesByCat = categories.map((cat) => ({
   <footer class="site-footer">
     <div class="wrap">
       <p>
-        Made with love for our wedding weekend. The <em>notes</em> are ours; the
-        <em>verified</em> details are point-in-time — <strong>re-check hours, road &amp; trail
+        We made this with love for our wedding weekend — every note here is ours. The
+        <em>verified</em> details are point-in-time, so <strong>please re-check hours, road &amp; trail
         status, and reservations before you go.</strong>
       </p>
       <p class="footer-fine">
@@ -103,6 +101,8 @@ const placesByCat = categories.map((cat) => ({
       </p>
     </div>
   </footer>
+
+  <RmnpModal place={rmnp} />
 
   <!-- Data for the client island (parsed at runtime; no extra bundle weight). -->
   <script type="application/json" id="places-data" set:html={JSON.stringify(data)}></script>
@@ -135,15 +135,19 @@ const placesByCat = categories.map((cat) => ({
     const controls = document.getElementById('controls');
     const layout = document.getElementById('layout');
     const vbtns = Array.from(document.querySelectorAll('.vbtn'));
+    const bypassToggle = document.getElementById('bypass-toggle');
+    const sliderBlock = document.querySelector('.slider-block');
+    const modal = document.getElementById('rmnp-modal');
+    const modalDialog = modal.querySelector('.modal');
 
     const cards = Array.from(document.querySelectorAll('.card'));
     const cardById = new Map(cards.map((c) => [c.dataset.id, c]));
 
     // ---- Filter state ----
-    const state = { max: 5, category: 'all', allAccess: false, query: '' };
+    const state = { max: 5, category: 'all', allAccess: false, query: '', bypass: false };
 
     function passes(p) {
-      if (p.rating > state.max) return false;
+      if (!state.bypass && p.rating > state.max) return false;
       if (state.category !== 'all' && p.category !== state.category) return false;
       if (state.allAccess && !p.allAccess) return false;
       if (state.query && !blobById.get(p.id).includes(state.query)) return false;
@@ -180,12 +184,22 @@ const placesByCat = categories.map((cat) => ({
       readoutNum.textContent = String(v);
       readoutLabel.textContent = s.label;
       readoutBadge.dataset.rating = String(v);
-      readoutMeaning.textContent = s.meaning;
       slider.setAttribute('aria-valuetext', `${v} of 5 — ${s.label}`);
+      sliderBlock.classList.toggle('is-bypassed', state.bypass);
+      slider.disabled = state.bypass;
+      readoutMeaning.textContent = state.bypass
+        ? 'The scale is off — showing everything.'
+        : s.meaning;
     }
 
     slider.addEventListener('input', () => {
       state.max = Number(slider.value);
+      updateReadout();
+      applyFilters();
+    });
+
+    bypassToggle.addEventListener('change', () => {
+      state.bypass = bypassToggle.checked;
       updateReadout();
       applyFilters();
     });
@@ -217,8 +231,9 @@ const placesByCat = categories.map((cat) => ({
     });
 
     function resetFilters() {
-      state.max = 5; state.category = 'all'; state.allAccess = false; state.query = '';
+      state.max = 5; state.category = 'all'; state.allAccess = false; state.query = ''; state.bypass = false;
       slider.value = '5';
+      bypassToggle.checked = false;
       updateReadout();
       allAccessToggle.checked = false;
       search.value = '';
@@ -290,7 +305,7 @@ const placesByCat = categories.map((cat) => ({
       let resHtml = '';
       if (p.reservation) {
         resHtml = `<div class="pop-res${linksToRmnp ? ' is-rmnp' : ''}">🎟️ <strong>Reservation:</strong> ${esc(p.reservation)}` +
-          (linksToRmnp ? ` <a href="#rmnp-banner" data-scroll-rmnp>RMNP details</a>` : '') + `</div>`;
+          (linksToRmnp ? ` <button type="button" class="pop-rmnp-flag" data-open-rmnp>🏔️ RMNP permit info</button>` : '') + `</div>`;
       }
 
       let dualHtml = '';
@@ -433,13 +448,77 @@ const placesByCat = categories.map((cat) => ({
         scrollToCard(showList.getAttribute('data-show-list'));
         return;
       }
-      const scrollR = e.target.closest('[data-scroll-rmnp]');
-      if (scrollR) {
+      const openR = e.target.closest('[data-open-rmnp]');
+      if (openR) {
         e.preventDefault();
-        if (!isDesktop()) setView('list');
-        document.getElementById('rmnp-banner').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        openModal();
+        return;
+      }
+      const closeR = e.target.closest('[data-close-modal]');
+      if (closeR) {
+        e.preventDefault();
+        closeModal();
       }
     });
+
+    // ---- RMNP permit lightbox ----
+    let lastFocused = null;
+    function focusables() {
+      return Array.from(
+        modalDialog.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')
+      ).filter((el) => el.offsetParent !== null);
+    }
+    function openModal() {
+      if (!modal.hidden) return;
+      lastFocused = document.activeElement;
+      modal.hidden = false;
+      document.body.classList.add('modal-open');
+      modalDialog.focus();
+    }
+    function closeModal() {
+      if (modal.hidden) return;
+      modal.hidden = true;
+      document.body.classList.remove('modal-open');
+      if (lastFocused && lastFocused.focus) lastFocused.focus();
+    }
+    // Close on backdrop click (but not when clicking inside the dialog).
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (modal.hidden) return;
+      if (e.key === 'Escape') { closeModal(); return; }
+      if (e.key === 'Tab') {
+        const f = focusables();
+        if (!f.length) return;
+        const first = f[0];
+        const last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    // ---- Hide the sticky filter bar on scroll-down (mobile), show on scroll-up ----
+    let lastScrollY = window.scrollY;
+    let scrollTicking = false;
+    function onScroll() {
+      const y = window.scrollY;
+      const mobile = window.matchMedia('(max-width: 879px)').matches;
+      if (!mobile) {
+        controls.classList.remove('is-hidden');
+      } else if (y < 80) {
+        controls.classList.remove('is-hidden');
+      } else if (y > lastScrollY + 8) {
+        controls.classList.add('is-hidden');
+      } else if (y < lastScrollY - 8) {
+        controls.classList.remove('is-hidden');
+      }
+      lastScrollY = y;
+      scrollTicking = false;
+    }
+    window.addEventListener('scroll', () => {
+      if (!scrollTicking) { requestAnimationFrame(onScroll); scrollTicking = true; }
+    }, { passive: true });
 
     // Keep --header-h in sync with the sticky controls height.
     function setHeaderH() {
@@ -537,6 +616,11 @@ const placesByCat = categories.map((cat) => ({
       backdrop-filter: saturate(1.1) blur(8px);
       border-bottom: 1px solid var(--line);
       padding: 12px 0;
+      transition: transform 0.25s ease;
+    }
+    /* On mobile the bar slides away when scrolling down, back when scrolling up. */
+    .controls.is-hidden {
+      transform: translateY(-100%);
     }
 
     .main { padding: 18px 16px 40px; display: grid; gap: 18px; }
