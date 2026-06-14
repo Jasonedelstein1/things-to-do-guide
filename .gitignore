@@ -28,3 +28,7 @@ pnpm-debug.log*
 Thumbs.db
 .vscode/
 .idea/
+
+# python bytecode (from bundled skills)
+__pycache__/
+*.pyc
